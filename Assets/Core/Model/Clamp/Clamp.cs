@@ -10,7 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-
+[System.Serializable]
 public class Clamp {
     public float x_Size;
     public float y_Size;

@@ -12,17 +12,33 @@ using System.Collections;
 using System.Collections.Generic;
 //[ExecuteInEditMode]
 public class DefultTest : MonoBehaviour {
+    public enum ControllerType
+    {
+        Simple,
+        OrthonormalTrussTypeTrussTypeGridFrame
+    }
+
     public BarBehaiver bar;
     public NodeBehaiver node;
     public FulcrumBehaiver fulcrum;
-    public WFData data;
     IWireCreater creater;
     WireFrameBehaiver wireFrame;
     public Clamp clamp;
+    public ControllerType controllerType;
+
     private void OnEnable()
     {
-        creater = new SimpleGenerate();
-        data = SimpleGenerate.GetTestData();
+        switch (controllerType)
+        {
+            case ControllerType.Simple:
+                creater = new SimpleGenerate();
+                break;
+            case ControllerType.OrthonormalTrussTypeTrussTypeGridFrame:
+                creater = new OrthonormalTrussTypeTrussTypeGridFrame();
+                break;
+            default:
+                break;
+        }
     }
 
     private void Start()

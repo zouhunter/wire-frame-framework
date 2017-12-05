@@ -22,15 +22,10 @@ public class SimpleGenerate : WireFrameGenerater
     {
         return true;
     }
-
-    public override WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp)
+    protected override WFData GenerateWFData(Clamp clamp)
     {
-        wfData = GetTestData();
-        return CreateInternal(nodePrefab, barPrefab, fulcrum, clamp, wfData.wfNodes, wfData.wfBars);
-    }
-  
-
-  
+        return GetTestData();
+    } 
 
     public static WFData GetTestData()
     {
@@ -42,9 +37,7 @@ public class SimpleGenerate : WireFrameGenerater
         data.wfNodes.Add(node2);
 
         data.wfBars = new List<WFBar>();
-        var bar = new WFBar();
-        bar.m_fromNodeId = node1.m_id;
-        bar.m_toNodeId = node2.m_id;
+        var bar = new WFBar(node1.m_id, node2.m_id);
         data.wfBars.Add(bar);
         return data;
     }

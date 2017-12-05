@@ -15,8 +15,15 @@ using System;
 public abstract class WireFrameGenerater : IWireCreater
 {
     public abstract bool CanCreate(Clamp clamp);
-    public abstract WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp);
-    protected WireFrameBehaiver CreateInternal(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp, List<WFNode> wfNodes, List<WFBar> wfBars)
+    public WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp)
+    {
+        var wfData = GenerateWFData(clamp);
+        return CreateInternal(nodePrefab, barPrefab, fulcrum, clamp, wfData.wfNodes, wfData.wfBars);
+    }
+
+    protected abstract WFData GenerateWFData(Clamp clamp);
+
+    private WireFrameBehaiver CreateInternal(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp, List<WFNode> wfNodes, List<WFBar> wfBars)
     {
         var wireFrame = new GameObject("SimpleWireFrame").AddComponent<WireFrameBehaiver>();
         var nodeGroup = CreateChildObject(wireFrame.transform, "NodeGroup");

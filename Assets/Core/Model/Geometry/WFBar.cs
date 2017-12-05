@@ -18,8 +18,10 @@ public class WFBar {
     public string m_id;
     public string m_fromNodeId;
     public string m_toNodeId;
-    public WFBar()
+    public WFBar(string fromID,string toID)
     {
+        this.m_fromNodeId = fromID;
+        this.m_toNodeId = toID;
         m_id = System.Guid.NewGuid().ToString();
     }
 }
