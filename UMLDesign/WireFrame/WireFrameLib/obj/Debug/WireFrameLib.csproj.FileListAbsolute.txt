@@ -1,5 +1,0 @@
-E:\GitRepository\WireFrame\UMLDesign\WireFrame\WireFrameLib\bin\Debug\WireFrameLib.dll
-E:\GitRepository\WireFrame\UMLDesign\WireFrame\WireFrameLib\bin\Debug\WireFrameLib.pdb
-E:\GitRepository\WireFrame\UMLDesign\WireFrame\WireFrameLib\obj\Debug\WireFrameLib.csprojResolveAssemblyReference.cache
-E:\GitRepository\WireFrame\UMLDesign\WireFrame\WireFrameLib\obj\Debug\WireFrameLib.dll
-E:\GitRepository\WireFrame\UMLDesign\WireFrame\WireFrameLib\obj\Debug\WireFrameLib.pdb
