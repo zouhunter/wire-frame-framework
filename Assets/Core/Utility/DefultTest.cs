@@ -29,4 +29,16 @@ public class DefultTest : MonoBehaviour {
     {
         wireFrame = creater.Create(node,bar,fulcrum, clamp);
     }
+
+    private void OnGUI()
+    {
+        if(GUILayout.Button("ShowLine"))
+        {
+            wireFrame.SwitchToLine();
+        }
+        if(GUILayout.Button("ShowModel"))
+        {
+            wireFrame.SwitchToModel();
+        }
+    }
 }

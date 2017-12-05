@@ -19,7 +19,7 @@ public class WireFrameBehaiver : MonoBehaviour {
     public List<NodeBehaiver> nodes = new List<NodeBehaiver>();
     public List<BarBehaiver> bars = new List<BarBehaiver>();
 
-    public void SwitchToThreeD()
+    public void SwitchToModel()
     {
         foreach (var item in nodes)
         {

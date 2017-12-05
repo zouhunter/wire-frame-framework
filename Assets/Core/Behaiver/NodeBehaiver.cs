@@ -16,14 +16,15 @@ using System;
 /// </summary>
 public class NodeBehaiver : MonoBehaviour {
     public NodeInfo nodeInfo;
-
+    [SerializeField]
+    private GameObject renderObj;
     internal void Hide()
     {
-        throw new NotImplementedException();
+        renderObj.SetActive(false);
     }
 
     internal void UnHide()
     {
-        throw new NotImplementedException();
+        renderObj.SetActive(true);
     }
 }
