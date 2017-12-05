@@ -1,0 +1,5 @@
+E:\GitRepository\WireFrame\UMLDesign\WireFrame\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+E:\GitRepository\WireFrame\UMLDesign\WireFrame\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+E:\GitRepository\WireFrame\UMLDesign\WireFrame\ClassLibrary1\obj\Debug\ClassLibrary1.csprojResolveAssemblyReference.cache
+E:\GitRepository\WireFrame\UMLDesign\WireFrame\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+E:\GitRepository\WireFrame\UMLDesign\WireFrame\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
