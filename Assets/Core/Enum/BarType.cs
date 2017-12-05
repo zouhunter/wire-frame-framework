@@ -10,7 +10,8 @@ using System.Linq;
 using System.Text;
 
 /// <remarks>杆件类型</remarks>
-public enum BarType : int
+public enum BarType
 {
-
+    whorl,
+    smooth
 }

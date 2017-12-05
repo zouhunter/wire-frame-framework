@@ -19,19 +19,9 @@ public class WFNode
 {
     public string m_id;
     public Vector3 position;
-    public List<WFConnection> m_points = new List<WFConnection>();
     public WFNode(Vector3 position)
     {
         this.position = position;
         m_id = System.Guid.NewGuid().ToString();
-    }
-
-    public string AddConnection()
-    {
-        var connection = new WFConnection();
-        connection.id = System.Guid.NewGuid().ToString();
-        connection.parentId = m_id;
-        m_points.Add(connection);
-        return connection.id;
     }
 }

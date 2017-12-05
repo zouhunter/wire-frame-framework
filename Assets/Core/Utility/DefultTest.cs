@@ -12,17 +12,21 @@ using System.Collections;
 using System.Collections.Generic;
 //[ExecuteInEditMode]
 public class DefultTest : MonoBehaviour {
-    public WFData wfData;
+    public BarBehaiver bar;
+    public NodeBehaiver node;
+    public FulcrumBehaiver fulcrum;
+    public WFData data;
     IWireCreater creater;
     WireFrameBehaiver wireFrame;
+    public Clamp clamp;
     private void OnEnable()
     {
-        wfData = CalcuteUtility.GetDefultData();
         creater = new SimpleGenerate();
+        data = SimpleGenerate.GetTestData();
     }
 
     private void Start()
     {
-        wireFrame = creater.Create(wfData);
+        wireFrame = creater.Create(node,bar,fulcrum, clamp);
     }
 }

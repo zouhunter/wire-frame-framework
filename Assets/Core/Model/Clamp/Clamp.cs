@@ -11,6 +11,10 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BarGroupBehaiver : MonoBehaviour {
-
+public class Clamp {
+    public float x_Size;
+    public float y_Size;
+    public int x_num;
+    public int y_num;
+    public float height;
 }

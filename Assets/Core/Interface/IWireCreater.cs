@@ -12,6 +12,7 @@ using System.Text;
 /// <remarks>空间生成器</remarks>
 public interface IWireCreater
 {
-    WireFrameBehaiver Create(WFData wfData);
+    bool CanCreate(Clamp clamp);
+    WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Clamp clamp);
 }
 

@@ -24,4 +24,5 @@ public class BarInfo{
     public float longness;//长度
     public float slendernessRatio;//长细比
     public BarType barType;//类型
+
 }

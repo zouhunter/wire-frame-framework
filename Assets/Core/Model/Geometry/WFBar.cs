@@ -17,9 +17,7 @@ using System.Collections.Generic;
 public class WFBar {
     public string m_id;
     public string m_fromNodeId;
-    public string m_fromNodeConnectionPointId;
     public string m_toNodeId;
-    public string m_toNodeConnectionPoiontId;
     public WFBar()
     {
         m_id = System.Guid.NewGuid().ToString();
