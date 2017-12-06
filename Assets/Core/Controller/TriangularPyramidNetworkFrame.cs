@@ -10,20 +10,19 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 /// <summary>
-/// [网架节点几何数据]
-/// 用于记录节点的几何数据
+/// 三角锥网架
 /// </summary>
-[System.Serializable]
-public class WFNode
+public class TriangularPyramidNetworkFrame : WireFrameGenerater
 {
-    public string m_id;
-    public string type;
-    public Vector3 position;
-    public WFNode(Vector3 position,string type = "")
+    public override bool CanCreate(Clamp clamp)
     {
-        this.type = type;
-        this.position = position;
-        m_id = System.Guid.NewGuid().ToString();
+        return true;
+    }
+
+    protected override WFData GenerateWFData(Clamp clamp)
+    {
+        return CalcuteUtility.TrigonumGridFrame_Unit(5,5);
     }
 }

@@ -14,8 +14,10 @@ using System.Collections.Generic;
 public class DefultTest : MonoBehaviour {
     public enum ControllerType
     {
-        Simple,
-        OrthonormalTrussTypeTrussTypeGridFrame
+        Simple,//测试
+        OrthonormalTrussTypeTrussTypeGridFrame,//正交正放桁架型网架
+        TriangularPyramidNetworkFrame,//三角锥网架
+        OrthonormalFourAnglePyramidMeshFrame//正交正放四角锥
     }
 
     public BarBehaiver bar;
@@ -35,6 +37,12 @@ public class DefultTest : MonoBehaviour {
                 break;
             case ControllerType.OrthonormalTrussTypeTrussTypeGridFrame:
                 creater = new OrthonormalTrussTypeTrussTypeGridFrame();
+                break;
+            case ControllerType.TriangularPyramidNetworkFrame:
+                creater = new TriangularPyramidNetworkFrame();
+                break;
+            case ControllerType.OrthonormalFourAnglePyramidMeshFrame:
+                creater = new OrthonormalFourAnglePyramidMeshFrame();
                 break;
             default:
                 break;

@@ -48,15 +48,29 @@ public class WFData
 
             if (formNodeSame && !toNodeSame)
             {
-                wfBars.Add(new WFBar(guidChanged[item.m_fromNodeId],item.m_toNodeId));
+                var newBar = item.Copy();
+                newBar.m_fromNodeId = guidChanged[item.m_fromNodeId];
+                wfBars.Add(newBar);
             }
             else if(!formNodeSame && toNodeSame)
             {
-                wfBars.Add(new WFBar(item.m_fromNodeId, guidChanged[item.m_toNodeId]));
+                var newBar = item.Copy();
+                newBar.m_toNodeId = guidChanged[item.m_toNodeId];
+                wfBars.Add(newBar);
             }
             else if(!formNodeSame && !toNodeSame)
             {
                 wfBars.Add(item);
+            }
+            else
+            {
+                var newBar = item.Copy();
+                newBar.m_fromNodeId = guidChanged[item.m_fromNodeId];
+                newBar.m_toNodeId = guidChanged[item.m_toNodeId];
+                if(wfBars.Find(x=>x.IsSame(newBar)) == null)
+                {
+                    wfBars.Add(newBar);
+                }
             }
         }
     }
