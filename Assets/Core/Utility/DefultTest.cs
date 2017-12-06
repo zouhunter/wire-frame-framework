@@ -28,6 +28,7 @@ public class DefultTest : MonoBehaviour {
         抽空四角锥型网架,
         棋盘四角锥网架,
         三层正放四角锥网架,
+        三层抽空四角锥网架
     }
 
     public BarBehaiver bar;
@@ -74,6 +75,9 @@ public class DefultTest : MonoBehaviour {
                 break;
             case ControllerType.三层正放四角锥网架:
                 creater = new ThreeLayerPositiveFourPyramidGridFrame();
+                break;
+            case ControllerType.三层抽空四角锥网架:
+                creater = new ThreeLayerFourAnglePyramidGridFrame();
                 break;
             default:
                 break;
