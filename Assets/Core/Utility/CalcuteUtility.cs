@@ -275,7 +275,7 @@ public static class CalcuteUtility
                 for (int j = i + 1; j < bundNodes.Count; j++)
                 {
                     var otherNode = bundNodes[j];
-                    if (Mathf.Abs(Vector3.Distance(node.position, otherNode.position) - distence) < 0.1f)
+                    if (Vector3.Distance(node.position, otherNode.position) < distence + 0.1f)
                     {
                         bool match = false;
 

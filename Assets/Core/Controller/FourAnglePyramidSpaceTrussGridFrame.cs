@@ -10,11 +10,12 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 /// <summary>
-/// 棋盘四角锥网架
+/// 抽空四角锥网架
 /// </summary>
-public class ChessboardFourPyramidGridFrame : WireFrameGenerater {
-
+public class FourAnglePyramidSpaceTrussGridFrame : WireFrameGenerater
+{
     public override bool CanCreate(Clamp clamp)
     {
         return true;
@@ -27,23 +28,23 @@ public class ChessboardFourPyramidGridFrame : WireFrameGenerater {
         float x_Size = clamp.x_Size / clamp.x_num;
         float y_Size = clamp.y_Size / clamp.y_num;
 
-        var topNodes = new List<WFNode>();
+        WFNode[,] topNodes = new WFNode[clamp.x_num, clamp.y_num];
 
         for (int i = 0; i < clamp.x_num; i++)
         {
             for (int j = 0; j < clamp.y_num; j++)
             {
-                if (i > 0 && i < clamp.x_num - 1 && j > 0 && j < clamp.y_num - 1 && (i + j) % 2 == 0){
+                if (i > 0 && i<clamp.x_num - 1 && j > 0 && j < clamp.y_num - 1 && i % 2 != 0 && j % 2 != 0)
+                {
                     continue;
                 }
                 WFData data = CalcuteUtility.QuadrangularGridFrame_Unit(x_Size, y_Size, clamp.height);
                 data.SetPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
-                topNodes.Add(data.wfNodes.Find(x => x.type == NodePosType.taperedTop));
-                Debug.Log(data.wfNodes.Find(x => x.type == NodePosType.taperedTop).m_id);
+                topNodes[i, j] = data.wfNodes.Find(x => x.type == NodePosType.taperedTop);
                 wfData.InsertData(data);
             }
         }
-        var downData = CalcuteUtility.ConnectNeerBy(topNodes,Mathf.Sqrt(Mathf.Pow(x_Size,2) + Mathf.Pow(y_Size,2)), BarPosType.downBar,BoundConnectType.NoRule);
+        var downData = CalcuteUtility.ConnectNeerBy(topNodes, BarPosType.downBar);
         wfData.InsertData(downData);
 
         return wfData;
@@ -51,6 +52,6 @@ public class ChessboardFourPyramidGridFrame : WireFrameGenerater {
 
     protected override WFData GenerateWFDataUnit(Clamp clamp)
     {
-        return null;
+        throw new NotImplementedException();
     }
 }
