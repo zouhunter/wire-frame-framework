@@ -334,26 +334,41 @@ public static class CalcuteUtility
             for (int j = 0; j < yCount; j++)
             {
                 var node = topNodes[i, j];
+
+                if (node == null) continue;
+
                 data.wfNodes.Add(node);
                 if (i > 0)//左
                 {
                     var node_l = topNodes[i - 1, j];
-                    data.wfBars.Add(new WFBar(node.m_id, node_l.m_id, barType));
+                    if(node_l != null)
+                    {
+                        data.wfBars.Add(new WFBar(node.m_id, node_l.m_id, barType));
+                    }
                 }
                 if (i < xCount - 1)//右
                 {
                     var node_r = topNodes[i + 1, j];
-                    data.wfBars.Add(new WFBar(node.m_id, node_r.m_id, barType));
+                    if (node_r != null)
+                    {
+                        data.wfBars.Add(new WFBar(node.m_id, node_r.m_id, barType));
+                    }
                 }
                 if (j > 0)//下
                 {
                     var node_d = topNodes[i, j - 1];
-                    data.wfBars.Add(new WFBar(node.m_id, node_d.m_id, barType));
+                    if (node_d != null)
+                    {
+                        data.wfBars.Add(new WFBar(node.m_id, node_d.m_id, barType));
+                    }
                 }
                 if (j < yCount - 1)//上
                 {
                     var node_u = topNodes[i, j + 1];
-                    data.wfBars.Add(new WFBar(node.m_id, node_u.m_id, barType));
+                    if (node_u != null)
+                    {
+                        data.wfBars.Add(new WFBar(node.m_id, node_u.m_id, barType));
+                    }
                 }
                 //Debug.Log(i + "" + j + topNodes[i, j].m_id);
             }
