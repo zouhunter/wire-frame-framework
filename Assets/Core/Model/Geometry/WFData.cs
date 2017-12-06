@@ -75,6 +75,14 @@ public class WFData
         }
     }
 
+    internal void SetRotation(Quaternion rotate)
+    {
+        for (int i = 0; i < wfNodes.Count; i++)
+        {
+            wfNodes[i].position = rotate * wfNodes[i].initposition;
+        }
+    }
+
     internal void SetPosition(Vector3 startPos)
     {
         if (wfNodes.Count == 0) return;

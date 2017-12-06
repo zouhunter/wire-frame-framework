@@ -20,10 +20,11 @@ public class WFNode
     public string m_id;
     public string type;
     public Vector3 position;
+    public Vector3 initposition { get; private set; }
     public WFNode(Vector3 position,string type = "")
     {
         this.type = type;
-        this.position = position;
+        this.initposition = this.position = position;
         m_id = System.Guid.NewGuid().ToString();
     }
 }

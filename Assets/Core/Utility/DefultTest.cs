@@ -17,7 +17,8 @@ public class DefultTest : MonoBehaviour {
         Simple,//测试
         OrthonormalTrussTypeTrussTypeGridFrame,//正交正放桁架型网架
         TriangularPyramidNetworkFrame,//三角锥网架
-        OrthonormalFourAnglePyramidMeshFrame//正交正放四角锥
+        OrthonormalFourAnglePyramidMeshFrame,//正交正放四角锥
+        OrthogonalSlantingFourAnglePyramidGridFrame,//正交斜放四角锥
     }
 
     public BarBehaiver bar;
@@ -43,6 +44,9 @@ public class DefultTest : MonoBehaviour {
                 break;
             case ControllerType.OrthonormalFourAnglePyramidMeshFrame:
                 creater = new OrthonormalFourAnglePyramidMeshFrame();
+                break;
+            case ControllerType.OrthogonalSlantingFourAnglePyramidGridFrame:
+                creater = new OrthogonalSlantingFourAnglePyramidGridFrame();
                 break;
             default:
                 break;

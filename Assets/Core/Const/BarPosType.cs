@@ -15,4 +15,5 @@ public static class BarPosType
     public const string upBar = "上弦杆";
     public const string centerBar = "腹杆";
     public const string downBar = "下弦杆";
+    public const string boundBar = "上弦杆";
 }
