@@ -20,6 +20,7 @@ public class DefultTest : MonoBehaviour {
         OrthonormalFourAnglePyramidMeshFrame,//正交正放四角锥
         OrthogonalSlantingFourAnglePyramidGridFrame,//正交斜放四角锥
         OrthonormalTrussedTrussTypeGridFrame,//正交斜放桁架型
+        ThreeDirectionIntersectingGridFrame,//三向交叉型桁架
     }
 
     public BarBehaiver bar;
@@ -51,6 +52,9 @@ public class DefultTest : MonoBehaviour {
                 break;
             case ControllerType.OrthonormalTrussedTrussTypeGridFrame:
                 creater = new OrthonormalTrussedTrussTypeGridFrame();
+                break;
+            case ControllerType.ThreeDirectionIntersectingGridFrame:
+                creater = new ThreeDirectionIntersectingGridFrame();
                 break;
             default:
                 break;
