@@ -25,4 +25,9 @@ public class TriangularPyramidNetworkFrame : WireFrameGenerater
     {
         return CalcuteUtility.TrigonumGridFrame_Unit(5,5);
     }
+
+    protected override WFData GenerateWFDataUnit(Clamp clamp)
+    {
+        throw new NotImplementedException();
+    }
 }

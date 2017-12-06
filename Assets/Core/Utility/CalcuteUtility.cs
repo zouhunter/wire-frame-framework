@@ -263,7 +263,7 @@ public static class CalcuteUtility
     /// <param name="bundNodes"></param>
     /// <param name="barType"></param>
     /// <returns></returns>
-    internal static WFData ConnectNeerBy(List<WFNode> bundNodes, float distence, string barType, bool sameAxis = true)
+    internal static WFData ConnectNeerBy(List<WFNode> bundNodes, float distence, string barType, BoundConnectType connectType = BoundConnectType.XOrYAxis)
     {
         var data = new WFData();
         for (int i = 0; i < bundNodes.Count; i++)
@@ -277,7 +277,34 @@ public static class CalcuteUtility
                     var otherNode = bundNodes[j];
                     if (Vector3.Distance(node.position, otherNode.position) < distence)
                     {
-                        if (!sameAxis || (Mathf.Abs(node.position.x - otherNode.position.x) < 0.1f) || Mathf.Abs(node.position.z - otherNode.position.z) < 0.1f)
+                        bool match = false;
+
+                        switch (connectType)
+                        {
+                            case BoundConnectType.XAxisOnly:
+                                match = Mathf.Abs(node.position.x - otherNode.position.x) < 0.1f;
+                                break;
+                            case BoundConnectType.YAxisOnly:
+                                match = Mathf.Abs(node.position.z - otherNode.position.z) < 0.1f;
+                                break;
+                            case BoundConnectType.XOrYAxis:
+                                match = Mathf.Abs(node.position.x - otherNode.position.x) < 0.1f
+                                    || Mathf.Abs(node.position.z - otherNode.position.z) < 0.1f;
+                                break;
+                            case BoundConnectType.NoXAxis:
+                                match = Mathf.Abs(node.position.x - otherNode.position.x) > 0.1f;
+                                break;
+                            case BoundConnectType.NoYAxis:
+                                match = Mathf.Abs(node.position.z - otherNode.position.z) > 0.1f;
+                                break;
+                            case BoundConnectType.NoXAndYAxis:
+                                match = Mathf.Abs(node.position.x - otherNode.position.x) > 0.1f
+                                    && Mathf.Abs(node.position.z - otherNode.position.z) > 0.1f;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (match)
                         {
                             data.wfBars.Add(new WFBar(node.m_id, otherNode.m_id, barType));
                         }

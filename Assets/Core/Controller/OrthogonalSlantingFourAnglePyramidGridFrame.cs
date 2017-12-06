@@ -75,4 +75,9 @@ public class OrthogonalSlantingFourAnglePyramidGridFrame : WireFrameGenerater
 
         return wfData;
     }
+
+    protected override WFData GenerateWFDataUnit(Clamp clamp)
+    {
+        throw new NotImplementedException();
+    }
 }

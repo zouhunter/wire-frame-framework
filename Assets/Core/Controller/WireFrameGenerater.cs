@@ -15,6 +15,12 @@ using System;
 public abstract class WireFrameGenerater : IWireCreater
 {
     public abstract bool CanCreate(Clamp clamp);
+
+    public WireFrameBehaiver Unit(NodeBehaiver nodePrefab, BarBehaiver barPrefab, Clamp clamp)
+    {
+        var wfData = GenerateWFDataUnit(clamp);
+        return CreateInternal(nodePrefab, barPrefab, null, clamp, wfData.wfNodes, wfData.wfBars);
+    }
     public WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp)
     {
         var wfData = GenerateWFData(clamp);
@@ -22,13 +28,14 @@ public abstract class WireFrameGenerater : IWireCreater
     }
 
     protected abstract WFData GenerateWFData(Clamp clamp);
+    protected abstract WFData GenerateWFDataUnit(Clamp clamp);
 
     private WireFrameBehaiver CreateInternal(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp, List<WFNode> wfNodes, List<WFBar> wfBars)
     {
         var wireFrame = new GameObject("SimpleWireFrame").AddComponent<WireFrameBehaiver>();
         var nodeGroup = CreateChildObject(wireFrame.transform, "NodeGroup");
         var barGroup = CreateChildObject(wireFrame.transform, "BarGroup");
-        var fulcrumGroup = CreateChildObject(wireFrame.transform, "FulcrumGroup");
+        //var fulcrumGroup = CreateChildObject(wireFrame.transform, "FulcrumGroup");
 
         var nodes = new List<NodeBehaiver>();
         foreach (var wfNode in wfNodes)
@@ -69,4 +76,6 @@ public abstract class WireFrameGenerater : IWireCreater
         obj.transform.localPosition = Vector3.zero;
         return obj.transform;
     }
+
+  
 }

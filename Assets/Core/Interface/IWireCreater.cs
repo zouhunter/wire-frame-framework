@@ -13,6 +13,7 @@ using System.Text;
 public interface IWireCreater
 {
     bool CanCreate(Clamp clamp);
+    WireFrameBehaiver Unit(NodeBehaiver node, BarBehaiver bar, Clamp clamp);
     WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Clamp clamp);
 }
 

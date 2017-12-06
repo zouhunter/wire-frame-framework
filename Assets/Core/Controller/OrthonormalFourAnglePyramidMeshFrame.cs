@@ -11,7 +11,9 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
+/// <summary>
+/// 正交正放四角锥型
+/// </summary>
 public class OrthonormalFourAnglePyramidMeshFrame : WireFrameGenerater
 {
     public override bool CanCreate(Clamp clamp)
@@ -42,5 +44,10 @@ public class OrthonormalFourAnglePyramidMeshFrame : WireFrameGenerater
         wfData.InsertData(downData);
 
         return wfData;
+    }
+
+    protected override WFData GenerateWFDataUnit(Clamp clamp)
+    {
+        throw new NotImplementedException();
     }
 }

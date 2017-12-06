@@ -71,6 +71,11 @@ public class OrthonormalTrussedTrussTypeGridFrame : WireFrameGenerater
         return wfData;
     }
 
+    protected override WFData GenerateWFDataUnit(Clamp clamp)
+    {
+        throw new NotImplementedException();
+    }
+
     private bool IsPointSmilarity(Vector3 sourcePoint,Vector3 targetPoint)
     {
         if (Mathf.Abs(sourcePoint.x - targetPoint.x) > 0.1f) return false;

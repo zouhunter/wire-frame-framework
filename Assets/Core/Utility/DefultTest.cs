@@ -14,13 +14,16 @@ using System.Collections.Generic;
 public class DefultTest : MonoBehaviour {
     public enum ControllerType
     {
-        Simple,//测试
-        OrthonormalTrussTypeTrussTypeGridFrame,//正交正放桁架型网架
-        TriangularPyramidNetworkFrame,//三角锥网架
-        OrthonormalFourAnglePyramidMeshFrame,//正交正放四角锥
-        OrthogonalSlantingFourAnglePyramidGridFrame,//正交斜放四角锥
-        OrthonormalTrussedTrussTypeGridFrame,//正交斜放桁架型
-        ThreeDirectionIntersectingGridFrame,//三向交叉型桁架
+        点线绘制测试,
+        三角锥型,
+
+        正交正放四角锥型,
+        正交斜放四角锥型,
+        斜置四角锥型,
+
+        正交正放桁架型,
+        正交斜放桁架型,
+        三向交叉型桁架型,
     }
 
     public BarBehaiver bar;
@@ -35,25 +38,28 @@ public class DefultTest : MonoBehaviour {
     {
         switch (controllerType)
         {
-            case ControllerType.Simple:
+            case ControllerType.点线绘制测试:
                 creater = new SimpleGenerate();
                 break;
-            case ControllerType.OrthonormalTrussTypeTrussTypeGridFrame:
+            case ControllerType.正交正放桁架型:
                 creater = new OrthonormalTrussTypeTrussTypeGridFrame();
                 break;
-            case ControllerType.TriangularPyramidNetworkFrame:
+            case ControllerType.三角锥型:
                 creater = new TriangularPyramidNetworkFrame();
                 break;
-            case ControllerType.OrthonormalFourAnglePyramidMeshFrame:
+            case ControllerType.正交正放四角锥型:
                 creater = new OrthonormalFourAnglePyramidMeshFrame();
                 break;
-            case ControllerType.OrthogonalSlantingFourAnglePyramidGridFrame:
+            case ControllerType.正交斜放四角锥型:
                 creater = new OrthogonalSlantingFourAnglePyramidGridFrame();
                 break;
-            case ControllerType.OrthonormalTrussedTrussTypeGridFrame:
+            case ControllerType.斜置四角锥型:
+                creater = new ObliqueFourAnglePyramidGridFrame();
+                break;
+            case ControllerType.正交斜放桁架型:
                 creater = new OrthonormalTrussedTrussTypeGridFrame();
                 break;
-            case ControllerType.ThreeDirectionIntersectingGridFrame:
+            case ControllerType.三向交叉型桁架型:
                 creater = new ThreeDirectionIntersectingGridFrame();
                 break;
             default:

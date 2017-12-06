@@ -41,4 +41,9 @@ public class SimpleGenerate : WireFrameGenerater
         data.wfBars.Add(bar);
         return data;
     }
+
+    protected override WFData GenerateWFDataUnit(Clamp clamp)
+    {
+        throw new NotImplementedException();
+    }
 }

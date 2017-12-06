@@ -38,4 +38,9 @@ public class OrthonormalTrussTypeTrussTypeGridFrame : WireFrameGenerater
 
         return wfData;
     }
+
+    protected override WFData GenerateWFDataUnit(Clamp clamp)
+    {
+        throw new NotImplementedException();
+    }
 }
