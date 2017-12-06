@@ -24,6 +24,10 @@ public abstract class WireFrameGenerater : IWireCreater
     public WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Clamp clamp)
     {
         var wfData = GenerateWFData(clamp);
+        if(clamp.layer == 2)
+        {
+            CreateDoubleLayer(wfData, clamp.height);
+        }
         return CreateInternal(nodePrefab, barPrefab, fulcrum, clamp, wfData.wfNodes, wfData.wfBars);
     }
 
@@ -76,6 +80,12 @@ public abstract class WireFrameGenerater : IWireCreater
         obj.transform.localPosition = Vector3.zero;
         return obj.transform;
     }
-
+    private void CreateDoubleLayer(WFData wfData,float height)
+    {
+        var dataCopy = wfData.Copy();
+        dataCopy.AppendRotation(Quaternion.Euler(new Vector3(180, 0, 0)));
+        dataCopy.AppendPosition(new Vector3(0, -height, 0));
+        wfData.InsertData(dataCopy);
+    }
   
 }

@@ -23,10 +23,11 @@ public class OrthogonalSlantingFourAnglePyramidGridFrame : WireFrameGenerater
 
     protected override WFData GenerateWFData(Clamp clamp)
     {
-        var startPos = -new Vector3(clamp.x_Size, clamp.height, clamp.y_Size) * 0.5f;
-        WFData wfData = new WFData();
         float x_Size = clamp.x_Size / clamp.x_num;
         float y_Size = clamp.y_Size / clamp.y_num;
+        var startPos = -new Vector3(clamp.x_Size, -clamp.height, clamp.y_Size - y_Size) * 0.5f;
+        WFData wfData = new WFData();
+       
 
         WFNode[,] topNodes = new WFNode[clamp.x_num, clamp.y_num];
         List<WFNode> bundNodes = new List<WFNode>();

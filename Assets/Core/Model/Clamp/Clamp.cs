@@ -17,4 +17,5 @@ public class Clamp {
     public int x_num;
     public int y_num;
     public float height;
+    public int layer = 1;
 }
