@@ -37,7 +37,7 @@ public class ChessboardFourPyramidGridFrame : WireFrameGenerater {
                     continue;
                 }
                 WFData data = CalcuteUtility.QuadrangularGridFrame_Unit(x_Size, y_Size, clamp.height);
-                data.SetPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
+                data.AppendPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
                 topNodes.Add(data.wfNodes.Find(x => x.type == NodePosType.taperedTop));
                 Debug.Log(data.wfNodes.Find(x => x.type == NodePosType.taperedTop).m_id);
                 wfData.InsertData(data);

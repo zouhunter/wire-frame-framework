@@ -10,6 +10,7 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 /// <summary>
 /// [网架节点几何数据]
 /// 用于记录节点的几何数据
@@ -26,5 +27,10 @@ public class WFNode
         this.type = type;
         this.initposition = this.position = position;
         m_id = System.Guid.NewGuid().ToString();
+    }
+
+    internal WFNode Copy()
+    {
+        return new WFNode(position, type);
     }
 }

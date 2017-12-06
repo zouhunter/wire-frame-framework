@@ -35,7 +35,7 @@ public class OrthonormalTrussedTrussTypeGridFrame : WireFrameGenerater
             {
                 WFData data = CalcuteUtility.TrussTypeDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
                 var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
-                data.SetPosition(position);
+                data.AppendPosition(position);
                 wfData.InsertData(data);
 
                 if (i == 0)//左

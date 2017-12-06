@@ -37,7 +37,7 @@ public class OrthogonalSlantingFourAnglePyramidGridFrame : WireFrameGenerater
             {
                 WFData data = CalcuteUtility.QuadDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
                 var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
-                data.SetPosition(position);
+                data.AppendPosition(position);
                 topNodes[i, j] = data.wfNodes.Find(x => x.type == NodePosType.taperedTop);
                 wfData.InsertData(data);
 

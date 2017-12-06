@@ -37,7 +37,7 @@ public class ObliqueFourAnglePyramidGridFrame : WireFrameGenerater
             {
                 WFData data = CalcuteUtility.QuadDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
                 var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
-                data.SetPosition(position);
+                data.AppendPosition(position);
                 topNodes[i,j] = (data.wfNodes.Find(x => x.type == NodePosType.taperedTop));
                 wfData.InsertData(data);
                 istNodes.Add(topNodes[i, j]);
@@ -46,7 +46,7 @@ public class ObliqueFourAnglePyramidGridFrame : WireFrameGenerater
                 {
                     var istPos = position - x_Size * 0.5f * Vector3.right + y_Size * 0.5f * Vector3.forward;
                     var istData = CalcuteUtility.QuadDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
-                    istData.SetPosition(istPos);
+                    istData.AppendPosition(istPos);
                     istNodes.Add(istData.wfNodes.Find(x => x.type == NodePosType.taperedTop));
                     wfData.InsertData(istData);
                 }

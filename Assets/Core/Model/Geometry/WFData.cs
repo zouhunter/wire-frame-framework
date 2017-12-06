@@ -26,6 +26,32 @@ public class WFData
         wfBars = new List<WFBar>();
     }
 
+    public WFData Copy()
+    {
+        var newData = new WFData();
+        var idDic = new Dictionary<string, string>();
+        for (int i = 0; i < wfNodes.Count; i++)
+        {
+            var newNode = wfNodes[i].Copy();
+            newData.wfNodes.Add(newNode);
+            idDic.Add(wfNodes[i].m_id, newNode.m_id);
+        }
+        for (int i = 0; i < wfBars.Count; i++)
+        {
+            var newBar = wfBars[i].Copy();
+            if(idDic.ContainsKey(newBar.m_fromNodeId))
+            {
+                newBar.m_fromNodeId = idDic[newBar.m_fromNodeId];
+            }
+            if(idDic.ContainsKey(newBar.m_toNodeId))
+            {
+                newBar.m_toNodeId = idDic[newBar.m_toNodeId];
+            }
+            newData.wfBars.Add(newBar);
+        }
+        return newData;
+    }
+
     internal void InsertData(WFData data)
     {
         Dictionary<string, string> guidChanged = new Dictionary<string, string>();
@@ -75,7 +101,7 @@ public class WFData
         }
     }
 
-    internal void SetRotation(Quaternion rotate)
+    internal void AppendRotation(Quaternion rotate)
     {
         for (int i = 0; i < wfNodes.Count; i++)
         {
@@ -83,16 +109,11 @@ public class WFData
         }
     }
 
-    internal void SetPosition(Vector3 startPos)
+    internal void AppendPosition(Vector3 pos)
     {
-        if (wfNodes.Count == 0) return;
-
-        var oldStartPos = wfNodes[0].position;
-        var appendPos = startPos - oldStartPos;
-
         for (int i = 0; i < wfNodes.Count; i++)
         {
-            wfNodes[i].position += appendPos;
+            wfNodes[i].position += pos;
         }
     }
 }

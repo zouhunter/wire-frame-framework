@@ -31,7 +31,7 @@ public class OrthonormalTrussTypeTrussTypeGridFrame : WireFrameGenerater
             for (int j = 0; j < clamp.y_num; j++)
             {
                 WFData data = CalcuteUtility.TrussTypeGridFrame_Unit(x_Size, y_Size, clamp.height);
-                data.SetPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
+                data.AppendPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
                 wfData.InsertData(data);
             }
         }

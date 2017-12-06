@@ -39,7 +39,7 @@ public class TriangularPyramidNetworkFrame : WireFrameGenerater
                     (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
                     unitHeight * (i + num) * Vector3.forward;
                 var tdata = CalcuteUtility.TrigonumGridFrame_Unit(unitSize, clamp.height);
-                tdata.SetPosition(pos);
+                tdata.AppendPosition(pos);
                 data.InsertData(tdata);
                 topNodes.Add(tdata.wfNodes.Find(x => x.type == NodePosType.taperedTop));
 
