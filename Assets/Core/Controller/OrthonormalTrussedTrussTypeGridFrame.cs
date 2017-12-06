@@ -23,10 +23,11 @@ public class OrthonormalTrussedTrussTypeGridFrame : WireFrameGenerater
     }
     protected override WFData GenerateWFData(Clamp clamp)
     {
-        var startPos = -new Vector3(clamp.x_Size, clamp.height, clamp.y_Size) * 0.5f;
-        WFData wfData = new WFData();
         float x_Size = clamp.x_Size / clamp.x_num;
         float y_Size = clamp.y_Size / clamp.y_num;
+        var startPos = -new Vector3(clamp.x_Size, clamp.height, clamp.y_Size - y_Size) * 0.5f;
+        WFData wfData = new WFData();
+      
         var bundNodes = new List<WFNode>();
 
         for (int i = 0; i < clamp.x_num; i++)
