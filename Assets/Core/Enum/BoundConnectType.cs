@@ -17,5 +17,6 @@ public enum BoundConnectType {
     XOrYAxis,//仅在x或主轴向上
     NoXAxis,//不在x轴向上
     NoYAxis,//不在y轴向上
-    NoXAndYAxis//不在x和y轴向上
+    NoXAndYAxis,//不在x和y轴向上
+    NoRule//不进行筛选
 }

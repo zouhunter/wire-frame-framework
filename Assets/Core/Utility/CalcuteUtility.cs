@@ -27,22 +27,22 @@ public static class CalcuteUtility
         var wfData = new WFData();
         var edgeHeight = edge * 0.5f * Mathf.Tan(Mathf.Deg2Rad * 60);
         var centr1 = edge * 0.5f / Mathf.Cos(Mathf.Deg2Rad * 30);
-        var node1 = new WFNode(new Vector3(0, 0, 0));
-        var node2 = new WFNode(new Vector3(edge * 0.5f, 0, edgeHeight));
-        var node3 = new WFNode(new Vector3(-edge * 0.5f, 0, edgeHeight));
-        var node4 = new WFNode(new Vector3(0, -height, centr1));
+        var node1 = new WFNode(new Vector3(0, 0, 0),NodePosType.taperedBottom);
+        var node2 = new WFNode(new Vector3(edge * 0.5f, 0, edgeHeight),NodePosType.taperedBottom);
+        var node3 = new WFNode(new Vector3(-edge * 0.5f, 0, edgeHeight), NodePosType.taperedBottom);
+        var node4 = new WFNode(new Vector3(0, -height, centr1), NodePosType.taperedTop);
 
         wfData.wfNodes.Add(node1);
         wfData.wfNodes.Add(node2);
         wfData.wfNodes.Add(node3);
         wfData.wfNodes.Add(node4);
 
-        wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id));//1-2
-        wfData.wfBars.Add(new WFBar(node1.m_id, node3.m_id));//1-3
-        wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id));//1-4
-        wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id));//2-3
-        wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id));//2-4
-        wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id));//3-4
+        wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id,BarPosType.upBar));//1-2
+        wfData.wfBars.Add(new WFBar(node1.m_id, node3.m_id, BarPosType.upBar));//1-3
+        wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id, BarPosType.centerBar));//1-4
+        wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id, BarPosType.upBar));//2-3
+        wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id, BarPosType.centerBar));//2-4
+        wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id, BarPosType.centerBar));//3-4
         return wfData;
     }
 
@@ -275,7 +275,7 @@ public static class CalcuteUtility
                 for (int j = i + 1; j < bundNodes.Count; j++)
                 {
                     var otherNode = bundNodes[j];
-                    if (Vector3.Distance(node.position, otherNode.position) < distence)
+                    if (Mathf.Abs(Vector3.Distance(node.position, otherNode.position) - distence) < 0.1f)
                     {
                         bool match = false;
 
@@ -300,6 +300,9 @@ public static class CalcuteUtility
                             case BoundConnectType.NoXAndYAxis:
                                 match = Mathf.Abs(node.position.x - otherNode.position.x) > 0.1f
                                     && Mathf.Abs(node.position.z - otherNode.position.z) > 0.1f;
+                                break;
+                            case BoundConnectType.NoRule:
+                                match = true;
                                 break;
                             default:
                                 break;

@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 /// <summary>
-/// 三角锥网架
+/// 三角锥网架(正六边形)
 /// </summary>
 public class TriangularPyramidNetworkFrame : WireFrameGenerater
 {
@@ -23,9 +23,61 @@ public class TriangularPyramidNetworkFrame : WireFrameGenerater
 
     protected override WFData GenerateWFData(Clamp clamp)
     {
-        return CalcuteUtility.TrigonumGridFrame_Unit(5,5);
-    }
+        var data = new WFData();
+        var num = clamp.x_num;
+        var size = clamp.x_Size;
+        var unitSize = clamp.x_Size / num;
+        var unitHeight = Mathf.Sin(Mathf.Deg2Rad * 60) * unitSize;
+        var startPos = new Vector3(-size * 0.5f, clamp.height * 0.5f, -Mathf.Sin(Mathf.Deg2Rad * 60) * size);
+        var boundNodes = new List<WFNode>();
+        var topNodes = new List<WFNode>();
+        for (int i = -num; i < num; i++)
+        {
+            for (int j = 0; j < 2 * num - Mathf.Abs(i + 1); j++)
+            {
+                var pos = startPos +
+                    (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
+                    unitHeight * (i + num) * Vector3.forward;
+                var tdata = CalcuteUtility.TrigonumGridFrame_Unit(unitSize, clamp.height);
+                tdata.SetPosition(pos);
+                data.InsertData(tdata);
+                topNodes.Add(tdata.wfNodes.Find(x => x.type == NodePosType.taperedTop));
 
+                if(i == -num)
+                {
+                    var downNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, pos));
+                    boundNodes.Add(downNode);
+                }
+                if(j == 0 && i >=-1)
+                {
+                    var leftPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
+                    var leftNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, leftPos));
+                    boundNodes.Add(leftNode);
+                }
+                if(j == 2 * num - Mathf.Abs(i + 1) - 1 && i>=-1)
+                {
+                    var rightPos = pos + unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
+                    var rightNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, rightPos));
+                    boundNodes.Add(rightNode);
+                }
+            }
+        }
+
+        var topData = CalcuteUtility.ConnectNeerBy(topNodes, unitSize, BarPosType.downBar, BoundConnectType.NoRule);
+        data.InsertData(topData);
+
+        var bundData = CalcuteUtility.ConnectNeerBy(boundNodes, unitSize, BarPosType.boundBar, BoundConnectType.NoRule);
+        data.InsertData(bundData);
+        return data;
+    }
+    private bool IsSimulatePos(Vector3 sourePos,Vector3 targetPos)
+    {
+        if(Vector3.Distance(sourePos,targetPos) < 0.1f)
+        {
+            return true;
+        }
+        return false;
+    }
     protected override WFData GenerateWFDataUnit(Clamp clamp)
     {
         throw new NotImplementedException();
