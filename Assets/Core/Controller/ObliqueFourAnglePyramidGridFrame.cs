@@ -42,7 +42,7 @@ public class ObliqueFourAnglePyramidGridFrame : WireFrameGenerater
                 wfData.InsertData(data);
                 istNodes.Add(topNodes[i, j]);
 
-                if (i > 0)//插入一个单元格
+                if (i > 0 && i < clamp.x_num - 1 && j < clamp.y_num - 1)//插入一个单元格
                 {
                     var istPos = position - x_Size * 0.5f * Vector3.right + y_Size * 0.5f * Vector3.forward;
                     var istData = CalcuteUtility.QuadDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
