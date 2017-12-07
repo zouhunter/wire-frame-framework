@@ -8,8 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>网架类型</remarks>
-public enum WireType : int
+namespace WireFrame
 {
+
+    /// <remarks>网架类型</remarks>
+    public enum WireType : int
+    {
+    }
 }

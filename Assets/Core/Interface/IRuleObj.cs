@@ -8,10 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>创建规则</remarks>
-public interface IRuleObj
+namespace WireFrame
 {
-    void Init();
+
+    /// <remarks>创建规则</remarks>
+    public interface IRuleObj
+    {
+        void Init();
+    }
 }
 

@@ -8,9 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>单元信息</remarks>
-public interface ICellObj 
+namespace WireFrame
 {
-}
 
+    /// <remarks>单元信息</remarks>
+    public interface ICellObj
+    {
+    }
+
+}

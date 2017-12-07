@@ -8,10 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>杆件</remarks>
-public interface IBar 
+namespace WireFrame
 {
 
-}
+    /// <remarks>杆件</remarks>
+    public interface IBar
+    {
 
+    }
+
+}

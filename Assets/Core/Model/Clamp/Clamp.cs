@@ -10,12 +10,17 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-[System.Serializable]
-public class Clamp {
-    public float x_Size;
-    public float y_Size;
-    public int x_num;
-    public int y_num;
-    public float height;
-    public int layer = 1;
+namespace WireFrame
+{
+
+    [System.Serializable]
+    public class Clamp
+    {
+        public float x_Size;
+        public float y_Size;
+        public int x_num;
+        public int y_num;
+        public float height;
+        public int layer = 1;
+    }
 }

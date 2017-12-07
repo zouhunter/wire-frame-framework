@@ -11,39 +11,42 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-
-/// <summary>
-/// 利用模拟的几何数据加载出点和线
-/// </summary>
-public class SimpleGenerate : WireFrameGenerater
+namespace WireFrame
 {
-    public WFData wfData;
-    public override bool CanCreate(Clamp clamp)
-    {
-        return true;
-    }
-    protected override WFData GenerateWFData(Clamp clamp)
-    {
-        return GetTestData();
-    } 
 
-    public static WFData GetTestData()
+    /// <summary>
+    /// 利用模拟的几何数据加载出点和线
+    /// </summary>
+    public class SimpleGenerate : WireFrameGenerater
     {
-        var data = new WFData();
-        data.wfNodes = new List<WFNode>();
-        var node1 = new WFNode(Vector3.zero);
-        data.wfNodes.Add(node1);
-        var node2 = new WFNode(Vector3.one);
-        data.wfNodes.Add(node2);
+        public WFData wfData;
+        public override bool CanCreate(Clamp clamp)
+        {
+            return true;
+        }
+        protected override WFData GenerateWFData(Clamp clamp)
+        {
+            return GetTestData();
+        }
 
-        data.wfBars = new List<WFBar>();
-        var bar = new WFBar(node1.m_id, node2.m_id);
-        data.wfBars.Add(bar);
-        return data;
-    }
+        public static WFData GetTestData()
+        {
+            var data = new WFData();
+            data.wfNodes = new List<WFNode>();
+            var node1 = new WFNode(Vector3.zero);
+            data.wfNodes.Add(node1);
+            var node2 = new WFNode(Vector3.one);
+            data.wfNodes.Add(node2);
 
-    protected override WFData GenerateWFDataUnit(Clamp clamp)
-    {
-        throw new NotImplementedException();
+            data.wfBars = new List<WFBar>();
+            var bar = new WFBar(node1.m_id, node2.m_id);
+            data.wfBars.Add(bar);
+            return data;
+        }
+
+        protected override WFData GenerateWFDataUnit(Clamp clamp)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -11,7 +11,10 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 //[ExecuteInEditMode]
-public class DefultTest : MonoBehaviour {
+using WireFrame;
+
+public class DefultTest : MonoBehaviour
+{
     public enum ControllerType
     {
         点线绘制测试,
@@ -78,16 +81,16 @@ public class DefultTest : MonoBehaviour {
 
     private void Start()
     {
-        wireFrame = creater.Create(node,bar,fulcrum, clamp);
+        wireFrame = creater.Create(node, bar, fulcrum, clamp);
     }
 
     private void OnGUI()
     {
-        if(GUILayout.Button("ShowLine"))
+        if (GUILayout.Button("ShowLine"))
         {
             wireFrame.SwitchToLine();
         }
-        if(GUILayout.Button("ShowModel"))
+        if (GUILayout.Button("ShowModel"))
         {
             wireFrame.SwitchToModel();
         }

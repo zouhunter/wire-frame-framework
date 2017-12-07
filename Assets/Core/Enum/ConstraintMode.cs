@@ -8,8 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>约束方式</remarks>
-public enum ConstraintMode : int
+namespace WireFrame
 {
+
+    /// <remarks>约束方式</remarks>
+    public enum ConstraintMode : int
+    {
+    }
 }

@@ -11,6 +11,9 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+namespace WireFrame
+{
+
 /// <summary>
 /// 杆件
 /// </summary>
@@ -61,4 +64,5 @@ public class BarBehaiver : MonoBehaviour {
         lengthPara = longness / barInfo.longness;
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, lengthPara);
     }
+}
 }

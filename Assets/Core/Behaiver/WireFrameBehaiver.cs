@@ -11,55 +11,60 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-/// <summary>
-/// 网架系统
-/// </summary>
-public class WireFrameBehaiver : MonoBehaviour {
+namespace WireFrame
+{
 
-    public List<NodeBehaiver> nodes = new List<NodeBehaiver>();
-    public List<BarBehaiver> bars = new List<BarBehaiver>();
+    /// <summary>
+    /// 网架系统
+    /// </summary>
+    public class WireFrameBehaiver : MonoBehaviour
+    {
 
-    public void SwitchToModel()
-    {
-        foreach (var item in nodes)
-        {
-            item.UnHide();
-        }
-        foreach (var item in bars)
-        {
-            item.ShowModel();
-        }
-    }
-    public void SwitchToLine()
-    {
-        foreach (var item in nodes)
-        {
-            item.Hide();
-        }
-        foreach (var item in bars)
-        {
-            item.ShowLine();
-        }
-    }
+        public List<NodeBehaiver> nodes = new List<NodeBehaiver>();
+        public List<BarBehaiver> bars = new List<BarBehaiver>();
 
-    internal void RegistNodeBehaivers(List<NodeBehaiver> nodes)
-    {
-        foreach (var node in nodes)
+        public void SwitchToModel()
         {
-            if(!this.nodes.Contains(node))
+            foreach (var item in nodes)
             {
-                this.nodes.Add(node);
+                item.UnHide();
+            }
+            foreach (var item in bars)
+            {
+                item.ShowModel();
             }
         }
-    }
-
-    internal void RegistBarBehaivers(List<BarBehaiver> bars)
-    {
-        foreach (var bar in bars)
+        public void SwitchToLine()
         {
-            if (!this.bars.Contains(bar))
+            foreach (var item in nodes)
             {
-                this.bars.Add(bar);
+                item.Hide();
+            }
+            foreach (var item in bars)
+            {
+                item.ShowLine();
+            }
+        }
+
+        internal void RegistNodeBehaivers(List<NodeBehaiver> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                if (!this.nodes.Contains(node))
+                {
+                    this.nodes.Add(node);
+                }
+            }
+        }
+
+        internal void RegistBarBehaivers(List<BarBehaiver> bars)
+        {
+            foreach (var bar in bars)
+            {
+                if (!this.bars.Contains(bar))
+                {
+                    this.bars.Add(bar);
+                }
             }
         }
     }

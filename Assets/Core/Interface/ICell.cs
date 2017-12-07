@@ -8,11 +8,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>网架单元体</remarks>
-public interface ICell 
+namespace WireFrame
 {
-	IWire IWire { get;set; }
 
+    /// <remarks>网架单元体</remarks>
+    public interface ICell
+    {
+        IWire IWire { get; set; }
+
+    }
 }
 

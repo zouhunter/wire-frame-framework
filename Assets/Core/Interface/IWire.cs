@@ -8,9 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>空间网架</remarks>
-public interface IWire 
+namespace WireFrame
 {
-}
 
+    /// <remarks>空间网架</remarks>
+    public interface IWire
+    {
+    }
+}

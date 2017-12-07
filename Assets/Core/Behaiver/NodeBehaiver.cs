@@ -11,20 +11,25 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-/// <summary>
-/// 节点
-/// </summary>
-public class NodeBehaiver : MonoBehaviour {
-    public NodeInfo nodeInfo;
-    [SerializeField]
-    private GameObject renderObj;
-    internal void Hide()
-    {
-        renderObj.SetActive(false);
-    }
+namespace WireFrame
+{
 
-    internal void UnHide()
+    /// <summary>
+    /// 节点
+    /// </summary>
+    public class NodeBehaiver : MonoBehaviour
     {
-        renderObj.SetActive(true);
+        public NodeInfo nodeInfo;
+        [SerializeField]
+        private GameObject renderObj;
+        internal void Hide()
+        {
+            renderObj.SetActive(false);
+        }
+
+        internal void UnHide()
+        {
+            renderObj.SetActive(true);
+        }
     }
 }

@@ -8,10 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>节点类型</remarks>
-public enum NodeType : int
+namespace WireFrame
 {
-	BoltedBall,
-	WeldingBall,
+
+    /// <remarks>节点类型</remarks>
+    public enum NodeType : int
+    {
+        BoltedBall,
+        WeldingBall,
+    }
 }

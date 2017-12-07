@@ -8,10 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>杆件类型</remarks>
-public enum BarType
+namespace WireFrame
 {
-    whorl,
-    smooth
+
+    /// <remarks>杆件类型</remarks>
+    public enum BarType
+    {
+        whorl,
+        smooth
+    }
 }

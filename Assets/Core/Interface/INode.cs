@@ -8,13 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>连接节点</remarks>
-public interface INode 
+namespace WireFrame
 {
-	object Type { get;set; }
 
-	ICell ICell { get;set; }
+    /// <remarks>连接节点</remarks>
+    public interface INode
+    {
+        object Type { get; set; }
 
+        ICell ICell { get; set; }
+
+    }
 }
-

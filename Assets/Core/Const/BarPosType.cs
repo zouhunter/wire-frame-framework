@@ -8,12 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>杆件坐标类型</remarks>
-public static class BarPosType
+namespace WireFrame
 {
-    public const string upBar = "上弦杆";
-    public const string centerBar = "腹杆";
-    public const string downBar = "下弦杆";
-    public const string boundBar = "上弦杆";
+
+    /// <remarks>杆件坐标类型</remarks>
+    public static class BarPosType
+    {
+        public const string upBar = "上弦杆";
+        public const string centerBar = "腹杆";
+        public const string downBar = "下弦杆";
+        public const string boundBar = "上弦杆";
+    }
 }

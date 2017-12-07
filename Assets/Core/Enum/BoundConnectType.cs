@@ -10,13 +10,17 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+namespace WireFrame
+{
 
-public enum BoundConnectType {
-    XAxisOnly,//仅同在x轴向上
-    YAxisOnly,//仅同在y轴向上
-    XOrYAxis,//仅在x或主轴向上
-    NoXAxis,//不在x轴向上
-    NoYAxis,//不在y轴向上
-    NoXAndYAxis,//不在x和y轴向上
-    NoRule//不进行筛选
+    public enum BoundConnectType
+    {
+        XAxisOnly,//仅同在x轴向上
+        YAxisOnly,//仅同在y轴向上
+        XOrYAxis,//仅在x或主轴向上
+        NoXAxis,//不在x轴向上
+        NoYAxis,//不在y轴向上
+        NoXAndYAxis,//不在x和y轴向上
+        NoRule//不进行筛选
+    }
 }

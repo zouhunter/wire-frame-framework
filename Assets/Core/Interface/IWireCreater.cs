@@ -8,12 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <remarks>空间生成器</remarks>
-public interface IWireCreater
+namespace WireFrame
 {
-    bool CanCreate(Clamp clamp);
-    WireFrameBehaiver Unit(NodeBehaiver node, BarBehaiver bar, Clamp clamp);
-    WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Clamp clamp);
-}
 
+    /// <remarks>空间生成器</remarks>
+    public interface IWireCreater
+    {
+        bool CanCreate(Clamp clamp);
+        WireFrameBehaiver Unit(NodeBehaiver node, BarBehaiver bar, Clamp clamp);
+        WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Clamp clamp);
+    }
+
+}

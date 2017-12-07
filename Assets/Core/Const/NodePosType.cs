@@ -10,8 +10,12 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+namespace WireFrame
+{
 
-public static class NodePosType {
-    public const string taperedBottom = "锥底";
-    public const string taperedTop = "锥顶";
+    public static class NodePosType
+    {
+        public const string taperedBottom = "锥底";
+        public const string taperedTop = "锥顶";
+    }
 }

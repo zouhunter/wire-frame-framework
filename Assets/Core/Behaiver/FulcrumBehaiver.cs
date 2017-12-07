@@ -10,9 +10,14 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-/// <summary>
-/// 支点
-/// </summary>
-public class FulcrumBehaiver : MonoBehaviour {
+namespace WireFrame
+{
 
+    /// <summary>
+    /// 支点
+    /// </summary>
+    public class FulcrumBehaiver : MonoBehaviour
+    {
+
+    }
 }
