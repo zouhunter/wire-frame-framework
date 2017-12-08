@@ -36,9 +36,14 @@ namespace WireFrame
         private void Awake()
         {
             lineRender = gameObject.AddComponent<LineRenderer>();
+#if UNITY_5_3
             lineRender.SetVertexCount(0);
-            lineRender.material = mat;
             lineRender.SetWidth(lineWidth, lineWidth);
+#else
+            lineRender.positionCount = 0;
+            lineRender.startWidth = lineRender.endWidth = lineWidth;
+#endif
+            lineRender.material = mat;
         }
         public void OnInitialized(string barPosType)
         {
@@ -50,14 +55,24 @@ namespace WireFrame
             var poss = new Vector3[2];
             poss[0] = transform.forward * longness * 0.5f + transform.position;
             poss[1] = -transform.forward * longness * 0.5f + transform.position;
+
+#if UNITY_5_3
             lineRender.SetVertexCount(2);
+#else
+            lineRender.positionCount = 2;
+#endif
+
             lineRender.SetPositions(poss);
             renderObj.gameObject.SetActive(false);
         }
 
         internal void ShowModel()
         {
+#if UNITY_5_3
             lineRender.SetVertexCount(0);
+#else
+            lineRender.positionCount = 0;
+#endif
             renderObj.gameObject.SetActive(true);
         }
 
