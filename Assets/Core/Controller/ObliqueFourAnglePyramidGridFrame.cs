@@ -120,7 +120,7 @@ namespace WireFrame
                         case FulcrumType.downBound:
                             if (clamp.layer == 1)
                             {
-                                CalcuteUtility.RecordQuadrAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
+                                CalcuteUtility.RecordQuadrXieAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
                             }
                             else if (clamp.layer == 2)
                             {

@@ -149,7 +149,8 @@ namespace WireFrame
             return wfData;
         }
 
-     
+
+
         /// <summary>
         /// 生成一组[桁架型(菱形)]单元信息
         /// 左下前角为原点
@@ -440,6 +441,16 @@ namespace WireFrame
                 Debug.Log(i + ":" + j);
             }
         }
+        internal static void RecordQuadrXieAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        {
+            var position = startPos + (i + 0.5f) * x_Size * Vector3.right + j * y_Size * Vector3.forward +Vector3.down * height;
+            if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
+            {
+                positions.Add(position);
+                Debug.Log(i + ":" + j);
+            }
+        }
+
         /// <summary>
         /// 记录斜放四边型边上的点
         /// </summary>
