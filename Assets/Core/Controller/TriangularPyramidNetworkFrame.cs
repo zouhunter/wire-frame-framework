@@ -17,13 +17,15 @@ namespace WireFrame
     /// <summary>
     /// 三角锥网架(正六边形)
     /// </summary>
-    public class TriangularPyramidNetworkFrame : WireFrameGenerater
+    public class TriangularPyramidSpaceGrid : TriangleSpaceGrid
     {
-        public override bool CanCreate(Rule clamp)
+        public override bool CanDouble
         {
-            return true;
+            get
+            {
+                return false;
+            }
         }
-
         protected override WFData GenerateWFData(Rule clamp)
         {
             var data = new WFData();
@@ -79,69 +81,50 @@ namespace WireFrame
             {
                 for (int j = 0; j < 2 * num - Mathf.Abs(i + 1); j++)
                 {
-                    var pos = startPos +
-                       (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
-                       unitHeight * (i + num) * Vector3.forward;
 
-                    if (i == -num)
+                    switch (clamp.fulcrumType)
                     {
-                        positions.Add(pos);
+                        case FulcrumType.upBound:
+                            CalcuteUtility.RecordSixBound(i, j, num, startPos, unitSize, unitHeight, positions);
+                            break;
+                        case FulcrumType.downBound:
+
+                                CalcuteUtility.RecordSixBoundAngular(i, j, num, startPos, unitSize, unitHeight, clamp.height, positions);
+                        
+                            break;
+                        default:
+                            break;
                     }
-                    if (j == 0)
-                    {
-                        var leftPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                        positions.Add(leftPos);
-                    }
-                    if (j == 2 * num - Mathf.Abs(i + 1) - 1)
-                    {
-                        var rightPos = pos + unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                        positions.Add(rightPos);
-                    }
-                    if (i == num - 1)
-                    {
-                        var upPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                        positions.Add(upPos);
-                    }
+
+
                 }
             }
+
+         
             return positions;
         }
 
-        private void RecordBoundNode(int i,int j,int num,WFData tdata,Vector3 pos,float unitSize,float unitHeight,List<WFNode> boundNodes)
+
+
+        private void RecordBoundNode(int i, int j, int num, WFData tdata, Vector3 pos, float unitSize, float unitHeight, List<WFNode> boundNodes)
         {
             if (i == -num)
             {
-                var downNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, pos));
+                var downNode = tdata.wfNodes.Find(x => CalcuteUtility.IsSimulatePos(x.position, pos));
                 boundNodes.Add(downNode);
             }
             if (j == 0 && i >= -1)
             {
                 var leftPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                var leftNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, leftPos));
+                var leftNode = tdata.wfNodes.Find(x => CalcuteUtility.IsSimulatePos(x.position, leftPos));
                 boundNodes.Add(leftNode);
             }
             if (j == 2 * num - Mathf.Abs(i + 1) - 1 && i >= -1)
             {
                 var rightPos = pos + unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                var rightNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, rightPos));
+                var rightNode = tdata.wfNodes.Find(x => CalcuteUtility.IsSimulatePos(x.position, rightPos));
                 boundNodes.Add(rightNode);
             }
-        }
-
-        private bool IsSimulatePos(Vector3 sourePos, Vector3 targetPos)
-        {
-            if (Vector3.Distance(sourePos, targetPos) < 0.1f)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        protected override WFData GenerateWFDataUnit(Rule clamp)
-        {
-            var num = clamp.num1;
-            var unitSize = clamp.size1 / num;
-            return CalcuteUtility.TrigonumSpaceGrid_Unit(unitSize, clamp.height);
         }
     }
 }

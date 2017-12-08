@@ -19,6 +19,13 @@ namespace WireFrame
     /// </summary>
     public class SimpleGenerate : WireFrameGenerater
     {
+        public override bool CanDouble
+        {
+            get
+            {
+                return true;
+            }
+        }
         public WFData wfData;
         public override bool CanCreate(Rule clamp)
         {

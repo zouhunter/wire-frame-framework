@@ -51,7 +51,7 @@ public class DefultTest : MonoBehaviour
                 creater = new OrthonormalTrussTypeTrussTypeSpaceGrid();
                 break;
             case ControllerType.三角锥型:
-                creater = new TriangularPyramidNetworkFrame();
+                creater = new TriangularPyramidSpaceGrid();
                 break;
             case ControllerType.正交正放四角锥型:
                 creater = new OrthonormalFourAnglePyramidMeshFrame();

@@ -47,9 +47,9 @@ namespace WireFrame
 
                 }
             }
-            if (clamp.fulcrumType == FulcrumType.downBound)
+            if (clamp.fulcrumType == FulcrumType.downBound && clamp.doubleLayer)
             {
-                CalcuteUtility.AppendPosition(positions, (clamp.layer - 1) * clamp.height * Vector3.down);
+                CalcuteUtility.AppendPosition(positions,  clamp.height * Vector3.down);
             }
             return positions;
         }

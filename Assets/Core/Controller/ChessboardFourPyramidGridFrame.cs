@@ -20,6 +20,7 @@ namespace WireFrame
     /// </summary>
     public class ChessboardFourPyramidSpaceGrid : RectangularSquareSpaceGrid
     {
+        
         protected override WFData GenerateWFData(Rule clamp)
         {
             var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2) * 0.5f;

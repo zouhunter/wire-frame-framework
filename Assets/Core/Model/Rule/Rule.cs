@@ -20,7 +20,7 @@ namespace WireFrame
         public int num1;
         public int num2;
         public float height;
-        public int layer = 1;
+        public bool doubleLayer;
         public string fulcrumType;
     }
 }

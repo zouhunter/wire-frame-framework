@@ -17,7 +17,7 @@ namespace WireFrame
     public abstract class WireFrameGenerater : IWireCreater
     {
         public abstract bool CanCreate(Rule clamp);
-
+        public abstract bool CanDouble { get; }
         public WireFrameBehaiver Unit(NodeBehaiver nodePrefab, BarBehaiver barPrefab, Rule clamp)
         {
             var wfData = GenerateWFDataUnit(clamp);
@@ -26,7 +26,7 @@ namespace WireFrame
         public WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Rule clamp)
         {
             var wfData = GenerateWFData(clamp);
-            if (clamp.layer == 2){
+            if (CanDouble && clamp.doubleLayer){
                 CreateDoubleLayer(wfData, clamp.height);
             }
             return CreateInternal(nodePrefab, barPrefab, fulcrum, clamp, wfData.wfNodes, wfData.wfBars, CalcFulcrumPos(clamp));
@@ -101,6 +101,11 @@ namespace WireFrame
             dataCopy.AppendPosition(new Vector3(0, -height, 0));
             wfData.InsertData(dataCopy);
         }
-      
+        protected Vector3 DoubleLayerPos(Vector3 vector3, float height)
+        {
+            vector3 = Quaternion.Euler(Vector3.right * 180) * vector3;
+            vector3 += Vector3.down * height;
+            return vector3;
+        }
     }
 }

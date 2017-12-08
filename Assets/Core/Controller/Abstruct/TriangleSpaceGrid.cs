@@ -10,22 +10,14 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 namespace WireFrame
 {
     /// <summary>
-    /// 四角锥网架
+    /// 三角锥网架
     /// </summary>
-    public abstract class SquarePyramidSpaceGrid :WireFrameGenerater{
-
-        public override bool CanDouble
-        {
-            get
-            {
-                return true;
-            }
-        }
+    public abstract class TriangleSpaceGrid : WireFrameGenerater
+    {
         public override bool CanCreate(Rule clamp)
         {
             if (clamp.doubleLayer && !CanDouble) return false;
@@ -33,7 +25,12 @@ namespace WireFrame
             if (clamp.size1 < 1 || clamp.size2 < 1) return false;
             return true;
         }
-      
+
+        protected override WFData GenerateWFDataUnit(Rule clamp)
+        {
+            var num = clamp.num1;
+            var unitSize = clamp.size1 / num;
+            return CalcuteUtility.TrigonumSpaceGrid_Unit(unitSize, clamp.height);
+        }
     }
-  
 }

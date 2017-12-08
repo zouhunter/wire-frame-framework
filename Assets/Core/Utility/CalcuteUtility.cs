@@ -59,7 +59,7 @@ namespace WireFrame
         {
             for (int i = 0; i < positions.Count; i++)
             {
-                positions[i]+= rotate * positions[i];
+                positions[i] += rotate * positions[i];
             }
         }
         /// <summary>
@@ -111,6 +111,7 @@ namespace WireFrame
         }
 
       
+
 
         /// <summary>
         /// 生成一组[桁架型(三向交叉)]单元信息
@@ -408,7 +409,7 @@ namespace WireFrame
         /// <param name="x_Size"></param>
         /// <param name="y_Size"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions,float height = 0)
+        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions, float height = 0)
         {
             var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
             if (i == 0)
@@ -511,6 +512,75 @@ namespace WireFrame
                 Debug.Log(i + ":" + j);
             }
         }
+        /// <summary>
+        /// 记录六边形边上的点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="num"></param>
+        /// <param name="startPos"></param>
+        /// <param name="unitSize"></param>
+        /// <param name="unitHeight"></param>
+        /// <param name="positions"></param>
+        internal static void RecordSixBound(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, List<Vector3> positions,float height = 0)
+        {
+            var pos = startPos +
+                       (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
+                       unitHeight * (i + num) * Vector3.forward + Vector3.down * height;
 
+            if (i == -num)
+            {
+                positions.Add(pos);
+            }
+            if (j == 0)
+            {
+                var leftPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
+                positions.Add(leftPos);
+            }
+            if (j == 2 * num - Mathf.Abs(i + 1) - 1)
+            {
+                var rightPos = pos + unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
+                positions.Add(rightPos);
+            }
+            if (i == num - 1)
+            {
+                var upPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
+                positions.Add(upPos);
+            }
+        }
+        /// <summary>
+        /// 记录六边形边上三角形的顶点坐标
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="num"></param>
+        /// <param name="startPos"></param>
+        /// <param name="unitSize"></param>
+        /// <param name="unitHeight"></param>
+        /// <param name="positions"></param>
+        /// <param name="height"></param>
+        internal static void RecordSixBoundAngular(int i,int j,int num, Vector3 startPos, float unitSize, float unitHeight, float height, List<Vector3> positions)
+        {
+            var pos = startPos + (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right + unitHeight * (i + num) * Vector3.forward + (unitSize * 0.5f / Mathf.Cos(Mathf.Deg2Rad * 30)) * Vector3.forward + Vector3.down * height;
+            if (i == -num || j == 0|| j == 2 * num - Mathf.Abs(i + 1) - 1|| i == num - 1)
+            {
+                positions.Add(pos);
+            }
+        }
+
+        /// <summary>
+        /// 判断两点是否在 一起
+        /// </summary>
+        /// <param name="sourePos"></param>
+        /// <param name="targetPos"></param>
+        /// <returns></returns>
+        internal static bool IsSimulatePos( Vector3 sourePos, Vector3 targetPos)
+        {
+            if (Vector3.Distance(sourePos, targetPos) < 0.1f)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
