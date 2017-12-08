@@ -17,13 +17,8 @@ using System;
 namespace WireFrame
 {
 
-    public class FourAnglePyramidSpaceTrussGridFrame : WireFrameGenerater
+    public class FourAnglePyramidSpaceTrussSpaceGrid : RectangularSquareSpaceGrid
     {
-        public override bool CanCreate(Rule clamp)
-        {
-            return true;
-        }
-
         protected override WFData GenerateWFData(Rule clamp)
         {
             var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2) * 0.5f;
@@ -41,7 +36,7 @@ namespace WireFrame
                     {
                         continue;
                     }
-                    WFData data = CalcuteUtility.QuadrangularGridFrame_Unit(x_Size, y_Size, clamp.height);
+                    WFData data = CalcuteUtility.QuadrangularSpaceGrid_Unit(x_Size, y_Size, clamp.height);
                     data.AppendPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
                     topNodes[i, j] = data.wfNodes.Find(x => x.type == NodePosType.taperedTop);
                     wfData.InsertData(data);
@@ -51,15 +46,6 @@ namespace WireFrame
             wfData.InsertData(downData);
 
             return wfData;
-        }
-
-        protected override WFData GenerateWFDataUnit(Rule clamp)
-        {
-            throw new NotImplementedException();
-        }
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
-        {
-            return new List<Vector3>();
         }
     }
 }

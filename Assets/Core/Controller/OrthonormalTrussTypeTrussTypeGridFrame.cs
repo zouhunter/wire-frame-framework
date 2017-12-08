@@ -17,12 +17,9 @@ namespace WireFrame
     /// <summary>
     /// 正交正放桁架型网架
     /// </summary>
-    public class OrthonormalTrussTypeTrussTypeGridFrame : WireFrameGenerater
+    public class OrthonormalTrussTypeTrussTypeSpaceGrid : RectangularTrussTypeSpaceGrid
     {
-        public override bool CanCreate(Rule clamp)
-        {
-            return true;
-        }
+    
         protected override WFData GenerateWFData(Rule clamp)
         {
             var startPos = -new Vector3(clamp.size1, clamp.height, clamp.size2) * 0.5f;
@@ -33,22 +30,14 @@ namespace WireFrame
             {
                 for (int j = 0; j < clamp.num2; j++)
                 {
-                    WFData data = CalcuteUtility.TrussTypeGridFrame_Unit(x_Size, y_Size, clamp.height);
-                    data.AppendPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
+                    WFData data = CalcuteUtility.TrussTypeSpaceGrid_Unit(x_Size, y_Size, clamp.height);
+                    var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
+                    data.AppendPosition(pos);
                     wfData.InsertData(data);
                 }
             }
 
             return wfData;
-        }
-
-        protected override WFData GenerateWFDataUnit(Rule clamp)
-        {
-            throw new NotImplementedException();
-        }
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
-        {
-            return new List<Vector3>();
         }
     }
 }

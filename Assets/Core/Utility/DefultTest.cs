@@ -48,7 +48,7 @@ public class DefultTest : MonoBehaviour
                 creater = new SimpleGenerate();
                 break;
             case ControllerType.正交正放桁架型:
-                creater = new OrthonormalTrussTypeTrussTypeGridFrame();
+                creater = new OrthonormalTrussTypeTrussTypeSpaceGrid();
                 break;
             case ControllerType.三角锥型:
                 creater = new TriangularPyramidNetworkFrame();
@@ -57,22 +57,22 @@ public class DefultTest : MonoBehaviour
                 creater = new OrthonormalFourAnglePyramidMeshFrame();
                 break;
             case ControllerType.正交斜放四角锥型:
-                creater = new OrthogonalSlantingFourAnglePyramidGridFrame();
+                creater = new OrthogonalSlantingFourAnglePyramidSpaceGrid();
                 break;
             case ControllerType.斜置四角锥型:
-                creater = new ObliqueFourAnglePyramidGridFrame();
+                creater = new ObliqueFourAnglePyramidSpaceGrid();
                 break;
             case ControllerType.正交斜放桁架型:
-                creater = new OrthonormalTrussedTrussTypeGridFrame();
+                creater = new OrthonormalTrussedTrussTypeSpaceGrid();
                 break;
             case ControllerType.三向交叉型桁架型:
-                creater = new ThreeDirectionIntersectingGridFrame();
+                creater = new ThreeDirectionIntersectingSpaceGrid();
                 break;
             case ControllerType.抽空四角锥型网架:
-                creater = new FourAnglePyramidSpaceTrussGridFrame();
+                creater = new FourAnglePyramidSpaceTrussSpaceGrid();
                 break;
             case ControllerType.棋盘四角锥网架:
-                creater = new ChessboardFourPyramidGridFrame();
+                creater = new ChessboardFourPyramidSpaceGrid();
                 break;
             default:
                 break;

@@ -43,7 +43,7 @@ namespace WireFrame
                     var pos = startPos +
                         (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
                         unitHeight * (i + num) * Vector3.forward;
-                    var tdata = CalcuteUtility.TrigonumGridFrame_Unit(unitSize, clamp.height);
+                    var tdata = CalcuteUtility.TrigonumSpaceGrid_Unit(unitSize, clamp.height);
                     tdata.AppendPosition(pos);
                     data.InsertData(tdata);
                     //记录顶点用于连线
@@ -141,7 +141,7 @@ namespace WireFrame
         {
             var num = clamp.num1;
             var unitSize = clamp.size1 / num;
-            return CalcuteUtility.TrigonumGridFrame_Unit(unitSize, clamp.height);
+            return CalcuteUtility.TrigonumSpaceGrid_Unit(unitSize, clamp.height);
         }
     }
 }

@@ -17,12 +17,8 @@ namespace WireFrame
     /// <summary>
     /// 正交斜放桁架型网架
     /// </summary>
-    public class OrthonormalTrussedTrussTypeGridFrame : WireFrameGenerater
+    public class OrthonormalTrussedTrussTypeSpaceGrid : ObliqueTrussTypeSpaceGrid
     {
-        public override bool CanCreate(Rule clamp)
-        {
-            return true;
-        }
         protected override WFData GenerateWFData(Rule clamp)
         {
             float x_Size = clamp.size1 / clamp.num1;
@@ -36,7 +32,7 @@ namespace WireFrame
             {
                 for (int j = 0; j < clamp.num2; j++)
                 {
-                    WFData data = CalcuteUtility.TrussTypeDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
+                    WFData data = CalcuteUtility.TrussTypeDiamondSpaceGrid_Unit(x_Size, y_Size, clamp.height);
                     var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
                     data.AppendPosition(position);
                     wfData.InsertData(data);
@@ -74,22 +70,12 @@ namespace WireFrame
             return wfData;
         }
 
-        protected override WFData GenerateWFDataUnit(Rule clamp)
-        {
-            float x_Size = clamp.size1 / clamp.num1;
-            float y_Size = clamp.size2 / clamp.num2;
-            return CalcuteUtility.TrussTypeDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
-        }
-
         private bool IsPointSmilarity(Vector3 sourcePoint, Vector3 targetPoint)
         {
             if (Mathf.Abs(sourcePoint.x - targetPoint.x) > 0.1f) return false;
             if (Mathf.Abs(sourcePoint.z - targetPoint.z) > 0.1f) return false;
             return true;
         }
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
-        {
-            return new List<Vector3>();
-        }
+     
     }
 }

@@ -24,7 +24,7 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        internal static WFData TrigonumGridFrame_Unit(float edge, float height)
+        internal static WFData TrigonumSpaceGrid_Unit(float edge, float height)
         {
             var wfData = new WFData();
             var edgeHeight = edge * 0.5f * Mathf.Tan(Mathf.Deg2Rad * 60);
@@ -48,13 +48,27 @@ namespace WireFrame
             return wfData;
         }
 
+        internal static void AppendPosition(List<Vector3> positions, Vector3 vector3)
+        {
+            for (int i = 0; i < positions.Count; i++)
+            {
+                positions[i] += vector3;
+            }
+        }
+        internal static void AppendRotations(List<Vector3> positions, Quaternion rotate)
+        {
+            for (int i = 0; i < positions.Count; i++)
+            {
+                positions[i]+= rotate * positions[i];
+            }
+        }
         /// <summary>
         /// 生成一组[桁架型]单元信息
         /// 左下前角为原点
         /// </summary>
         /// <param name="clamp"></param>
         /// <returns></returns>
-        internal static WFData TrussTypeGridFrame_Unit(float x_Size, float y_Size, float height)
+        internal static WFData TrussTypeSpaceGrid_Unit(float x_Size, float y_Size, float height)
         {
             var wfData = new WFData();
             var node1 = new WFNode(new Vector3(0, 0, 0));
@@ -104,7 +118,7 @@ namespace WireFrame
         /// </summary>
         /// <param name="clamp"></param>
         /// <returns></returns>
-        internal static WFData TrussTypeThreeDirectionGridFrame_Unit(float x_Size, float y_Size, float height)
+        internal static WFData TrussTypeThreeDirectionSpaceGrid_Unit(float x_Size, float y_Size, float height)
         {
             var wfData = new WFData();
             var node1 = new WFNode(new Vector3(0, 0, 0));
@@ -157,7 +171,7 @@ namespace WireFrame
         /// </summary>
         /// <param name="clamp"></param>
         /// <returns></returns>
-        internal static WFData TrussTypeDiamondGridFrame_Unit(float x_Size, float y_Size, float height)
+        internal static WFData TrussTypeDiamondSpaceGrid_Unit(float x_Size, float y_Size, float height)
         {
             var wfData = new WFData();
             var node1 = new WFNode(new Vector3(0, 0, 0));//1
@@ -206,7 +220,7 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        internal static WFData QuadrangularGridFrame_Unit(float x_Size, float y_Size, float height)
+        internal static WFData QuadrangularSpaceGrid_Unit(float x_Size, float y_Size, float height)
         {
             var wfData = new WFData();
             var node1 = new WFNode(new Vector3(0, 0, 0), NodePosType.taperedBottom);
@@ -239,7 +253,7 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        internal static WFData QuadDiamondGridFrame_Unit(float x_Size, float y_Size, float height)
+        internal static WFData QuadDiamondSpaceGrid_Unit(float x_Size, float y_Size, float height)
         {
             var wfData = new WFData();
             var node1 = new WFNode(new Vector3(0, 0, 0), NodePosType.taperedBottom);
@@ -394,9 +408,9 @@ namespace WireFrame
         /// <param name="x_Size"></param>
         /// <param name="y_Size"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions)
+        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions,float height = 0)
         {
-            var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
+            var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
             if (i == 0)
             {
                 positions.Add(pos);
@@ -421,37 +435,6 @@ namespace WireFrame
         }
 
         /// <summary>
-        /// 记录四边型边上四角锥的顶点
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="j"></param>
-        /// <param name="iMax"></param>
-        /// <param name="jMax"></param>
-        /// <param name="startPos"></param>
-        /// <param name="x_Size"></param>
-        /// <param name="y_Size"></param>
-        /// <param name="height"></param>
-        /// <param name="positions"></param>
-        internal static void RecordQuadrAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
-        {
-            var pos = startPos + (i + 0.5f) * x_Size * Vector3.right + (j + 0.5f) * y_Size * Vector3.forward + Vector3.down * height;
-            if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
-            {
-                positions.Add(pos);
-                Debug.Log(i + ":" + j);
-            }
-        }
-        internal static void RecordQuadrXieAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
-        {
-            var position = startPos + (i + 0.5f) * x_Size * Vector3.right + j * y_Size * Vector3.forward +Vector3.down * height;
-            if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
-            {
-                positions.Add(position);
-                Debug.Log(i + ":" + j);
-            }
-        }
-
-        /// <summary>
         /// 记录斜放四边型边上的点
         /// </summary>
         /// <param name="i"></param>
@@ -462,9 +445,9 @@ namespace WireFrame
         /// <param name="x_Size"></param>
         /// <param name="y_Size"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadXieBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions)
+        internal static void RecordQuadXieBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions, float height = 0)
         {
-            var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
+            var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
 
             if (i == 0)//左
             {
@@ -486,5 +469,48 @@ namespace WireFrame
                 positions.Add(upPos);
             }
         }
+        /// <summary>
+        /// 记录四边型边上四角锥的顶点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="height"></param>
+        /// <param name="positions"></param>
+        internal static void RecordQuadrAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        {
+            var pos = startPos + (i + 0.5f) * x_Size * Vector3.right + (j + 0.5f) * y_Size * Vector3.forward + Vector3.down * height;
+            if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
+            {
+                positions.Add(pos);
+                Debug.Log(i + ":" + j);
+            }
+        }
+        /// <summary>
+        /// 记录四边形四角锥的顶点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="height"></param>
+        /// <param name="positions"></param>
+        internal static void RecordQuadrXieAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        {
+            var position = startPos + (i + 0.5f) * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
+            if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
+            {
+                positions.Add(position);
+                Debug.Log(i + ":" + j);
+            }
+        }
+
     }
 }

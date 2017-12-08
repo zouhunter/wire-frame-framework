@@ -17,12 +17,8 @@ namespace WireFrame
     /// <summary>
     /// 三向交叉
     /// </summary>
-    public class ThreeDirectionIntersectingGridFrame : WireFrameGenerater
+    public class ThreeDirectionIntersectingSpaceGrid : RectangularTrussTypeSpaceGrid
     {
-        public override bool CanCreate(Rule clamp)
-        {
-            return true;
-        }
         protected override WFData GenerateWFData(Rule clamp)
         {
             var startPos = -new Vector3(clamp.size1, clamp.height, clamp.size2) * 0.5f;
@@ -33,7 +29,7 @@ namespace WireFrame
             {
                 for (int j = 0; j < clamp.num2; j++)
                 {
-                    WFData data = CalcuteUtility.TrussTypeThreeDirectionGridFrame_Unit(x_Size, y_Size, clamp.height);
+                    WFData data = CalcuteUtility.TrussTypeThreeDirectionSpaceGrid_Unit(x_Size, y_Size, clamp.height);
                     data.AppendPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
                     wfData.InsertData(data);
                 }
@@ -42,13 +38,5 @@ namespace WireFrame
             return wfData;
         }
 
-        protected override WFData GenerateWFDataUnit(Rule clamp)
-        {
-            throw new NotImplementedException();
-        }
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
-        {
-            return new List<Vector3>();
-        }
     }
 }
