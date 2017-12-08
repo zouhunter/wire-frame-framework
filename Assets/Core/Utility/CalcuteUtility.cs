@@ -110,7 +110,7 @@ namespace WireFrame
             return wfData;
         }
 
-      
+
 
 
         /// <summary>
@@ -436,6 +436,86 @@ namespace WireFrame
         }
 
         /// <summary>
+        /// 记录四边型中间的一系列点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="positions"></param>
+        /// <param name="height"></param>
+        internal static void RecordQuadPoint(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions, float height = 0)
+        {
+            if (iMax < 3 || jMax < 3) return;
+
+            var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
+            var left = 1;
+            var right = iMax - 1;
+            var up = jMax - 1;
+            var down = 1;
+            var yCenter = (j == jMax / 2 && (j - 1) % 2 == 0 && (jMax - j) % 2 == 0);
+            var xCenter = (i == iMax / 2 && (i - 1) % 2 == 0 && (iMax - j) % 2 == 0);
+            var yMatch = (yCenter ||((j - 1) % 2 == 0 && j <= jMax / 2) || ((jMax - j - 1) % 2 == 0) && j >= jMax / 2) && j >= down && j <= up;      //(j == jMax /2 && (j - 1) % 2 == 0 && (jMax - j - 1) % 2 == 0) ||
+            var xMatch = (xCenter || ((i - 1) % 2 == 0 && i <= iMax / 2) || ((iMax - i - 1) % 2 == 0) && i >= iMax / 2) && i >= left && i <= right;    //(i == iMax /2 && (i - 1) % 2 == 0 && (iMax - i - 1) % 2 == 0) ||
+
+            if (i == left && yMatch)
+            {
+                if (!positions.Contains(pos)) positions.Add(pos);
+            }
+
+            if (i == right - 1 && yMatch)
+            {
+                var rightDown = pos + x_Size * Vector3.right;
+                if (!positions.Contains(rightDown)) positions.Add(rightDown);
+            }
+
+            if (j == down && xMatch)
+            {
+                if (!positions.Contains(pos)) positions.Add(pos);
+            }
+
+            if (j == up - 1 && xMatch)
+            {
+                var leftUp = pos + y_Size * Vector3.forward;
+                if (!positions.Contains(leftUp)) positions.Add(leftUp);
+            }
+        }
+
+        /// <summary>
+        /// 记录四边型中间一系列上四角锥的顶点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="height"></param>
+        /// <param name="positions"></param>
+        internal static void RecordQuadAngularPoint(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        {
+            if (iMax < 4 || jMax < 4) return;
+
+            var pos = startPos + (i + 0.5f) * x_Size * Vector3.right + (j + 0.5f) * y_Size * Vector3.forward + Vector3.down * height;
+            var left = 1;
+            var right = iMax - 1;
+            var up = jMax - 1;
+            var down = 1;
+            var yCenter = (j == jMax / 2 && (j - 1) % 2 == 0 && (jMax - j) % 2 == 0);
+            var xCenter = (i == iMax / 2 && (i - 1) % 2 == 0 && (iMax - j) % 2 == 0);
+            var yMatch = (yCenter || ((j - 1) % 2 == 0 && j < jMax / 2) || ((jMax - j) % 2 == 0) && j > jMax / 2) && j >= down && j <= up - 1;      //(j == jMax /2 && (j - 1) % 2 == 0 && (jMax - j - 1) % 2 == 0) ||
+            var xMatch = (xCenter || ((i - 1) % 2 == 0 && i < iMax / 2) || ((iMax - i) % 2 == 0) && i > iMax / 2) && i >= left && i <= right - 1;    //(i == iMax /2 && (i - 1) % 2 == 0 && (iMax - i - 1) % 2 == 0) ||
+
+            if ((i == left && yMatch) || (i == right - 1 && yMatch) || (j == down && xMatch) || (j == up - 1 && xMatch))
+            {
+                if (!positions.Contains(pos)) positions.Add(pos);
+            }
+        }
+        /// <summary>
         /// 记录斜放四边型边上的点
         /// </summary>
         /// <param name="i"></param>
@@ -488,7 +568,6 @@ namespace WireFrame
             if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
             {
                 positions.Add(pos);
-                Debug.Log(i + ":" + j);
             }
         }
         /// <summary>
@@ -509,7 +588,6 @@ namespace WireFrame
             if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
             {
                 positions.Add(position);
-                Debug.Log(i + ":" + j);
             }
         }
         /// <summary>
@@ -522,7 +600,7 @@ namespace WireFrame
         /// <param name="unitSize"></param>
         /// <param name="unitHeight"></param>
         /// <param name="positions"></param>
-        internal static void RecordSixBound(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, List<Vector3> positions,float height = 0)
+        internal static void RecordSixBound(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, List<Vector3> positions, float height = 0)
         {
             var pos = startPos +
                        (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
@@ -559,10 +637,10 @@ namespace WireFrame
         /// <param name="unitHeight"></param>
         /// <param name="positions"></param>
         /// <param name="height"></param>
-        internal static void RecordSixBoundAngular(int i,int j,int num, Vector3 startPos, float unitSize, float unitHeight, float height, List<Vector3> positions)
+        internal static void RecordSixBoundAngular(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, float height, List<Vector3> positions)
         {
             var pos = startPos + (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right + unitHeight * (i + num) * Vector3.forward + (unitSize * 0.5f / Mathf.Cos(Mathf.Deg2Rad * 30)) * Vector3.forward + Vector3.down * height;
-            if (i == -num || j == 0|| j == 2 * num - Mathf.Abs(i + 1) - 1|| i == num - 1)
+            if (i == -num || j == 0 || j == 2 * num - Mathf.Abs(i + 1) - 1 || i == num - 1)
             {
                 positions.Add(pos);
             }
@@ -574,7 +652,7 @@ namespace WireFrame
         /// <param name="sourePos"></param>
         /// <param name="targetPos"></param>
         /// <returns></returns>
-        internal static bool IsSimulatePos( Vector3 sourePos, Vector3 targetPos)
+        internal static bool IsSimulatePos(Vector3 sourePos, Vector3 targetPos)
         {
             if (Vector3.Distance(sourePos, targetPos) < 0.1f)
             {

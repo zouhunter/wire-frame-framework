@@ -43,27 +43,29 @@ namespace WireFrame
                             CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
                             break;
                         case FulcrumType.downBound:
-                            if (!clamp.doubleLayer)
-                            {
+                            if (!clamp.doubleLayer){
                                 CalcuteUtility.RecordQuadrAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
+                            }
+                            else{
+                                CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.height);
+                            }
+                            break;
+                        case FulcrumType.upPoint:
+                            CalcuteUtility.RecordQuadPoint(i,j,clamp.num1,clamp.num2, startPos, x_Size, y_Size, positions);
+                            break;
+                        case FulcrumType.downPoint:
+                            if (!clamp.doubleLayer){
+                                CalcuteUtility.RecordQuadAngularPoint(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
                             }
                             else
                             {
-                                CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
+                                CalcuteUtility.RecordQuadPoint(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.height);
                             }
                             break;
                         default:
                             break;
                     }
 
-                }
-            }
-
-            if (clamp.doubleLayer && clamp.fulcrumType == FulcrumType.downBound)
-            {
-                for (int i = 0; i < positions.Count; i++)
-                {
-                    positions[i] = DoubleLayerPos(positions[i], clamp.height);
                 }
             }
             return positions;

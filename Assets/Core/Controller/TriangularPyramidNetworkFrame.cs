@@ -104,8 +104,6 @@ namespace WireFrame
             return positions;
         }
 
-
-
         private void RecordBoundNode(int i, int j, int num, WFData tdata, Vector3 pos, float unitSize, float unitHeight, List<WFNode> boundNodes)
         {
             if (i == -num)

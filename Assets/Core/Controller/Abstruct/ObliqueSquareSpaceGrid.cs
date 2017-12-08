@@ -45,14 +45,16 @@ namespace WireFrame
                             CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
                             break;
                         case FulcrumType.downBound:
-                            if (!clamp.doubleLayer)
-                            {
+                            if (!clamp.doubleLayer){
                                 CalcuteUtility.RecordQuadrXieAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
                             }
-                            else
-                            {
+                            else{
                                 CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
                             }
+                            break;
+                        case FulcrumType.upPoint:
+                            break;
+                        case FulcrumType.downPoint:
                             break;
                         default:
                             break;

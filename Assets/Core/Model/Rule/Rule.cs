@@ -21,6 +21,6 @@ namespace WireFrame
         public int num2;
         public float height;
         public bool doubleLayer;
-        public string fulcrumType;
+        public FulcrumType fulcrumType;
     }
 }
