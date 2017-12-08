@@ -14,7 +14,7 @@ namespace WireFrame
     /// <remarks>杆件类型</remarks>
     public enum BarType
     {
-        whorl,
-        smooth
+        whorl,//螺旋
+        smooth//焊接
     }
 }

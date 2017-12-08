@@ -62,7 +62,6 @@ namespace WireFrame
                     }
                     if (j == 0)//下
                     {
-
                         var downPos = position + x_Size * Vector3.right * 0.5f - y_Size * Vector3.forward * 0.5f;
                         var node = data.wfNodes.Find(x => Vector3.Distance(x.position, downPos) < 0.1f);
                         bundNodes.Add(node);
@@ -96,11 +95,56 @@ namespace WireFrame
 
         protected override WFData GenerateWFDataUnit(Rule clamp)
         {
-            throw new NotImplementedException();
+            float x_Size = clamp.size1 / clamp.num1;
+            float y_Size = clamp.size2 / clamp.num2;
+            WFData data = CalcuteUtility.QuadDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
+            return data;
         }
+
         public override List<Vector3> CalcFulcrumPos(Rule clamp)
         {
-            return new List<Vector3>();
+            float x_Size = clamp.size1 / clamp.num1;
+            float y_Size = clamp.size2 / clamp.num2;
+            var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2 - y_Size) * 0.5f;
+
+            List<Vector3> positions = new List<Vector3>();
+            for (int i = 0; i < clamp.num1; i++)
+            {
+                for (int j = 0; j < clamp.num2; j++)
+                {
+                    switch (clamp.fulcrumType)
+                    {
+                        case FulcrumType.upBound:
+                            CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
+                            break;
+                        case FulcrumType.downBound:
+                            if (clamp.layer == 1)
+                            {
+                                CalcuteUtility.RecordQuadrAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
+                            }
+                            else if (clamp.layer == 2)
+                            {
+                                CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+
+            if (clamp.layer == 2 && clamp.fulcrumType == FulcrumType.downBound)
+            {
+                for (int i = 0; i < positions.Count; i++)
+                {
+                    positions[i] = DoubleLayerPos(positions[i], clamp.height);
+                }
+            }
+            return positions;
         }
+
+     
+
     }
 }

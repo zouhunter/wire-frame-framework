@@ -14,7 +14,7 @@ namespace WireFrame
     /// <remarks>节点类型</remarks>
     public enum NodeType : int
     {
-        BoltedBall,
-        WeldingBall,
+        BoltedBall,//螺旋
+        WeldingBall,//焊接
     }
 }

@@ -15,8 +15,8 @@ public class FulcrumType  {
             NameList[i] = fields[i].GetValue(null).ToString();
         }
     }
-    public const string point = "点支承";
-    public const string bound = "周边支承";
-    public const string up = "上弦支承";
-    public const string down = "下弦支承";
+    public const string upPoint = "上弦点支承";
+    public const string upBound = "上弦周边支承";
+    public const string downPoint = "下弦点支承";
+    public const string downBound = "下弦周边支承";//Chord
 }

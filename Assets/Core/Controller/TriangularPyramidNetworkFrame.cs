@@ -82,31 +82,25 @@ namespace WireFrame
                     var pos = startPos +
                        (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
                        unitHeight * (i + num) * Vector3.forward;
-                    var tdata = CalcuteUtility.TrigonumGridFrame_Unit(unitSize, clamp.height);
-                    tdata.AppendPosition(pos);
 
                     if (i == -num)
                     {
-                        var downNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, pos));
-                        positions.Add(downNode.position);
+                        positions.Add(pos);
                     }
                     if (j == 0)
                     {
                         var leftPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                        var leftNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, leftPos));
-                        positions.Add(leftNode.position);
+                        positions.Add(leftPos);
                     }
                     if (j == 2 * num - Mathf.Abs(i + 1) - 1)
                     {
                         var rightPos = pos + unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                        var rightNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, rightPos));
-                        positions.Add(rightNode.position);
+                        positions.Add(rightPos);
                     }
                     if (i == num - 1)
                     {
                         var upPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                        var upNode = tdata.wfNodes.Find(x => IsSimulatePos(x.position, upPos));
-                        positions.Add(upNode.position);
+                        positions.Add(upPos);
                     }
                 }
             }

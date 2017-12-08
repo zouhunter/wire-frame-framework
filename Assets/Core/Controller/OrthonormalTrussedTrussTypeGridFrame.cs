@@ -76,7 +76,9 @@ namespace WireFrame
 
         protected override WFData GenerateWFDataUnit(Rule clamp)
         {
-            throw new NotImplementedException();
+            float x_Size = clamp.size1 / clamp.num1;
+            float y_Size = clamp.size2 / clamp.num2;
+            return CalcuteUtility.TrussTypeDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
         }
 
         private bool IsPointSmilarity(Vector3 sourcePoint, Vector3 targetPoint)

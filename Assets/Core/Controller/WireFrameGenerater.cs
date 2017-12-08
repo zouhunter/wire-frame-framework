@@ -101,6 +101,11 @@ namespace WireFrame
             dataCopy.AppendPosition(new Vector3(0, -height, 0));
             wfData.InsertData(dataCopy);
         }
-
+        protected Vector3 DoubleLayerPos(Vector3 vector3, float height)
+        {
+            vector3 = Quaternion.Euler(Vector3.right * 180) * vector3;
+            vector3 += Vector3.down * height;
+            return vector3;
+        }
     }
 }

@@ -96,6 +96,8 @@ namespace WireFrame
             return wfData;
         }
 
+      
+
         /// <summary>
         /// 生成一组[桁架型(三向交叉)]单元信息
         /// 左下前角为原点
@@ -146,6 +148,8 @@ namespace WireFrame
             wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id));//7-8
             return wfData;
         }
+
+     
         /// <summary>
         /// 生成一组[桁架型(菱形)]单元信息
         /// 左下前角为原点
@@ -376,6 +380,100 @@ namespace WireFrame
                 }
             }
             return data;
+        }
+
+        /// <summary>
+        /// 记录四边型边上的点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="positions"></param>
+        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions)
+        {
+            var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
+            if (i == 0)
+            {
+                positions.Add(pos);
+            }
+            if (j == 0)
+            {
+                var downRight = pos + x_Size * Vector3.right;
+                positions.Add(downRight);
+            }
+
+            if (i == iMax - 1)
+            {
+                var rightUp = pos + x_Size * Vector3.right + y_Size * Vector3.forward;
+                positions.Add(rightUp);
+            }
+
+            if (j == jMax - 1)
+            {
+                var leftUp = pos + y_Size * Vector3.forward;
+                positions.Add(leftUp);
+            }
+        }
+
+        /// <summary>
+        /// 记录四边型边上四角锥的顶点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="height"></param>
+        /// <param name="positions"></param>
+        internal static void RecordQuadrAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        {
+            var pos = startPos + (i + 0.5f) * x_Size * Vector3.right + (j + 0.5f) * y_Size * Vector3.forward + Vector3.down * height;
+            if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
+            {
+                positions.Add(pos);
+                Debug.Log(i + ":" + j);
+            }
+        }
+        /// <summary>
+        /// 记录斜放四边型边上的点
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="iMax"></param>
+        /// <param name="jMax"></param>
+        /// <param name="startPos"></param>
+        /// <param name="x_Size"></param>
+        /// <param name="y_Size"></param>
+        /// <param name="positions"></param>
+        internal static void RecordQuadXieBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions)
+        {
+            var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
+
+            if (i == 0)//左
+            {
+                positions.Add(position);
+            }
+            if (j == 0)//下
+            {
+                var downPos = position + x_Size * Vector3.right * 0.5f - y_Size * Vector3.forward * 0.5f;
+                positions.Add(downPos);
+            }
+            if (i == iMax - 1)//右
+            {
+                var rightPos = position + x_Size * Vector3.right;
+                positions.Add(rightPos);
+            }
+            if (j == jMax - 1)//上
+            {
+                var upPos = position + x_Size * Vector3.right * 0.5f + y_Size * Vector3.forward * 0.5f;
+                positions.Add(upPos);
+            }
         }
     }
 }
