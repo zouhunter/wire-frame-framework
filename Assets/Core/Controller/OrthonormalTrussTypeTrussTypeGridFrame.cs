@@ -19,19 +19,19 @@ namespace WireFrame
     /// </summary>
     public class OrthonormalTrussTypeTrussTypeGridFrame : WireFrameGenerater
     {
-        public override bool CanCreate(Clamp clamp)
+        public override bool CanCreate(Rule clamp)
         {
             return true;
         }
-        protected override WFData GenerateWFData(Clamp clamp)
+        protected override WFData GenerateWFData(Rule clamp)
         {
-            var startPos = -new Vector3(clamp.x_Size, clamp.height, clamp.y_Size) * 0.5f;
+            var startPos = -new Vector3(clamp.size1, clamp.height, clamp.size2) * 0.5f;
             WFData wfData = new WFData();
-            float x_Size = clamp.x_Size / clamp.x_num;
-            float y_Size = clamp.y_Size / clamp.y_num;
-            for (int i = 0; i < clamp.x_num; i++)
+            float x_Size = clamp.size1 / clamp.num1;
+            float y_Size = clamp.size2 / clamp.num2;
+            for (int i = 0; i < clamp.num1; i++)
             {
-                for (int j = 0; j < clamp.y_num; j++)
+                for (int j = 0; j < clamp.num2; j++)
                 {
                     WFData data = CalcuteUtility.TrussTypeGridFrame_Unit(x_Size, y_Size, clamp.height);
                     data.AppendPosition(startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward);
@@ -42,9 +42,13 @@ namespace WireFrame
             return wfData;
         }
 
-        protected override WFData GenerateWFDataUnit(Clamp clamp)
+        protected override WFData GenerateWFDataUnit(Rule clamp)
         {
             throw new NotImplementedException();
+        }
+        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        {
+            return new List<Vector3>();
         }
     }
 }

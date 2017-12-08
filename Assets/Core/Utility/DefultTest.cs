@@ -37,7 +37,7 @@ public class DefultTest : MonoBehaviour
     public FulcrumBehaiver fulcrum;
     IWireCreater creater;
     WireFrameBehaiver wireFrame;
-    public Clamp clamp;
+    public Rule clamp;
     public ControllerType controllerType;
 
     private void OnEnable()

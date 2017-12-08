@@ -11,8 +11,8 @@ using System.Text;
 namespace WireFrame
 {
 
-    /// <remarks>网架类型</remarks>
-    public enum WireType : int
+    /// <remarks>约束方式</remarks>
+    public interface IFulcrum
     {
     }
 }

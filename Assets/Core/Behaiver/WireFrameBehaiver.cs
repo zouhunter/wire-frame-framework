@@ -17,7 +17,7 @@ namespace WireFrame
     /// <summary>
     /// 网架系统
     /// </summary>
-    public class WireFrameBehaiver : MonoBehaviour
+    public class WireFrameBehaiver : MonoBehaviour,IWire
     {
 
         public List<NodeBehaiver> nodes = new List<NodeBehaiver>();

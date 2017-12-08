@@ -19,25 +19,25 @@ namespace WireFrame
     /// </summary>
     public class OrthogonalSlantingFourAnglePyramidGridFrame : WireFrameGenerater
     {
-        public override bool CanCreate(Clamp clamp)
+        public override bool CanCreate(Rule clamp)
         {
             return true;
         }
 
-        protected override WFData GenerateWFData(Clamp clamp)
+        protected override WFData GenerateWFData(Rule clamp)
         {
-            float x_Size = clamp.x_Size / clamp.x_num;
-            float y_Size = clamp.y_Size / clamp.y_num;
-            var startPos = -new Vector3(clamp.x_Size, -clamp.height, clamp.y_Size - y_Size) * 0.5f;
+            float x_Size = clamp.size1 / clamp.num1;
+            float y_Size = clamp.size2 / clamp.num2;
+            var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2 - y_Size) * 0.5f;
             WFData wfData = new WFData();
 
 
-            WFNode[,] topNodes = new WFNode[clamp.x_num, clamp.y_num];
+            WFNode[,] topNodes = new WFNode[clamp.num1, clamp.num2];
             List<WFNode> bundNodes = new List<WFNode>();
 
-            for (int i = 0; i < clamp.x_num; i++)
+            for (int i = 0; i < clamp.num1; i++)
             {
-                for (int j = 0; j < clamp.y_num; j++)
+                for (int j = 0; j < clamp.num2; j++)
                 {
                     WFData data = CalcuteUtility.QuadDiamondGridFrame_Unit(x_Size, y_Size, clamp.height);
                     var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward;
@@ -57,13 +57,13 @@ namespace WireFrame
                         var node = data.wfNodes.Find(x => Vector3.Distance(x.position, downPos) < 0.1f);
                         bundNodes.Add(node);
                     }
-                    if (i == clamp.x_num - 1)//右
+                    if (i == clamp.num1 - 1)//右
                     {
                         var rightPos = position + x_Size * Vector3.right;
                         var node = data.wfNodes.Find(x => Vector3.Distance(x.position, rightPos) < 0.1f);
                         bundNodes.Add(node);
                     }
-                    if (j == clamp.y_num - 1)//上
+                    if (j == clamp.num2 - 1)//上
                     {
                         var upPos = position + x_Size * Vector3.right * 0.5f + y_Size * Vector3.forward * 0.5f;
                         var node = data.wfNodes.Find(x => Vector3.Distance(x.position, upPos) < 0.1f);
@@ -81,9 +81,13 @@ namespace WireFrame
             return wfData;
         }
 
-        protected override WFData GenerateWFDataUnit(Clamp clamp)
+        protected override WFData GenerateWFDataUnit(Rule clamp)
         {
             throw new NotImplementedException();
+        }
+        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        {
+            return new List<Vector3>();
         }
     }
 }

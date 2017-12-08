@@ -23,10 +23,12 @@ namespace WireFrame
     {
         public List<WFNode> wfNodes;//节点信息
         public List<WFBar> wfBars;//连接信息
+        //public List<Vector3> wfFulcrum;//支点坐标
         public WFData()
         {
             wfNodes = new List<WFNode>();
             wfBars = new List<WFBar>();
+            //wfFulcrum = new List<Vector3>();
         }
 
         public WFData Copy()
@@ -52,6 +54,7 @@ namespace WireFrame
                 }
                 newData.wfBars.Add(newBar);
             }
+            //newData.wfFulcrum = new List<Vector3>(wfFulcrum);
             return newData;
         }
 
@@ -102,7 +105,21 @@ namespace WireFrame
                     }
                 }
             }
+
+            //InsertFulcrumPos(data.wfFulcrum);
         }
+
+        //internal void InsertFulcrumPos(List<Vector3> fulcrumPos)
+        //{
+        //    foreach (var item in fulcrumPos)
+        //    {
+        //        var old = wfFulcrum.FindAll(x => Vector3.Distance(item, x) < 0.1f);
+        //        if (old == null || old.Count == 0)
+        //        {
+        //            wfFulcrum.Add(item);
+        //        }
+        //    }
+        //}
 
         internal void AppendRotation(Quaternion rotate)
         {
@@ -110,6 +127,10 @@ namespace WireFrame
             {
                 wfNodes[i].position = rotate * wfNodes[i].initposition;
             }
+            //for (int i = 0; i < wfFulcrum.Count; i++)
+            //{
+            //    wfFulcrum[i] = rotate * wfFulcrum[i];
+            //}
         }
 
         internal void AppendPosition(Vector3 pos)
@@ -118,6 +139,10 @@ namespace WireFrame
             {
                 wfNodes[i].position += pos;
             }
+            //for (int i = 0; i < wfFulcrum.Count; i++)
+            //{
+            //    wfFulcrum[i] += pos;
+            //}
         }
     }
 }

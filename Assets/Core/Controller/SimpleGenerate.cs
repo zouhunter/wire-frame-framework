@@ -20,11 +20,11 @@ namespace WireFrame
     public class SimpleGenerate : WireFrameGenerater
     {
         public WFData wfData;
-        public override bool CanCreate(Clamp clamp)
+        public override bool CanCreate(Rule clamp)
         {
             return true;
         }
-        protected override WFData GenerateWFData(Clamp clamp)
+        protected override WFData GenerateWFData(Rule clamp)
         {
             return GetTestData();
         }
@@ -44,9 +44,13 @@ namespace WireFrame
             return data;
         }
 
-        protected override WFData GenerateWFDataUnit(Clamp clamp)
+        protected override WFData GenerateWFDataUnit(Rule clamp)
         {
             throw new NotImplementedException();
+        }
+        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        {
+            return new List<Vector3>();
         }
     }
 }

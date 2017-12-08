@@ -12,12 +12,15 @@ using System.Collections;
 using System.Collections.Generic;
 namespace WireFrame
 {
-
-    /// <summary>
-    /// 支点
-    /// </summary>
-    public class FulcrumBehaiver : MonoBehaviour,IFulcrum
+    [System.Serializable]
+    public class Rule
     {
-        public string key;
+        public float size1;
+        public float size2;
+        public int num1;
+        public int num2;
+        public float height;
+        public int layer = 1;
+        public string fulcrumType;
     }
 }

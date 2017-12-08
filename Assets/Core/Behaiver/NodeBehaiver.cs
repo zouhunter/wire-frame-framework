@@ -17,9 +17,11 @@ namespace WireFrame
     /// <summary>
     /// 节点
     /// </summary>
-    public class NodeBehaiver : MonoBehaviour
+    public class NodeBehaiver : MonoBehaviour,INode
     {
+        public string key;
         public NodeInfo nodeInfo;
+        public string NodeType { get; private set; }
         [SerializeField]
         private GameObject renderObj;
         internal void Hide()
@@ -30,6 +32,11 @@ namespace WireFrame
         internal void UnHide()
         {
             renderObj.SetActive(true);
+        }
+
+        internal void OnInitialized(string type)
+        {
+            this.NodeType = type;
         }
     }
 }

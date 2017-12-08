@@ -8,15 +8,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 namespace WireFrame
 {
 
     /// <remarks>空间生成器</remarks>
     public interface IWireCreater
     {
-        bool CanCreate(Clamp clamp);
-        WireFrameBehaiver Unit(NodeBehaiver node, BarBehaiver bar, Clamp clamp);
-        WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Clamp clamp);
+        bool CanCreate(Rule clamp);
+        WireFrameBehaiver Unit(NodeBehaiver node, BarBehaiver bar, Rule clamp);
+        List<Vector3> CalcFulcrumPos(Rule rule);
+        WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Rule clamp);
     }
 
 }

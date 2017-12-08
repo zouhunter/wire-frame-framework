@@ -14,9 +14,6 @@ namespace WireFrame
     /// <remarks>连接节点</remarks>
     public interface INode
     {
-        object Type { get; set; }
-
-        ICell ICell { get; set; }
 
     }
 }
