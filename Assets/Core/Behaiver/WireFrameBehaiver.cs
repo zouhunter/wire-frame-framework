@@ -23,6 +23,14 @@ namespace WireFrame
         private List<IBar> bars = new List<IBar>();
         private List<IFulcrum> fulcrums = new List<IFulcrum>();
 
+        public GameObject Body
+        {
+            get
+            {
+                return gameObject;
+            }
+        }
+
         public event UnityAction<IBar>     onBarHover;
         public event UnityAction<IBar>     onBarClicked;
         public event UnityAction<INode>    onNodeHover;

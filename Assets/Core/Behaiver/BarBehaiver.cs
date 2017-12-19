@@ -33,12 +33,13 @@ namespace WireFrame
 
 #else
             lineRender.positionCount = 0;
-            
 #endif
+            gameObject.layer = LayerMask.NameToLayer(LayerSetting.gridBar);
         }
         public void OnInitialized(WFBar bar)
         {
             this.Info = bar;
+            CreateCollider();
         }
 
         public void ShowLine(Material mat, float width)
@@ -57,7 +58,10 @@ namespace WireFrame
 #endif
 
             lineRender.SetPositions(poss);
-            instenceObj.gameObject.SetActive(false);
+            if (instenceObj != null)
+            {
+                instenceObj.gameObject.SetActive(false);
+            }
         }
 
         public override void ShowModel(GameObject pfb)

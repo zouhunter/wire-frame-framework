@@ -48,5 +48,27 @@ namespace WireFrame
                 }
             }
         }
+        protected void CreateCollider(PrimitiveType primitiveType = PrimitiveType.Cube)
+        {
+            switch (primitiveType)
+            {
+                case PrimitiveType.Sphere:
+                    break;
+                case PrimitiveType.Capsule:
+                    break;
+                case PrimitiveType.Cylinder:
+                    break;
+                case PrimitiveType.Cube:
+                     gameObject.AddComponent<BoxCollider>();
+                    break;
+                case PrimitiveType.Plane:
+                    break;
+                case PrimitiveType.Quad:
+                    break;
+                default:
+                    break;
+            }
+          
+        }
     }
 }

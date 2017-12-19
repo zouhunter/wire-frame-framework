@@ -23,7 +23,10 @@ namespace WireFrame
         public WFNode Info { get; private set; }
         public UnityAction<NodeBehaiver> onHover { get; set; }
         public UnityAction<NodeBehaiver> onClicked { get; set; }
-
+        private void Awake()
+        {
+            gameObject.layer = LayerMask.NameToLayer( LayerSetting.gridNode);
+        }
         public void Hide()
         {
             if(instenceObj != null)
@@ -35,6 +38,7 @@ namespace WireFrame
         {
             this.Info = node;
             transform.position = Info.position;
+            CreateCollider();
         }
         private void OnMouseDown()
         {

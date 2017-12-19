@@ -15,22 +15,22 @@ namespace WireFrame
     [System.Serializable]
     public class SizeRule
     {
-        public float r_upBar;//杆半径
-        public float r_downBar;
-        public float r_centerBar;
+        public float r_upBar = 0.08f;//杆半径
+        public float r_downBar = 0.08f;
+        public float r_centerBar = 0.045f;
 
-        public float l_upPoint;//支撑长度
-        public float l_upBound;
-        public float l_downPoint;
-        public float l_downBound;
+        public float l_upPoint = 1.59f;//支撑长度
+        public float l_upBound = 3.761f;
+        public float l_downPoint = 1.59f;
+        public float l_downBound = 2.571f;
 
-        public float r_upPoint;//支撑半径
-        public float r_upBound; 
-        public float r_downPoint;
-        public float r_downBound;
+        public float r_upPoint = 0.04f;//支撑半径
+        public float r_upBound = 0.04f; 
+        public float r_downPoint = 0.04f;
+        public float r_downBound = 0.04f;
 
 
-        public float r_node;//球半径
+        public float r_node = 0.15f;//球半径
     }
 }
 

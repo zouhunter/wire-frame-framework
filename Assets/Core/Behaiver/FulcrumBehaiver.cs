@@ -23,7 +23,10 @@ namespace WireFrame
         public WFFul Info { get; private set; }
         public UnityAction<FulcrumBehaiver> onHover { get; set; }
         public UnityAction<FulcrumBehaiver> onClicked { get; set; }
-
+        private void Awake()
+        {
+            gameObject.layer = LayerMask.NameToLayer( LayerSetting.fulcrum);
+        }
         public void Hide()
         {
             if(instenceObj != null)
@@ -34,6 +37,7 @@ namespace WireFrame
         public void OnInitialized(WFFul ful)
         {
             this.Info = ful;
+            CreateCollider();
         }
         private void OnMouseDown()
         {

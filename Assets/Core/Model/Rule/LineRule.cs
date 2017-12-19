@@ -16,7 +16,7 @@ namespace WireFrame
     public class LineRule 
     {
         public Material lineMat;
-        public float lineWidth;
+        public float lineWidth = 0.02f;
     }
 
 }

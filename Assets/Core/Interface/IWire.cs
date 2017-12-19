@@ -5,6 +5,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,15 @@ namespace WireFrame
     /// <remarks>空间网架</remarks>
     public interface IWire
     {
+        UnityEngine.GameObject Body { get; }
+
+        event UnityAction<IBar> onBarHover;
+        event UnityAction<IBar> onBarClicked;
+        event UnityAction<INode> onNodeHover;
+        event UnityAction<INode> onNodeClicked;
+        event UnityAction<IFulcrum> onFulcrumHover;
+        event UnityAction<IFulcrum> onFulcrumClicked;
+
         void SwitchToModel(ModelRule modelRule);
         void SwitchToLine(LineRule lineRule);
         void ReSetSize(SizeRule sizeRule);

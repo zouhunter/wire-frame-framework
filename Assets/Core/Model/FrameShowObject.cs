@@ -16,24 +16,9 @@ namespace WireFrame
     [CreateAssetMenu(menuName = "创建/FrameShow")]
     public class FrameShowObject : ScriptableObject
     {
+        public string key;
         public ModelRule modelRule;
         public SizeRule sizeRule;
         public LineRule lineRule;
-        public List<BarInfoHolder> barInfos;
-        public List<NodeInfoHolder> nodeInfos;
-    }
-
-    [System.Serializable]
-    public class BarInfoHolder
-    {
-        public string type;
-        public BarInfo info;
-    }
-
-    [System.Serializable]
-    public class NodeInfoHolder
-    {
-        public string type;
-        public NodeInfo nodeInfo;
     }
 }
