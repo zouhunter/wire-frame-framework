@@ -18,6 +18,8 @@ namespace WireFrame
     /// </summary>
     public class NodeBehaiver : RunTimeObjectHolder, INode
     {
+        private float diameter = 1;
+
         public WFNode Info { get; private set; }
         public UnityAction<NodeBehaiver> onHover { get; set; }
         public UnityAction<NodeBehaiver> onClicked { get; set; }
@@ -45,7 +47,8 @@ namespace WireFrame
 
         public void SetSize(float r_node)
         {
-            transform.localScale = Vector3.one * r_node;
+            diameter = 2 * r_node;
+            transform.localScale = Vector3.one * diameter;
         }
     }
 }

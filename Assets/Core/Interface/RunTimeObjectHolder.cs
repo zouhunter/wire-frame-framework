@@ -36,5 +36,17 @@ namespace WireFrame
                 this.pfb = pfb;
             }
         }
+
+        protected void ResetMaterialTile(Vector2 till)
+        {
+            if(instenceObj != null )
+            {
+                var render = instenceObj.GetComponentInChildren<Renderer>();
+                if(render != null && render .material != null)
+                {
+                    render.material.mainTextureScale = till;
+                }
+            }
+        }
     }
 }

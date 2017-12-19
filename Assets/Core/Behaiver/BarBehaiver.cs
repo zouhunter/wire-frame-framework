@@ -20,6 +20,7 @@ namespace WireFrame
     public class BarBehaiver : RunTimeObjectHolder, IBar
     {
         private float longness = 1;//长度加权
+        private float diameter = 1;
         public UnityAction<BarBehaiver> onHover { get; set; }
         public UnityAction<BarBehaiver> onClicked { get; set; }
         public WFBar Info { get; private set; }
@@ -67,12 +68,14 @@ namespace WireFrame
 #else
             lineRender.positionCount = 0;
 #endif
+            OnModelUpdated();
         }
 
         internal void ReSetLength(float longness)
         {
             this.longness = longness;
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, longness);
+            OnModelUpdated();
         }
         private void OnMouseDown()
         {
@@ -85,7 +88,14 @@ namespace WireFrame
 
         public void SetSize(float r_Bar)
         {
-            transform.localScale = new Vector3(r_Bar, r_Bar, longness);
+            this.diameter = r_Bar * 2;
+            transform.localScale = new Vector3(diameter, diameter, longness);
+            OnModelUpdated();
+        }
+
+        private void OnModelUpdated()
+        {
+            ResetMaterialTile(new Vector2(1, longness/ diameter));
         }
     }
 }
