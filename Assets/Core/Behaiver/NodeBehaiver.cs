@@ -13,30 +13,39 @@ using System.Collections.Generic;
 using System;
 namespace WireFrame
 {
-
     /// <summary>
     /// 节点
     /// </summary>
-    public class NodeBehaiver : MonoBehaviour,INode
+    public class NodeBehaiver : RunTimeObjectHolder, INode
     {
-        public string key;
-        public NodeInfo nodeInfo;
-        public string NodeType { get; private set; }
-        [SerializeField]
-        private GameObject renderObj;
-        internal void Hide()
+        public WFNode Info { get; private set; }
+        public UnityAction<NodeBehaiver> onHover { get; set; }
+        public UnityAction<NodeBehaiver> onClicked { get; set; }
+
+        public void Hide()
         {
-            renderObj.SetActive(false);
+            if(instenceObj != null)
+            {
+                instenceObj.gameObject.SetActive(false);
+            }
+        }
+        internal void OnInitialized(WFNode node)
+        {
+            this.Info = node;
+            transform.position = Info.position;
+        }
+        private void OnMouseDown()
+        {
+            if (onClicked != null) onClicked.Invoke(this);
+        }
+        private void OnMouseOver()
+        {
+            if (onHover != null) onHover.Invoke(this);
         }
 
-        internal void UnHide()
+        public void SetSize(float r_node)
         {
-            renderObj.SetActive(true);
-        }
-
-        internal void OnInitialized(string type)
-        {
-            this.NodeType = type;
+            transform.localScale = Vector3.one * r_node;
         }
     }
 }

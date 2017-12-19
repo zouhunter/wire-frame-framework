@@ -13,8 +13,12 @@ using System.Collections.Generic;
 //[ExecuteInEditMode]
 using WireFrame;
 
-public class DefultTest : MonoBehaviour
+public class Demo1 : MonoBehaviour
 {
+    public ModelRule modelRule;
+    public SizeRule sizeRule;
+    public LineRule lineRule;
+
     public enum ControllerType
     {
         点线绘制测试,
@@ -31,13 +35,10 @@ public class DefultTest : MonoBehaviour
         抽空四角锥型网架,
         棋盘四角锥网架,
     }
-
-    public BarBehaiver bar;
-    public NodeBehaiver node;
-    public FulcrumBehaiver fulcrum;
+  
     IWireCreater creater;
-    WireFrameBehaiver wireFrame;
-    public Rule clamp;
+    IWire wireFrame;
+    public FrameRule clamp;
     public ControllerType controllerType;
 
     private void OnEnable()
@@ -81,18 +82,20 @@ public class DefultTest : MonoBehaviour
 
     private void Start()
     {
-        wireFrame = creater.Create(node, bar, fulcrum, clamp);
+        wireFrame = creater.Create(clamp);
+        wireFrame.SwitchToModel(modelRule);
+        wireFrame.ReSetSize(sizeRule);
     }
 
     private void OnGUI()
     {
         if (GUILayout.Button("ShowLine"))
         {
-            wireFrame.SwitchToLine();
+            wireFrame.SwitchToLine(lineRule);
         }
         if (GUILayout.Button("ShowModel"))
         {
-            wireFrame.SwitchToModel();
+            wireFrame.SwitchToModel(modelRule);
         }
     }
 }

@@ -19,20 +19,20 @@ namespace WireFrame
     public abstract class RectangularSquareSpaceGrid : SquarePyramidSpaceGrid
     {
        
-        protected override WFData GenerateWFDataUnit(Rule clamp)
+        protected override WFData GenerateWFDataUnit(FrameRule clamp)
         {
             float x_Size = clamp.size1 / clamp.num1;
             float y_Size = clamp.size2 / clamp.num2;
             return CalcuteUtility.QuadrangularSpaceGrid_Unit(x_Size, y_Size, clamp.height);
         }
 
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        public override List<WFFul> CalcFulcrumPos(FrameRule clamp)
         {
             var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2) * 0.5f;
             float x_Size = clamp.size1 / clamp.num1;
             float y_Size = clamp.size2 / clamp.num2;
 
-            List<Vector3> positions = new List<Vector3>();
+            List<WFFul> positions = new List<WFFul>();
             for (int i = 0; i < clamp.num1; i++)
             {
                 for (int j = 0; j < clamp.num2; j++)
@@ -40,26 +40,26 @@ namespace WireFrame
                     switch (clamp.fulcrumType)
                     {
                         case FulcrumType.upBound:
-                            CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
+                            CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.fulcrumType);
                             break;
                         case FulcrumType.downBound:
                             if (!clamp.doubleLayer){
-                                CalcuteUtility.RecordQuadrAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
+                                CalcuteUtility.RecordQuadrAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions, clamp.fulcrumType);
                             }
                             else{
-                                CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.height);
+                                CalcuteUtility.RecordQuadBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.fulcrumType, clamp.height);
                             }
                             break;
                         case FulcrumType.upPoint:
-                            CalcuteUtility.RecordQuadPoint(i,j,clamp.num1,clamp.num2, startPos, x_Size, y_Size, positions);
+                            CalcuteUtility.RecordQuadPoint(i,j,clamp.num1,clamp.num2, startPos, x_Size, y_Size, positions, clamp.fulcrumType);
                             break;
                         case FulcrumType.downPoint:
                             if (!clamp.doubleLayer){
-                                CalcuteUtility.RecordQuadAngularPoint(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
+                                CalcuteUtility.RecordQuadAngularPoint(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions, clamp.fulcrumType);
                             }
                             else
                             {
-                                CalcuteUtility.RecordQuadPoint(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.height);
+                                CalcuteUtility.RecordQuadPoint(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, clamp.fulcrumType, clamp.height);
                             }
                             break;
                         default:

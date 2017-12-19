@@ -14,5 +14,8 @@ namespace WireFrame
     /// <remarks>空间网架</remarks>
     public interface IWire
     {
+        void SwitchToModel(ModelRule modelRule);
+        void SwitchToLine(LineRule lineRule);
+        void ReSetSize(SizeRule sizeRule);
     }
 }

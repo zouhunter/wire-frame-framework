@@ -16,26 +16,27 @@ namespace WireFrame
 
     public abstract class WireFrameGenerater : IWireCreater
     {
-        public abstract bool CanCreate(Rule clamp);
+        public abstract bool CanCreate(FrameRule clamp);
         public abstract bool CanDouble { get; }
-        public WireFrameBehaiver Unit(NodeBehaiver nodePrefab, BarBehaiver barPrefab, Rule clamp)
+        public IWire Unit(FrameRule clamp)
         {
             var wfData = GenerateWFDataUnit(clamp);
-            return CreateInternal(nodePrefab, barPrefab, null, clamp, wfData.wfNodes, wfData.wfBars, CalcFulcrumPos(clamp));
+            return CreateInternal(clamp, wfData.wfNodes, wfData.wfBars, CalcFulcrumPos(clamp));
         }
-        public WireFrameBehaiver Create(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Rule clamp)
+        public IWire Create(FrameRule clamp)
         {
             var wfData = GenerateWFData(clamp);
-            if (CanDouble && clamp.doubleLayer){
+            if (CanDouble && clamp.doubleLayer)
+            {
                 CreateDoubleLayer(wfData, clamp.height);
             }
-            return CreateInternal(nodePrefab, barPrefab, fulcrum, clamp, wfData.wfNodes, wfData.wfBars, CalcFulcrumPos(clamp));
+            return CreateInternal(clamp, wfData.wfNodes, wfData.wfBars, CalcFulcrumPos(clamp));
         }
 
-        protected abstract WFData GenerateWFData(Rule clamp);
-        protected abstract WFData GenerateWFDataUnit(Rule clamp);
-        public abstract List<Vector3> CalcFulcrumPos(Rule clamp);
-        private WireFrameBehaiver CreateInternal(NodeBehaiver nodePrefab, BarBehaiver barPrefab, FulcrumBehaiver fulcrum, Rule clamp, List<WFNode> wfNodes, List<WFBar> wfBars,List<Vector3> fuls)
+        protected abstract WFData GenerateWFData(FrameRule clamp);
+        protected abstract WFData GenerateWFDataUnit(FrameRule clamp);
+        public abstract List<WFFul> CalcFulcrumPos(FrameRule clamp);
+        private WireFrameBehaiver CreateInternal(FrameRule clamp, List<WFNode> wfNodes, List<WFBar> wfBars, List<WFFul> fuls)
         {
             var wireFrame = new GameObject("SimpleWireFrame").AddComponent<WireFrameBehaiver>();
 
@@ -43,10 +44,10 @@ namespace WireFrame
             var nodes = new List<NodeBehaiver>();
             foreach (var wfNode in wfNodes)
             {
-                var node = UnityEngine.Object.Instantiate(nodePrefab);
+                var go = new GameObject(wfNode.type);
+                var node = go.AddComponent<NodeBehaiver>();
                 node.transform.SetParent(nodeGroup);
-                node.transform.position = wfNode.position;
-                node.OnInitialized(wfNode.type);
+                node.OnInitialized(wfNode);
                 nodes.Add(node);
             }
             wireFrame.RegistNodeBehaivers(nodes);
@@ -56,22 +57,23 @@ namespace WireFrame
             var bars = new List<BarBehaiver>();
             foreach (var item in wfBars)
             {
-                var startNode = wfNodes.Find(x => x.m_id == item.m_fromNodeId);
-                var endNode = wfNodes.Find(x => x.m_id == item.m_toNodeId);
+                var startNode = wfNodes.Find(x => x.m_id == item.fromNodeId);
+                var endNode = wfNodes.Find(x => x.m_id == item.toNodeId);
                 if (startNode != null && endNode != null)
                 {
                     var barPos = (startNode.position + endNode.position) * 0.5f;
-                    var bar = UnityEngine.Object.Instantiate(barPrefab);
+                    var go = new GameObject(item.type);
+                    var bar = go.AddComponent<BarBehaiver>();
                     bar.transform.SetParent(barGroup);
                     bar.transform.position = barPos;
                     bar.transform.forward = endNode.position - startNode.position;
                     bar.ReSetLength(Vector3.Distance(endNode.position, startNode.position));
-                    bar.OnInitialized(item.m_type);
+                    bar.OnInitialized(item);
                     bars.Add(bar);
                 }
                 else
                 {
-                    Debug.LogError("bar info not correct:" + item.m_id);
+                    Debug.LogError("bar info not correct:" + item.id);
                 }
             }
             wireFrame.RegistBarBehaivers(bars);
@@ -80,11 +82,14 @@ namespace WireFrame
             var fulcrums = new List<FulcrumBehaiver>();
             foreach (var item in fuls)
             {
-                var fu = UnityEngine.Object.Instantiate(fulcrum);
+                var go = new GameObject(item.type);
+                var fu = go.AddComponent<FulcrumBehaiver>();
                 fu.transform.SetParent(fulcrumGroup);
-                fu.transform.position = item;
+                fu.transform.position = item.position;
+                fu.OnInitialized(item);
                 fulcrums.Add(fu);
             }
+            wireFrame.RegistFulcrumBehaivers(fulcrums);
             return wireFrame;
         }
         private Transform CreateChildObject(Transform parent, string objName)
@@ -101,11 +106,6 @@ namespace WireFrame
             dataCopy.AppendPosition(new Vector3(0, -height, 0));
             wfData.InsertData(dataCopy);
         }
-        protected Vector3 DoubleLayerPos(Vector3 vector3, float height)
-        {
-            vector3 = Quaternion.Euler(Vector3.right * 180) * vector3;
-            vector3 += Vector3.down * height;
-            return vector3;
-        }
+
     }
 }

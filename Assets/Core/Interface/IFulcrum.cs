@@ -8,11 +8,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+
 namespace WireFrame
 {
 
     /// <remarks>约束方式</remarks>
     public interface IFulcrum
     {
+        WFFul Info { get; }
+        void ShowModel(GameObject fulcrum);
+        void Hide();
+        void SetSize(float round,float length);
     }
 }

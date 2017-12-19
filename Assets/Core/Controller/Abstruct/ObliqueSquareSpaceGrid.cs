@@ -20,7 +20,7 @@ namespace WireFrame
     public abstract class ObliqueSquareSpaceGrid : SquarePyramidSpaceGrid
     {
 
-        protected override WFData GenerateWFDataUnit(Rule clamp)
+        protected override WFData GenerateWFDataUnit(FrameRule clamp)
         {
             float x_Size = clamp.size1 / clamp.num1;
             float y_Size = clamp.size2 / clamp.num2;
@@ -28,13 +28,13 @@ namespace WireFrame
             return data;
         }
 
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        public override List<WFFul> CalcFulcrumPos(FrameRule clamp)
         {
             float x_Size = clamp.size1 / clamp.num1;
             float y_Size = clamp.size2 / clamp.num2;
             var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2 - y_Size) * 0.5f;
 
-            List<Vector3> positions = new List<Vector3>();
+            List<WFFul> positions = new List<WFFul>();
             for (int i = 0; i < clamp.num1; i++)
             {
                 for (int j = 0; j < clamp.num2; j++)
@@ -42,14 +42,14 @@ namespace WireFrame
                     switch (clamp.fulcrumType)
                     {
                         case FulcrumType.upBound:
-                            CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
+                            CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, FulcrumType.upBound);
                             break;
                         case FulcrumType.downBound:
                             if (!clamp.doubleLayer){
-                                CalcuteUtility.RecordQuadrXieAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions);
+                                CalcuteUtility.RecordQuadrXieAngular(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, clamp.height, positions, FulcrumType.downBound);
                             }
                             else{
-                                CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions);
+                                CalcuteUtility.RecordQuadXieBound(i, j, clamp.num1, clamp.num2, startPos, x_Size, y_Size, positions, FulcrumType.downBound);
                             }
                             break;
                         case FulcrumType.upPoint:
@@ -67,7 +67,7 @@ namespace WireFrame
             {
                 for (int i = 0; i < positions.Count; i++)
                 {
-                    positions[i] = DoubleLayerPos(positions[i], clamp.height);
+                    positions[i].DoubleLayerPos(clamp.height);
                 }
             }
             return positions;

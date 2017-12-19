@@ -27,11 +27,11 @@ namespace WireFrame
             }
         }
         public WFData wfData;
-        public override bool CanCreate(Rule clamp)
+        public override bool CanCreate(FrameRule clamp)
         {
             return true;
         }
-        protected override WFData GenerateWFData(Rule clamp)
+        protected override WFData GenerateWFData(FrameRule clamp)
         {
             return GetTestData();
         }
@@ -51,13 +51,13 @@ namespace WireFrame
             return data;
         }
 
-        protected override WFData GenerateWFDataUnit(Rule clamp)
+        protected override WFData GenerateWFDataUnit(FrameRule clamp)
         {
             throw new NotImplementedException();
         }
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        public override List<WFFul> CalcFulcrumPos(FrameRule clamp)
         {
-            return new List<Vector3>();
+            return new List<WFFul>();
         }
     }
 }

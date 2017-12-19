@@ -19,7 +19,7 @@ namespace WireFrame
     /// </summary>
     public class OrthogonalSlantingFourAnglePyramidSpaceGrid : ObliqueSquareSpaceGrid
     {
-        protected override WFData GenerateWFData(Rule clamp)
+        protected override WFData GenerateWFData(FrameRule clamp)
         {
             float x_Size = clamp.size1 / clamp.num1;
             float y_Size = clamp.size2 / clamp.num2;
@@ -70,7 +70,7 @@ namespace WireFrame
             var downData = CalcuteUtility.ConnectNeerBy(topNodes, BarPosType.downBar);
             wfData.InsertData(downData);
 
-            var bundData = CalcuteUtility.ConnectNeerBy(bundNodes, Mathf.Sqrt(Mathf.Pow(x_Size, 2) + Mathf.Pow(y_Size, 2)), BarPosType.boundBar);
+            var bundData = CalcuteUtility.ConnectNeerBy(bundNodes, Mathf.Sqrt(Mathf.Pow(x_Size, 2) + Mathf.Pow(y_Size, 2)), BarPosType.upBar);
             wfData.InsertData(bundData);
 
             return wfData;

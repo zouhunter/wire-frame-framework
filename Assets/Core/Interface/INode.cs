@@ -8,12 +8,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+
 namespace WireFrame
 {
 
     /// <remarks>连接节点</remarks>
     public interface INode
     {
-
+        WFNode Info { get; }
+        void ShowModel(GameObject node);
+        void Hide();
+        void SetSize(float r_node);
     }
 }

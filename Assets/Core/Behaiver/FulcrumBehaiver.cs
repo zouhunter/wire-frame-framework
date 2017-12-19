@@ -10,14 +10,43 @@ using UnityEngine.Assertions.Must;
 using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+
 namespace WireFrame
 {
 
     /// <summary>
     /// 支点
     /// </summary>
-    public class FulcrumBehaiver : MonoBehaviour,IFulcrum
+    public class FulcrumBehaiver : RunTimeObjectHolder,IFulcrum
     {
-        public string key;
+        public WFFul Info { get; private set; }
+        public UnityAction<FulcrumBehaiver> onHover { get; set; }
+        public UnityAction<FulcrumBehaiver> onClicked { get; set; }
+
+        public void Hide()
+        {
+            if(instenceObj != null)
+            {
+                instenceObj.SetActive(false);
+            }
+        }
+        public void OnInitialized(WFFul ful)
+        {
+            this.Info = ful;
+        }
+        private void OnMouseDown()
+        {
+            if (onClicked != null) onClicked.Invoke(this);
+        }
+        private void OnMouseOver()
+        {
+            if (onHover != null) onHover.Invoke(this);
+        }
+
+        public void SetSize(float r,float length)
+        {
+            transform.localScale = new Vector3(r * 2,length ,r * 2);
+        }
     }
 }

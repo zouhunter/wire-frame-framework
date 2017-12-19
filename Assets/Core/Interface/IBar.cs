@@ -8,13 +8,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 namespace WireFrame
 {
 
     /// <remarks>杆件</remarks>
     public interface IBar
     {
+        WFBar Info { get; }
 
+        void ShowLine(Material mat, float width);
+        void ShowModel(GameObject pfb);
+        void SetSize(float r_upBar);
     }
 
 }

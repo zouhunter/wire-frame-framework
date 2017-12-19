@@ -26,7 +26,7 @@ namespace WireFrame
                 return false;
             }
         }
-        protected override WFData GenerateWFData(Rule clamp)
+        protected override WFData GenerateWFData(FrameRule clamp)
         {
             var data = new WFData();
             var num = clamp.num1;
@@ -58,19 +58,19 @@ namespace WireFrame
             var topData = CalcuteUtility.ConnectNeerBy(topNodes, unitSize, BarPosType.downBar, BoundConnectType.NoRule);
             data.InsertData(topData);
 
-            var bundData = CalcuteUtility.ConnectNeerBy(boundNodes, unitSize, BarPosType.boundBar, BoundConnectType.NoRule);
+            var bundData = CalcuteUtility.ConnectNeerBy(boundNodes, unitSize, BarPosType.upBar, BoundConnectType.NoRule);
             data.InsertData(bundData);
 
             return data;
         }
 
-        public override List<Vector3> CalcFulcrumPos(Rule clamp)
+        public override List<WFFul> CalcFulcrumPos(FrameRule clamp)
         {
             ///以下这个方法只实现了一种
             //clamp.fulcrumType
             //也只实现了一层
 
-            var positions = new List<Vector3>();
+            var positions = new List<WFFul>();
             var num = clamp.num1;
             var size = clamp.size1;
             var unitSize = clamp.size1 / num;
@@ -85,12 +85,10 @@ namespace WireFrame
                     switch (clamp.fulcrumType)
                     {
                         case FulcrumType.upBound:
-                            CalcuteUtility.RecordSixBound(i, j, num, startPos, unitSize, unitHeight, positions);
+                            CalcuteUtility.RecordSixBound(i, j, num, startPos, unitSize, unitHeight, positions, clamp.fulcrumType);
                             break;
                         case FulcrumType.downBound:
-
-                                CalcuteUtility.RecordSixBoundAngular(i, j, num, startPos, unitSize, unitHeight, clamp.height, positions);
-                        
+                                CalcuteUtility.RecordSixBoundAngular(i, j, num, startPos, unitSize, unitHeight, clamp.height, positions, clamp.fulcrumType);
                             break;
                         default:
                             break;

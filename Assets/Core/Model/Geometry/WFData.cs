@@ -23,12 +23,10 @@ namespace WireFrame
     {
         public List<WFNode> wfNodes;//节点信息
         public List<WFBar> wfBars;//连接信息
-        //public List<Vector3> wfFulcrum;//支点坐标
         public WFData()
         {
             wfNodes = new List<WFNode>();
             wfBars = new List<WFBar>();
-            //wfFulcrum = new List<Vector3>();
         }
 
         public WFData Copy()
@@ -44,17 +42,16 @@ namespace WireFrame
             for (int i = 0; i < wfBars.Count; i++)
             {
                 var newBar = wfBars[i].Copy();
-                if (idDic.ContainsKey(newBar.m_fromNodeId))
+                if (idDic.ContainsKey(newBar.fromNodeId))
                 {
-                    newBar.m_fromNodeId = idDic[newBar.m_fromNodeId];
+                    newBar.ResetFromNodeID( idDic[newBar.fromNodeId]);
                 }
-                if (idDic.ContainsKey(newBar.m_toNodeId))
+                if (idDic.ContainsKey(newBar.toNodeId))
                 {
-                    newBar.m_toNodeId = idDic[newBar.m_toNodeId];
+                    newBar.ResetToNodeID(idDic[newBar.toNodeId]);
                 }
                 newData.wfBars.Add(newBar);
             }
-            //newData.wfFulcrum = new List<Vector3>(wfFulcrum);
             return newData;
         }
 
@@ -75,19 +72,19 @@ namespace WireFrame
             }
             foreach (var item in data.wfBars)
             {
-                bool formNodeSame = guidChanged.ContainsKey(item.m_fromNodeId);
-                bool toNodeSame = guidChanged.ContainsKey(item.m_toNodeId);
+                bool formNodeSame = guidChanged.ContainsKey(item.fromNodeId);
+                bool toNodeSame = guidChanged.ContainsKey(item.toNodeId);
 
                 if (formNodeSame && !toNodeSame)
                 {
                     var newBar = item.Copy();
-                    newBar.m_fromNodeId = guidChanged[item.m_fromNodeId];
+                    newBar.ResetFromNodeID(guidChanged[item.fromNodeId]);
                     wfBars.Add(newBar);
                 }
                 else if (!formNodeSame && toNodeSame)
                 {
                     var newBar = item.Copy();
-                    newBar.m_toNodeId = guidChanged[item.m_toNodeId];
+                    newBar.ResetToNodeID( guidChanged[item.toNodeId]);
                     wfBars.Add(newBar);
                 }
                 else if (!formNodeSame && !toNodeSame)
@@ -97,29 +94,15 @@ namespace WireFrame
                 else
                 {
                     var newBar = item.Copy();
-                    newBar.m_fromNodeId = guidChanged[item.m_fromNodeId];
-                    newBar.m_toNodeId = guidChanged[item.m_toNodeId];
+                    newBar.ResetFromNodeID(guidChanged[item.fromNodeId]);
+                    newBar.ResetToNodeID( guidChanged[item.toNodeId]);
                     if (wfBars.Find(x => x.IsSame(newBar)) == null)
                     {
                         wfBars.Add(newBar);
                     }
                 }
             }
-
-            //InsertFulcrumPos(data.wfFulcrum);
         }
-
-        //internal void InsertFulcrumPos(List<Vector3> fulcrumPos)
-        //{
-        //    foreach (var item in fulcrumPos)
-        //    {
-        //        var old = wfFulcrum.FindAll(x => Vector3.Distance(item, x) < 0.1f);
-        //        if (old == null || old.Count == 0)
-        //        {
-        //            wfFulcrum.Add(item);
-        //        }
-        //    }
-        //}
 
         internal void AppendRotation(Quaternion rotate)
         {
@@ -127,10 +110,6 @@ namespace WireFrame
             {
                 wfNodes[i].position = rotate * wfNodes[i].initposition;
             }
-            //for (int i = 0; i < wfFulcrum.Count; i++)
-            //{
-            //    wfFulcrum[i] = rotate * wfFulcrum[i];
-            //}
         }
 
         internal void AppendPosition(Vector3 pos)
@@ -139,10 +118,7 @@ namespace WireFrame
             {
                 wfNodes[i].position += pos;
             }
-            //for (int i = 0; i < wfFulcrum.Count; i++)
-            //{
-            //    wfFulcrum[i] += pos;
-            //}
+           
         }
     }
 }

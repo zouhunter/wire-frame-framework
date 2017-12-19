@@ -48,20 +48,6 @@ namespace WireFrame
             return wfData;
         }
 
-        internal static void AppendPosition(List<Vector3> positions, Vector3 vector3)
-        {
-            for (int i = 0; i < positions.Count; i++)
-            {
-                positions[i] += vector3;
-            }
-        }
-        internal static void AppendRotations(List<Vector3> positions, Quaternion rotate)
-        {
-            for (int i = 0; i < positions.Count; i++)
-            {
-                positions[i] += rotate * positions[i];
-            }
-        }
         /// <summary>
         /// 生成一组[桁架型]单元信息
         /// 左下前角为原点
@@ -409,29 +395,29 @@ namespace WireFrame
         /// <param name="x_Size"></param>
         /// <param name="y_Size"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions, float height = 0)
+        internal static void RecordQuadBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<WFFul> positions, FulcrumType type , float height = 0)
         {
             var pos = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
             if (i == 0)
             {
-                positions.Add(pos);
+                positions.Add(new WFFul(pos,type));
             }
             if (j == 0)
             {
                 var downRight = pos + x_Size * Vector3.right;
-                positions.Add(downRight);
+                positions.Add(new WFFul(downRight, type));
             }
 
             if (i == iMax - 1)
             {
                 var rightUp = pos + x_Size * Vector3.right + y_Size * Vector3.forward;
-                positions.Add(rightUp);
+                positions.Add(new WFFul(rightUp, type));
             }
 
             if (j == jMax - 1)
             {
                 var leftUp = pos + y_Size * Vector3.forward;
-                positions.Add(leftUp);
+                positions.Add(new WFFul(leftUp, type));
             }
         }
 
@@ -447,7 +433,7 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="positions"></param>
         /// <param name="height"></param>
-        internal static void RecordQuadPoint(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions, float height = 0)
+        internal static void RecordQuadPoint(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<WFFul> positions, FulcrumType type, float height = 0)
         {
             if (iMax < 3 || jMax < 3) return;
 
@@ -463,24 +449,24 @@ namespace WireFrame
 
             if (i == left && yMatch)
             {
-                if (!positions.Contains(pos)) positions.Add(pos);
+                 positions.Add(new WFFul(pos,type));
             }
 
             if (i == right - 1 && yMatch)
             {
                 var rightDown = pos + x_Size * Vector3.right;
-                if (!positions.Contains(rightDown)) positions.Add(rightDown);
+                positions.Add(new WFFul(rightDown, type));
             }
 
             if (j == down && xMatch)
             {
-                if (!positions.Contains(pos)) positions.Add(pos);
+                 positions.Add(new WFFul(pos, type));
             }
 
             if (j == up - 1 && xMatch)
             {
                 var leftUp = pos + y_Size * Vector3.forward;
-                if (!positions.Contains(leftUp)) positions.Add(leftUp);
+                 positions.Add(new WFFul(leftUp, type));
             }
         }
 
@@ -496,7 +482,7 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="height"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadAngularPoint(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        internal static void RecordQuadAngularPoint(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<WFFul> positions, FulcrumType type)
         {
             if (iMax < 4 || jMax < 4) return;
 
@@ -512,7 +498,7 @@ namespace WireFrame
 
             if ((i == left && yMatch) || (i == right - 1 && yMatch) || (j == down && xMatch) || (j == up - 1 && xMatch))
             {
-                if (!positions.Contains(pos)) positions.Add(pos);
+                 positions.Add(new WFFul(pos,type));
             }
         }
         /// <summary>
@@ -526,28 +512,28 @@ namespace WireFrame
         /// <param name="x_Size"></param>
         /// <param name="y_Size"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadXieBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<Vector3> positions, float height = 0)
+        internal static void RecordQuadXieBound(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, List<WFFul> positions, FulcrumType type, float height = 0)
         {
             var position = startPos + i * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
 
             if (i == 0)//左
             {
-                positions.Add(position);
+                positions.Add(new WFFul( position,type));
             }
             if (j == 0)//下
             {
                 var downPos = position + x_Size * Vector3.right * 0.5f - y_Size * Vector3.forward * 0.5f;
-                positions.Add(downPos);
+                positions.Add(new WFFul(downPos, type));
             }
             if (i == iMax - 1)//右
             {
                 var rightPos = position + x_Size * Vector3.right;
-                positions.Add(rightPos);
+                positions.Add(new WFFul(rightPos, type));
             }
             if (j == jMax - 1)//上
             {
                 var upPos = position + x_Size * Vector3.right * 0.5f + y_Size * Vector3.forward * 0.5f;
-                positions.Add(upPos);
+                positions.Add(new WFFul(upPos, type));
             }
         }
         /// <summary>
@@ -562,12 +548,12 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="height"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadrAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        internal static void RecordQuadrAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<WFFul> positions, FulcrumType type)
         {
             var pos = startPos + (i + 0.5f) * x_Size * Vector3.right + (j + 0.5f) * y_Size * Vector3.forward + Vector3.down * height;
             if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
             {
-                positions.Add(pos);
+                positions.Add(new WFFul(pos,type));
             }
         }
         /// <summary>
@@ -582,12 +568,12 @@ namespace WireFrame
         /// <param name="y_Size"></param>
         /// <param name="height"></param>
         /// <param name="positions"></param>
-        internal static void RecordQuadrXieAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<Vector3> positions)
+        internal static void RecordQuadrXieAngular(int i, int j, int iMax, int jMax, Vector3 startPos, float x_Size, float y_Size, float height, List<WFFul> positions, FulcrumType type)
         {
             var position = startPos + (i + 0.5f) * x_Size * Vector3.right + j * y_Size * Vector3.forward + Vector3.down * height;
             if (i == 0 || j == 0 || i == iMax - 1 || j == jMax - 1)
             {
-                positions.Add(position);
+                positions.Add(new WireFrame.WFFul(position,type));
             }
         }
         /// <summary>
@@ -600,7 +586,7 @@ namespace WireFrame
         /// <param name="unitSize"></param>
         /// <param name="unitHeight"></param>
         /// <param name="positions"></param>
-        internal static void RecordSixBound(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, List<Vector3> positions, float height = 0)
+        internal static void RecordSixBound(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, List<WFFul> positions, FulcrumType type, float height = 0)
         {
             var pos = startPos +
                        (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right +
@@ -608,22 +594,22 @@ namespace WireFrame
 
             if (i == -num)
             {
-                positions.Add(pos);
+                positions.Add(new WireFrame.WFFul(pos,type));
             }
             if (j == 0)
             {
                 var leftPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                positions.Add(leftPos);
+                positions.Add(new WireFrame.WFFul(leftPos, type));
             }
             if (j == 2 * num - Mathf.Abs(i + 1) - 1)
             {
                 var rightPos = pos + unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                positions.Add(rightPos);
+                positions.Add(new WireFrame.WFFul(rightPos, type));
             }
             if (i == num - 1)
             {
                 var upPos = pos - unitSize * 0.5f * Vector3.right + unitHeight * Vector3.forward;
-                positions.Add(upPos);
+                positions.Add(new WireFrame.WFFul(upPos, type));
             }
         }
         /// <summary>
@@ -637,12 +623,12 @@ namespace WireFrame
         /// <param name="unitHeight"></param>
         /// <param name="positions"></param>
         /// <param name="height"></param>
-        internal static void RecordSixBoundAngular(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, float height, List<Vector3> positions)
+        internal static void RecordSixBoundAngular(int i, int j, int num, Vector3 startPos, float unitSize, float unitHeight, float height, List<WFFul> positions, FulcrumType type)
         {
             var pos = startPos + (j * unitSize - 0.5f * unitSize * (num - Mathf.Abs(i + 1))) * Vector3.right + unitHeight * (i + num) * Vector3.forward + (unitSize * 0.5f / Mathf.Cos(Mathf.Deg2Rad * 30)) * Vector3.forward + Vector3.down * height;
             if (i == -num || j == 0 || j == 2 * num - Mathf.Abs(i + 1) - 1 || i == num - 1)
             {
-                positions.Add(pos);
+                positions.Add(new WireFrame.WFFul(pos, type));
             }
         }
 
@@ -660,5 +646,7 @@ namespace WireFrame
             }
             return false;
         }
+
+       
     }
 }

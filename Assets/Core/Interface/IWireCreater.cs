@@ -15,10 +15,10 @@ namespace WireFrame
     /// <remarks>空间生成器</remarks>
     public interface IWireCreater
     {
-        bool CanCreate(Rule clamp);
-        WireFrameBehaiver Unit(NodeBehaiver node, BarBehaiver bar, Rule clamp);
-        List<Vector3> CalcFulcrumPos(Rule rule);
-        WireFrameBehaiver Create(NodeBehaiver node, BarBehaiver bar, FulcrumBehaiver fulcrum, Rule clamp);
+        bool CanCreate(FrameRule clamp);
+        IWire Unit(FrameRule clamp);
+        List<WFFul> CalcFulcrumPos(FrameRule rule);
+        IWire Create(FrameRule clamp);
     }
 
 }

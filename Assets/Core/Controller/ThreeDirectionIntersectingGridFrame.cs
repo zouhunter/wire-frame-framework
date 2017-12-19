@@ -19,7 +19,7 @@ namespace WireFrame
     /// </summary>
     public class ThreeDirectionIntersectingSpaceGrid : RectangularTrussTypeSpaceGrid
     {
-        protected override WFData GenerateWFData(Rule clamp)
+        protected override WFData GenerateWFData(FrameRule clamp)
         {
             var startPos = -new Vector3(clamp.size1, clamp.height, clamp.size2) * 0.5f;
             WFData wfData = new WFData();

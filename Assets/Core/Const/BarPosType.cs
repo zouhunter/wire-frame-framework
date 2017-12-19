@@ -17,6 +17,6 @@ namespace WireFrame
         public const string upBar = "上弦杆";
         public const string centerBar = "腹杆";
         public const string downBar = "下弦杆";
-        public const string boundBar = "上弦杆";
+        //public const string boundBar = "周边弦杆";
     }
 }

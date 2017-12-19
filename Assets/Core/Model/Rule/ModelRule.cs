@@ -12,15 +12,13 @@ using System.Collections;
 using System.Collections.Generic;
 namespace WireFrame
 {
+
     [System.Serializable]
-    public class Rule
+    public class ModelRule
     {
-        public float size1;
-        public float size2;
-        public int num1;
-        public int num2;
-        public float height;
-        public bool doubleLayer;
-        public FulcrumType fulcrumType;
+        public GameObject bar;
+        public GameObject node;
+        public GameObject fulcrum;
     }
+
 }

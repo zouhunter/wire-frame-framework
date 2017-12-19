@@ -20,29 +20,41 @@ namespace WireFrame
     [System.Serializable]
     public class WFBar
     {
-        public string m_id;
-        public string m_type;
-        public string m_fromNodeId;
-        public string m_toNodeId;
+        private string _id;
+        private string _type;
+        private string _fromNodeId;
+        private string _toNodeId;
+
+        public string id { get { return _id; }private set { _id = value;  } }
+        public string type { get { return _type; }private set { _type = value;  } }
+        public string fromNodeId { get { return _fromNodeId; }private set { _fromNodeId = value;  } }
+        public string toNodeId { get { return _toNodeId; }private set { _toNodeId = value;  } }
         public WFBar(string fromID, string toID, string type = "")
         {
-            this.m_type = type;
-            this.m_fromNodeId = fromID;
-            this.m_toNodeId = toID;
-            m_id = System.Guid.NewGuid().ToString();
+            this._type = type;
+            this._fromNodeId = fromID;
+            this._toNodeId = toID;
+            _id = System.Guid.NewGuid().ToString();
         }
         public bool IsSame(WFBar otherBar)
         {
-            if (otherBar.m_fromNodeId == m_fromNodeId && otherBar.m_toNodeId == m_toNodeId)
+            if (otherBar._fromNodeId == _fromNodeId && otherBar._toNodeId == _toNodeId)
                 return true;
-            if (otherBar.m_fromNodeId == m_toNodeId && otherBar.m_toNodeId == m_fromNodeId)
+            if (otherBar._fromNodeId == _toNodeId && otherBar._toNodeId == _fromNodeId)
                 return true;
             return false;
         }
-
+        public void ResetToNodeID(string toNodeId)
+        {
+            this.toNodeId = toNodeId;
+        }
+        public void ResetFromNodeID(string fromNodeId)
+        {
+            this.fromNodeId = fromNodeId;
+        }
         internal WFBar Copy()
         {
-            return new WFBar(m_fromNodeId, m_toNodeId, m_type);
+            return new WFBar(_fromNodeId, _toNodeId, _type);
         }
     }
 }

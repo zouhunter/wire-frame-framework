@@ -18,7 +18,7 @@ namespace WireFrame
     /// </summary>
     public abstract class TriangleSpaceGrid : WireFrameGenerater
     {
-        public override bool CanCreate(Rule clamp)
+        public override bool CanCreate(FrameRule clamp)
         {
             if (clamp.doubleLayer && !CanDouble) return false;
             if (clamp.size1 < clamp.num1 || clamp.size2 < clamp.num2) return false;
@@ -26,7 +26,7 @@ namespace WireFrame
             return true;
         }
 
-        protected override WFData GenerateWFDataUnit(Rule clamp)
+        protected override WFData GenerateWFDataUnit(FrameRule clamp)
         {
             var num = clamp.num1;
             var unitSize = clamp.size1 / num;

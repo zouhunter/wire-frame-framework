@@ -17,69 +17,75 @@ namespace WireFrame
     /// <summary>
     /// 杆件
     /// </summary>
-    public class BarBehaiver : MonoBehaviour,IBar
+    public class BarBehaiver : RunTimeObjectHolder, IBar
     {
-        public string key;
-        public BarInfo barInfo;
-        [SerializeField]
-        private Material mat;
-        [SerializeField]
-        private float lineWidth = 0.1f;
-        [SerializeField]
-        private GameObject renderObj;
-
-        private float lengthPara = 1;//长度加权
-        public float longness { get { return barInfo.longness * lengthPara; } }
-        public float slendernessRatio { get { return longness / barInfo.diameter; } }
-        public string barPosType { get; private set; }
+        private float longness = 1;//长度加权
+        public UnityAction<BarBehaiver> onHover { get; set; }
+        public UnityAction<BarBehaiver> onClicked { get; set; }
+        public WFBar Info { get; private set; }
         private LineRenderer lineRender;
         private void Awake()
         {
             lineRender = gameObject.AddComponent<LineRenderer>();
 #if UNITY_5_3
             lineRender.SetVertexCount(0);
-            lineRender.SetWidth(lineWidth, lineWidth);
+
 #else
             lineRender.positionCount = 0;
-            lineRender.startWidth = lineRender.endWidth = lineWidth;
+            
 #endif
-            lineRender.material = mat;
         }
-        public void OnInitialized(string barPosType)
+        public void OnInitialized(WFBar bar)
         {
-            this.barPosType = barPosType ;
+            this.Info = bar;
         }
 
-        internal void ShowLine()
+        public void ShowLine(Material mat, float width)
         {
+            lineRender.material = mat;
+
             var poss = new Vector3[2];
             poss[0] = transform.forward * longness * 0.5f + transform.position;
             poss[1] = -transform.forward * longness * 0.5f + transform.position;
-
 #if UNITY_5_3
             lineRender.SetVertexCount(2);
+            lineRender.SetWidth(width, width);
 #else
             lineRender.positionCount = 2;
+            lineRender.startWidth = lineRender.endWidth = width;
 #endif
 
             lineRender.SetPositions(poss);
-            renderObj.gameObject.SetActive(false);
+            instenceObj.gameObject.SetActive(false);
         }
 
-        internal void ShowModel()
+        public override void ShowModel(GameObject pfb)
         {
+            base.ShowModel(pfb);
 #if UNITY_5_3
             lineRender.SetVertexCount(0);
 #else
             lineRender.positionCount = 0;
 #endif
-            renderObj.gameObject.SetActive(true);
         }
 
         internal void ReSetLength(float longness)
         {
-            lengthPara = longness / barInfo.longness;
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, lengthPara);
+            this.longness = longness;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, longness);
+        }
+        private void OnMouseDown()
+        {
+            if (onClicked != null) onClicked.Invoke(this);
+        }
+        private void OnMouseOver()
+        {
+            if (onHover != null) onHover.Invoke(this);
+        }
+
+        public void SetSize(float r_Bar)
+        {
+            transform.localScale = new Vector3(r_Bar, r_Bar, longness);
         }
     }
 }

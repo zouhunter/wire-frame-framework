@@ -24,7 +24,7 @@ namespace WireFrame
                 return true;
             }
         }
-        public override bool CanCreate(Rule clamp)
+        public override bool CanCreate(FrameRule clamp)
         {
             if (clamp.doubleLayer && !CanDouble) return false;
             if (clamp.size1 < clamp.num1 || clamp.size2 < clamp.num2) return false;
