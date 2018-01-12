@@ -17,6 +17,7 @@ namespace WireFrame
     public interface INode
     {
         WFNode Info { get; }
+        GameObject Body { get; }
         void ShowModel(GameObject node);
         void Hide();
         void SetSize(float r_node);

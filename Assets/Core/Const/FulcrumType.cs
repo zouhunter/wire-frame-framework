@@ -12,11 +12,11 @@ public enum FulcrumType
     downBound = 1 << 3, //= "下弦周边支承";//Chord
 }
 
-public class FulcrumPosType
-{
-    public const string upPoint = "上弦点支承";
-    public const string upBound = "上弦周边支承";
-    public const string downPoint = "下弦点支承";
-    public const string downBound = "下弦周边支承";
-}
+//public class FulcrumPosType
+//{
+//    public const string upPoint = "上弦点支承";
+//    public const string upBound = "上弦周边支承";
+//    public const string downPoint = "下弦点支承";
+//    public const string downBound = "下弦周边支承";
+//}
 

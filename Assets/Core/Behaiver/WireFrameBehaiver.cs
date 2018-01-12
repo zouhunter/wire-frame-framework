@@ -27,10 +27,10 @@ namespace WireFrame
         {
             get
             {
-                return gameObject;
+                return _gameObject;
             }
         }
-
+        private GameObject _gameObject;
         public event UnityAction<IBar>     onBarHover;
         public event UnityAction<IBar>     onBarClicked;
         public event UnityAction<INode>    onNodeHover;
@@ -38,6 +38,10 @@ namespace WireFrame
         public event UnityAction<IFulcrum> onFulcrumHover;
         public event UnityAction<IFulcrum> onFulcrumClicked;
 
+        private void Awake()
+        {
+            _gameObject = gameObject;
+        }
         public void SwitchToModel(ModelRule rule)
         {
             foreach (var item in nodes)
@@ -95,16 +99,16 @@ namespace WireFrame
             {
                 switch (item.Info.type)
                 {
-                    case FulcrumPosType.upPoint:
+                    case FulcrumType.upPoint:
                         item.SetSize(sizeRule.r_upPoint,sizeRule.l_upPoint);
                         break;
-                    case FulcrumPosType.downPoint:
+                    case FulcrumType.upBound:
                         item.SetSize(sizeRule.r_downPoint, sizeRule.l_downPoint);
                         break;
-                    case FulcrumPosType.upBound:
+                    case FulcrumType.downPoint:
                         item.SetSize(sizeRule.r_upBound, sizeRule.l_upBound);
                         break;
-                    case FulcrumPosType.downBound:
+                    case FulcrumType.downBound:
                         item.SetSize(sizeRule.r_downBound, sizeRule.l_downBound);
                         break;
                     default:

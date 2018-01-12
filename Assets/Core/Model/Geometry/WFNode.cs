@@ -22,7 +22,7 @@ namespace WireFrame
     public class WFNode
     {
         public string m_id;
-        public string type;
+        public string type;//NodePosType
         public Vector3 position;
         public Vector3 initposition { get; private set; }
         public WFNode(Vector3 position, string type = "")

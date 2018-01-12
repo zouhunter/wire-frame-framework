@@ -19,7 +19,7 @@ namespace WireFrame
     public class NodeBehaiver : RunTimeObjectHolder, INode
     {
         private float diameter = 1;
-
+        public GameObject Body { get { return gameObject; } }
         public WFNode Info { get; private set; }
         public UnityAction<NodeBehaiver> onHover { get; set; }
         public UnityAction<NodeBehaiver> onClicked { get; set; }
@@ -42,11 +42,11 @@ namespace WireFrame
         }
         private void OnMouseDown()
         {
-            if (onClicked != null) onClicked.Invoke(this);
+            if (onClicked != null && !IsMousePointOnUI()) onClicked.Invoke(this);
         }
         private void OnMouseOver()
         {
-            if (onHover != null) onHover.Invoke(this);
+            if (onHover != null && !IsMousePointOnUI()) onHover.Invoke(this);
         }
 
         public void SetSize(float r_node)

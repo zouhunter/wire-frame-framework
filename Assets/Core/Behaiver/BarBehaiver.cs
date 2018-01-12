@@ -23,6 +23,7 @@ namespace WireFrame
         private float diameter = 1;
         public UnityAction<BarBehaiver> onHover { get; set; }
         public UnityAction<BarBehaiver> onClicked { get; set; }
+        public GameObject Body { get { return gameObject; } }
         public WFBar Info { get; private set; }
         private LineRenderer lineRender;
         private void Awake()
@@ -83,11 +84,11 @@ namespace WireFrame
         }
         private void OnMouseDown()
         {
-            if (onClicked != null) onClicked.Invoke(this);
+            if (onClicked != null && !IsMousePointOnUI()) onClicked.Invoke(this);
         }
         private void OnMouseOver()
         {
-            if (onHover != null) onHover.Invoke(this);
+            if (onHover != null&& !IsMousePointOnUI()) onHover.Invoke(this);
         }
 
         public void SetSize(float r_Bar)

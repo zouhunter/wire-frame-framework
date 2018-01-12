@@ -24,10 +24,10 @@ namespace WireFrame
         public float l_downPoint = 1.59f;
         public float l_downBound = 2.571f;
 
-        public float r_upPoint = 0.04f;//支撑半径
-        public float r_upBound = 0.04f; 
-        public float r_downPoint = 0.04f;
-        public float r_downBound = 0.04f;
+        public float r_upPoint = 0.4f;//支撑半径
+        public float r_upBound = 0.4f; 
+        public float r_downPoint = 0.4f;
+        public float r_downBound = 0.4f;
 
 
         public float r_node = 0.15f;//球半径

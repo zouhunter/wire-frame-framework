@@ -16,6 +16,7 @@ namespace WireFrame
     public interface IBar
     {
         WFBar Info { get; }
+        GameObject Body { get; }
 
         void ShowLine(Material mat, float width);
         void ShowModel(GameObject pfb);

@@ -17,6 +17,8 @@ namespace WireFrame
     public interface IFulcrum
     {
         WFFul Info { get; }
+        GameObject Body { get;}
+
         void ShowModel(GameObject fulcrum);
         void Hide();
         void SetSize(float round,float length);

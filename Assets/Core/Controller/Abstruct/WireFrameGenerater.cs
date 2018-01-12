@@ -82,7 +82,7 @@ namespace WireFrame
             var fulcrums = new List<FulcrumBehaiver>();
             foreach (var item in fuls)
             {
-                var go = new GameObject(item.type);
+                var go = new GameObject(WireFrameUtility.GetChineseFulcrumType(item.type));
                 var fu = go.AddComponent<FulcrumBehaiver>();
                 fu.transform.SetParent(fulcrumGroup);
                 fu.transform.position = item.position;

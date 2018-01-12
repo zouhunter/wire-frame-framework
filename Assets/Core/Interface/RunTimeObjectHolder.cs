@@ -16,6 +16,8 @@ namespace WireFrame
     {
         protected GameObject instenceObj;
         protected GameObject pfb;
+        protected PointerEventData pointData;
+        protected List<RaycastResult> rayCasts = new List<RaycastResult>();
         public virtual void ShowModel(GameObject pfb)
         {
             if (instenceObj != null)
@@ -39,10 +41,10 @@ namespace WireFrame
 
         protected void ResetMaterialTile(Vector2 till)
         {
-            if(instenceObj != null )
+            if (instenceObj != null)
             {
                 var render = instenceObj.GetComponentInChildren<Renderer>();
-                if(render != null && render .material != null)
+                if (render != null && render.material != null)
                 {
                     render.material.mainTextureScale = till;
                 }
@@ -59,7 +61,7 @@ namespace WireFrame
                 case PrimitiveType.Cylinder:
                     break;
                 case PrimitiveType.Cube:
-                     gameObject.AddComponent<BoxCollider>();
+                    gameObject.AddComponent<BoxCollider>();
                     break;
                 case PrimitiveType.Plane:
                     break;
@@ -68,7 +70,29 @@ namespace WireFrame
                 default:
                     break;
             }
-          
+
+        }
+
+        protected bool IsMousePointOnUI()
+        {
+            if (EventSystem.current != null)
+            {
+                if (pointData == null)
+                {
+                    pointData = new PointerEventData(EventSystem.current);
+                }
+                pointData.position = Input.mousePosition;
+                EventSystem.current.RaycastAll(pointData, rayCasts);
+                foreach (var item in rayCasts)
+                {
+                    if (item.gameObject.layer == 5)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
