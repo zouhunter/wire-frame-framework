@@ -77,26 +77,24 @@ namespace WireFrame
             wfData.wfNodes.Add(node8);
 
 
-            wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id));//1-2
-            wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id));//1-4
-            wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id));//1-5
-            wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id));//1-8
-            wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id));//2-3
-            wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id));//2-4
-            wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id));//2-6
-            wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id));//2-7
-            wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id));//3-4
-            wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id));//3-7
-            wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id));//4-8
-            wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id));//5-6
-            wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id));//5-8
-            wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id));//6-7
-            wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id));//6-8
-            wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id));//7-8
+            wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id,BarPosType.downBar));//1-2
+            wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id,BarPosType.centerBar));//1-4
+            wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id,BarPosType.downBar));//1-5
+            wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id,BarPosType.centerBar));//1-8
+            wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id,BarPosType.centerBar));//2-3
+            wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id,BarPosType.centerBar));//2-4
+            wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id,BarPosType.downBar));//2-6
+            wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id,BarPosType.centerBar));//2-7
+            wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id,BarPosType.upBar));//3-4
+            wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id,BarPosType.upBar));//3-7
+            wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id,BarPosType.upBar));//4-8
+            wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id,BarPosType.downBar));//5-6
+            wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id,BarPosType.centerBar));//5-8
+            wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id,BarPosType.centerBar));//6-7
+            wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id,BarPosType.centerBar));//6-8
+            wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id,BarPosType.upBar));//7-8
             return wfData;
         }
-
-
 
 
         /// <summary>
@@ -128,28 +126,27 @@ namespace WireFrame
             wfData.wfNodes.Add(node8);
 
 
-            wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id));//1-2
-            wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id));//1-4
-            wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id));//1-5
-            wfData.wfBars.Add(new WFBar(node1.m_id, node6.m_id));//1-6
-            wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id));//1-8
-            wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id));//2-3
-            wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id));//2-4
-            wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id));//2-6
-            wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id));//2-7
-            wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id));//3-4
-            wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id));//3-7
-            wfData.wfBars.Add(new WFBar(node4.m_id, node6.m_id));//4-6
-            wfData.wfBars.Add(new WFBar(node4.m_id, node7.m_id));//4-7
-            wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id));//4-8
-            wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id));//5-6
-            wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id));//5-8
-            wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id));//6-7
-            wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id));//6-8
-            wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id));//7-8
+            wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id,BarPosType.downBar));//1-2
+            wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id,BarPosType.centerBar));//1-4
+            wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id,BarPosType.downBar));//1-5
+            wfData.wfBars.Add(new WFBar(node1.m_id, node6.m_id,BarPosType.downBar));//1-6
+            wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id,BarPosType.centerBar));//1-8
+            wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id,BarPosType.centerBar));//2-3
+            wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id,BarPosType.centerBar));//2-4
+            wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id,BarPosType.downBar));//2-6
+            wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id,BarPosType.centerBar));//2-7
+            wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id,BarPosType.upBar));//3-4
+            wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id,BarPosType.upBar));//3-7
+            wfData.wfBars.Add(new WFBar(node4.m_id, node6.m_id,BarPosType.centerBar));//4-6
+            wfData.wfBars.Add(new WFBar(node4.m_id, node7.m_id,BarPosType.upBar));//4-7
+            wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id,BarPosType.upBar));//4-8
+            wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id,BarPosType.downBar));//5-6
+            wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id,BarPosType.centerBar));//5-8
+            wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id,BarPosType.centerBar));//6-7
+            wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id,BarPosType.centerBar));//6-8
+            wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id,BarPosType.upBar));//7-8
             return wfData;
         }
-
 
 
         /// <summary>
@@ -181,22 +178,39 @@ namespace WireFrame
             wfData.wfNodes.Add(node8);
 
 
-            wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id));//1-2
-            wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id));//1-4
-            wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id));//1-5
-            wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id));//1-8
-            wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id));//2-3
-            wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id));//2-4
-            wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id));//2-6
-            wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id));//2-7
-            wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id));//3-4
-            wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id));//3-7
-            wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id));//4-8
-            wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id));//5-6
-            wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id));//5-8
-            wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id));//6-7
-            wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id));//6-8
-            wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id));//7-8
+            //wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id));//1-2
+            //wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id));//1-4
+            //wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id));//1-5
+            //wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id));//1-8
+            //wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id));//2-3
+            //wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id));//2-4
+            //wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id));//2-6
+            //wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id));//2-7
+            //wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id));//3-4
+            //wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id));//3-7
+            //wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id));//4-8
+            //wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id));//5-6
+            //wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id));//5-8
+            //wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id));//6-7
+            //wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id));//6-8
+            //wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id));//7-8
+
+            wfData.wfBars.Add(new WFBar(node1.m_id, node2.m_id, BarPosType.downBar));//1-2
+            wfData.wfBars.Add(new WFBar(node1.m_id, node4.m_id, BarPosType.centerBar));//1-4
+            wfData.wfBars.Add(new WFBar(node1.m_id, node5.m_id, BarPosType.downBar));//1-5
+            wfData.wfBars.Add(new WFBar(node1.m_id, node8.m_id, BarPosType.centerBar));//1-8
+            wfData.wfBars.Add(new WFBar(node2.m_id, node3.m_id, BarPosType.centerBar));//2-3
+            wfData.wfBars.Add(new WFBar(node2.m_id, node4.m_id, BarPosType.centerBar));//2-4
+            wfData.wfBars.Add(new WFBar(node2.m_id, node6.m_id, BarPosType.downBar));//2-6
+            wfData.wfBars.Add(new WFBar(node2.m_id, node7.m_id, BarPosType.centerBar));//2-7
+            wfData.wfBars.Add(new WFBar(node3.m_id, node4.m_id, BarPosType.upBar));//3-4
+            wfData.wfBars.Add(new WFBar(node3.m_id, node7.m_id, BarPosType.upBar));//3-7
+            wfData.wfBars.Add(new WFBar(node4.m_id, node8.m_id, BarPosType.upBar));//4-8
+            wfData.wfBars.Add(new WFBar(node5.m_id, node6.m_id, BarPosType.downBar));//5-6
+            wfData.wfBars.Add(new WFBar(node5.m_id, node8.m_id, BarPosType.centerBar));//5-8
+            wfData.wfBars.Add(new WFBar(node6.m_id, node7.m_id, BarPosType.centerBar));//6-7
+            wfData.wfBars.Add(new WFBar(node6.m_id, node8.m_id, BarPosType.centerBar));//6-8
+            wfData.wfBars.Add(new WFBar(node7.m_id, node8.m_id, BarPosType.upBar));//7-8
             return wfData;
         }
 
@@ -265,6 +279,7 @@ namespace WireFrame
             wfData.wfBars.Add(new WFBar(node4.m_id, node5.m_id, BarPosType.centerBar));//4-5
             return wfData;
         }
+        
         /// <summary>
         /// (边界连接)
         /// </summary>

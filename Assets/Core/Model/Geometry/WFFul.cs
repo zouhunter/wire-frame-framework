@@ -32,7 +32,7 @@ namespace WireFrame
             this.position = position;
             this.type = type;
             this.id = System.Guid.NewGuid().ToString();
-            Debug.Log(position);
+            //Debug.Log(position);
         }
 
         internal WFFul Copy()

@@ -68,6 +68,13 @@ namespace WireFrame
 
                 }
             }
+            if((clamp.fulcrumType == FulcrumType.downBound || clamp.fulcrumType == FulcrumType.downPoint) && clamp.doubleLayer)
+            {
+                foreach (var item in positions)
+                {
+                    item.AppendPosition(Vector3.down * clamp.height);
+                }
+            }
             return positions;
         }
     }

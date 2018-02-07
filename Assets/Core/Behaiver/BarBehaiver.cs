@@ -11,6 +11,7 @@ using UnityEngine.Assertions.Comparers;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+
 namespace WireFrame
 {
 
@@ -25,18 +26,42 @@ namespace WireFrame
         public UnityAction<BarBehaiver> onClicked { get; set; }
         public GameObject Body { get { return gameObject; } }
         public WFBar Info { get; private set; }
-        private LineRenderer lineRender;
+        private VRLineRenderer lineRender;
+        private float normalWidth;
+        private const float normalDistence = 10;
+        private float currentWidth;
         private void Awake()
         {
-            lineRender = gameObject.AddComponent<LineRenderer>();
-#if UNITY_5_3
-            lineRender.SetVertexCount(0);
-
-#else
-            lineRender.positionCount = 0;
-#endif
             gameObject.layer = LayerMask.NameToLayer(LayerSetting.gridBar);
         }
+        private void Start()
+        {
+            if (lineRender == null)
+                InitLineRenderer();
+        }
+        private void Update()
+        {
+            if (lineRender != null && Camera.main && lineRender.positionCount > 0)
+            {
+                currentWidth = normalWidth * Vector3.Distance(transform.position, Camera.main.transform.position) / normalDistence;
+                if (Mathf.Abs(currentWidth - lineRender.widthStart) > 0.01f)
+                {
+                    lineRender.SetWidth(currentWidth, currentWidth);
+                }
+            }
+
+        }
+        private void InitLineRenderer()
+        {
+            var holder = new GameObject("lineRenderer");
+            holder.AddComponent<MeshFilter>();
+            holder.AddComponent<MeshRenderer>();
+            lineRender = holder.AddComponent<VRLineRenderer>();
+            lineRender.SetVertexCount(0);
+            lineRender.useWorldSpace = true;
+            lineRender.transform.SetParent(transform.parent);
+        }
+
         public void OnInitialized(WFBar bar)
         {
             this.Info = bar;
@@ -45,20 +70,17 @@ namespace WireFrame
 
         public void ShowLine(Material mat, float width)
         {
-            lineRender.material = mat;
+            normalWidth = width;
+            lineRender.GetComponent<Renderer>().material = mat;
 
             var poss = new Vector3[2];
             poss[0] = transform.forward * longness * 0.5f + transform.position;
             poss[1] = -transform.forward * longness * 0.5f + transform.position;
-#if UNITY_5_3
-            lineRender.SetVertexCount(2);
-            lineRender.SetWidth(width, width);
-#else
-            lineRender.positionCount = 2;
-            lineRender.startWidth = lineRender.endWidth = width;
-#endif
 
+            lineRender.SetVertexCount(2);
             lineRender.SetPositions(poss);
+            lineRender.EditorCheckForUpdate();
+
             if (instenceObj != null)
             {
                 instenceObj.gameObject.SetActive(false);
@@ -68,12 +90,8 @@ namespace WireFrame
         public override void ShowModel(GameObject pfb)
         {
             base.ShowModel(pfb);
-#if UNITY_5_3
-            lineRender.SetVertexCount(0);
-#else
-            lineRender.positionCount = 0;
-#endif
             OnModelUpdated();
+            if(lineRender) lineRender.SetVertexCount(0);
         }
 
         internal void ReSetLength(float longness)
@@ -82,13 +100,13 @@ namespace WireFrame
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, longness);
             OnModelUpdated();
         }
-        private void OnMouseDown()
+        private void OnMouseUp()
         {
-            if (onClicked != null && !IsMousePointOnUI()) onClicked.Invoke(this);
+            if (onClicked != null && !IsMousePointOnUI() && HaveExecuteTwince(ref timer)) onClicked.Invoke(this);
         }
         private void OnMouseOver()
         {
-            if (onHover != null&& !IsMousePointOnUI()) onHover.Invoke(this);
+            if (onHover != null && !IsMousePointOnUI()) onHover.Invoke(this);
         }
 
         public void SetSize(float r_Bar)
@@ -100,7 +118,7 @@ namespace WireFrame
 
         private void OnModelUpdated()
         {
-            ResetMaterialTile(new Vector2(1, longness/ diameter));
+            ResetMaterialTile(new Vector2(1, longness / diameter));
         }
     }
 }

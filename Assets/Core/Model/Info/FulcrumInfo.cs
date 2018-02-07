@@ -5,10 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 namespace WireFrame
 {
-    [System.Serializable]
-    public class FulcrumInfo
-    {
+    //[System.Serializable]
+    //public class FulcrumInfo
+    //{
 
-    }
+    //}
 
 }

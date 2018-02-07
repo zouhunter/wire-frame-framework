@@ -16,9 +16,9 @@ namespace WireFrame
     public interface IWireCreater
     {
         bool CanCreate(FrameRule clamp);
-        IWire Unit(FrameRule clamp);
+        WireFrameBehaiver Unit(FrameRule clamp);
         List<WFFul> CalcFulcrumPos(FrameRule rule);
-        IWire Create(FrameRule clamp);
+        WireFrameBehaiver Create(FrameRule clamp);
     }
 
 }

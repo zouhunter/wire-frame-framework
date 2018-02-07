@@ -19,7 +19,6 @@ namespace WireFrame
     /// </summary>
     public class OrthonormalFourAnglePyramidMeshFrame : RectangularSquareSpaceGrid
     {
-
         protected override WFData GenerateWFData(FrameRule clamp)
         {
             var startPos = -new Vector3(clamp.size1, -clamp.height, clamp.size2) * 0.5f;

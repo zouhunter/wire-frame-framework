@@ -29,7 +29,7 @@ namespace WireFrame
         public string type { get { return _type; }private set { _type = value;  } }
         public string fromNodeId { get { return _fromNodeId; }private set { _fromNodeId = value;  } }
         public string toNodeId { get { return _toNodeId; }private set { _toNodeId = value;  } }
-        public WFBar(string fromID, string toID, string type = "")
+        public WFBar(string fromID, string toID, string type)
         {
             this._type = type;
             this._fromNodeId = fromID;

@@ -18,6 +18,9 @@ namespace WireFrame
         protected GameObject pfb;
         protected PointerEventData pointData;
         protected List<RaycastResult> rayCasts = new List<RaycastResult>();
+        protected float timer;
+        protected ObjectManager objectManager;
+
         public virtual void ShowModel(GameObject pfb)
         {
             if (instenceObj != null)
@@ -34,8 +37,18 @@ namespace WireFrame
 
             if (instenceObj == null)
             {
-                instenceObj = InstenceUtility.CreateInstence(pfb, transform, Vector3.zero, Quaternion.identity, Vector3.one);
-                this.pfb = pfb;
+                if (objectManager == null) objectManager = ObjectManager.Instance;
+                if(pfb != null && this)
+                {
+                    instenceObj = objectManager.GetPoolObject(pfb, transform, true, true, true, false);
+                    instenceObj.transform.localRotation = Quaternion.identity;
+                    //instenceObj = InstenceUtility.CreateInstence(pfb, transform, Vector3.zero, Quaternion.identity, Vector3.one);
+                    this.pfb = pfb;
+                }
+               else
+                {
+                    Debug.LogWarning("Skipd Create Instence!");
+                }
             }
         }
 
@@ -93,6 +106,28 @@ namespace WireFrame
             }
 
             return false;
+        }
+        protected virtual bool HaveExecuteTwince(ref float timer, float time = 0.5f)
+        {
+            if (Time.time - timer < time)
+            {
+                timer = 0;
+                return true;
+            }
+            else
+            {
+                timer = Time.time;
+                return false;
+            }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (objectManager && instenceObj)
+            {
+                objectManager.SavePoolObject(instenceObj);
+            }
+
         }
     }
 }

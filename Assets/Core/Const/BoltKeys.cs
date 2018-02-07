@@ -5,16 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BoltKeys {
-    public static string[] keys { get; private set; }
+    internal static string[] keys { get; private set; }
     static BoltKeys()
     {
-        var fields = typeof(BoltKeys).GetFields();
-        keys = new string[fields.Length];
-        for (int i = 0; i < fields.Length; i++)
+        var props = typeof(BoltKeys).GetProperties(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.GetProperty);
+        keys = new string[props.Length];
+        for (int i = 0; i < props.Length; i++)
         {
-            keys[i] = fields[i].GetValue(null).ToString();
+            keys[i] = props[i].GetValue(null,null).ToString();
         }
     }
-    public const string sealingPlate = "封板型";
-    public const string conicalHead = "锥头型";
+    public static string sealingPlate { get { return "封板型"; } }
+    public static string conicalHead { get { return "锥头型"; } }
 }

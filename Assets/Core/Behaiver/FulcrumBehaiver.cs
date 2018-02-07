@@ -40,9 +40,9 @@ namespace WireFrame
             this.Info = ful;
             CreateCollider();
         }
-        private void OnMouseDown()
+        private void OnMouseUp()
         {
-            if (onClicked != null && !IsMousePointOnUI()) onClicked.Invoke(this);
+            if (onClicked != null && !IsMousePointOnUI() && HaveExecuteTwince(ref timer)) onClicked.Invoke(this);
         }
         private void OnMouseOver()
         {

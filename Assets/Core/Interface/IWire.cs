@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------
 using System;
 using UnityEngine.Events;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 namespace WireFrame
@@ -24,8 +24,8 @@ namespace WireFrame
         event UnityAction<IFulcrum> onFulcrumHover;
         event UnityAction<IFulcrum> onFulcrumClicked;
 
-        void SwitchToModel(ModelRule modelRule);
-        void SwitchToLine(LineRule lineRule);
+        IEnumerator SwitchToModel(ModelRule modelRule);
+        IEnumerator SwitchToLine(LineRule lineRule);
         void ReSetSize(SizeRule sizeRule);
     }
 }

@@ -46,7 +46,7 @@ namespace WireFrame
             data.wfNodes.Add(node2);
 
             data.wfBars = new List<WFBar>();
-            var bar = new WFBar(node1.m_id, node2.m_id);
+            var bar = new WFBar(node1.m_id, node2.m_id,BarPosType.upBar);
             data.wfBars.Add(bar);
             return data;
         }

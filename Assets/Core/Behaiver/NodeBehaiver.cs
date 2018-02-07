@@ -40,10 +40,13 @@ namespace WireFrame
             transform.position = Info.position;
             CreateCollider();
         }
-        private void OnMouseDown()
+        private void OnMouseUp()
         {
-            if (onClicked != null && !IsMousePointOnUI()) onClicked.Invoke(this);
+            if (onClicked != null && !IsMousePointOnUI() && HaveExecuteTwince(ref timer)) onClicked.Invoke(this);
         }
+
+      
+
         private void OnMouseOver()
         {
             if (onHover != null && !IsMousePointOnUI()) onHover.Invoke(this);

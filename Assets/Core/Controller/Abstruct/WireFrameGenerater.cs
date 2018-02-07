@@ -18,12 +18,12 @@ namespace WireFrame
     {
         public abstract bool CanCreate(FrameRule clamp);
         public abstract bool CanDouble { get; }
-        public IWire Unit(FrameRule clamp)
+        public WireFrameBehaiver Unit(FrameRule clamp)
         {
             var wfData = GenerateWFDataUnit(clamp);
             return CreateInternal(clamp, wfData.wfNodes, wfData.wfBars, CalcFulcrumPos(clamp));
         }
-        public IWire Create(FrameRule clamp)
+        public WireFrameBehaiver Create(FrameRule clamp)
         {
             var wfData = GenerateWFData(clamp);
             if (CanDouble && clamp.doubleLayer)
@@ -39,22 +39,27 @@ namespace WireFrame
         private WireFrameBehaiver CreateInternal(FrameRule clamp, List<WFNode> wfNodes, List<WFBar> wfBars, List<WFFul> fuls)
         {
             var wireFrame = new GameObject("SimpleWireFrame").AddComponent<WireFrameBehaiver>();
+            wireFrame.StartCoroutine(DelyCreateObjects(wireFrame, wfNodes, wfBars, fuls));
+            return wireFrame;
+        }
 
+        private IEnumerator DelyCreateObjects(WireFrameBehaiver wireFrame,List<WFNode> wfNodes, List<WFBar> wfBars, List<WFFul> fuls)
+        {
             var nodeGroup = CreateChildObject(wireFrame.transform, "NodeGroup");
-            var nodes = new List<NodeBehaiver>();
+            wireFrame.StartInit(wfNodes.Count, wfBars.Count, fuls.Count);
+
             foreach (var wfNode in wfNodes)
             {
                 var go = new GameObject(wfNode.type);
                 var node = go.AddComponent<NodeBehaiver>();
                 node.transform.SetParent(nodeGroup);
                 node.OnInitialized(wfNode);
-                nodes.Add(node);
+                wireFrame.RegistNode(node);
             }
-            wireFrame.RegistNodeBehaivers(nodes);
+            yield return null;
 
 
             var barGroup = CreateChildObject(wireFrame.transform, "BarGroup");
-            var bars = new List<BarBehaiver>();
             foreach (var item in wfBars)
             {
                 var startNode = wfNodes.Find(x => x.m_id == item.fromNodeId);
@@ -69,17 +74,17 @@ namespace WireFrame
                     bar.transform.forward = endNode.position - startNode.position;
                     bar.ReSetLength(Vector3.Distance(endNode.position, startNode.position));
                     bar.OnInitialized(item);
-                    bars.Add(bar);
+                    wireFrame.RegistBar(bar);
                 }
                 else
                 {
                     Debug.LogError("bar info not correct:" + item.id);
                 }
+                
             }
-            wireFrame.RegistBarBehaivers(bars);
+            yield return null;
 
             var fulcrumGroup = CreateChildObject(wireFrame.transform, "FulcrumGroup");
-            var fulcrums = new List<FulcrumBehaiver>();
             foreach (var item in fuls)
             {
                 var go = new GameObject(WireFrameUtility.GetChineseFulcrumType(item.type));
@@ -87,11 +92,10 @@ namespace WireFrame
                 fu.transform.SetParent(fulcrumGroup);
                 fu.transform.position = item.position;
                 fu.OnInitialized(item);
-                fulcrums.Add(fu);
+                wireFrame.RegistFulcrum(fu);
             }
-            wireFrame.RegistFulcrumBehaivers(fulcrums);
-            return wireFrame;
         }
+
         private Transform CreateChildObject(Transform parent, string objName)
         {
             var obj = new GameObject(objName);

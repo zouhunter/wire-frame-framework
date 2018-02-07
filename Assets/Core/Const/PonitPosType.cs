@@ -4,17 +4,22 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PonitPosType {
-    public static string[] keys { get; private set; }
+public class PonitPosType
+{
+    internal static string[] keys { get; private set; }
     static PonitPosType()
     {
-        var fields = typeof(PonitPosType).GetFields();
-        keys = new string[fields.Length];
-        for (int i = 0; i < fields.Length; i++)
+        var props = typeof(PonitPosType).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.GetProperty);
+        keys = new string[props.Length];
+        for (int i = 0; i < props.Length; i++)
         {
-            keys[i] = fields[i].GetValue(null).ToString();
+            keys[i] = props[i].GetValue(null, null).ToString();
         }
     }
-    public const string upPoint = "上弦节点";
-    public const string downPoint = "下弦节点";
+    public static string upPoint { get { return "上弦节点"; } }
+    public static string downPoint
+    {
+        get
+        { return "下弦节点"; }
+    }
 }

@@ -17,7 +17,7 @@ namespace WireFrame
     /// <summary>
     /// 网架系统
     /// </summary>
-    public class WireFrameBehaiver : MonoBehaviour,IWire
+    public class WireFrameBehaiver : MonoBehaviour
     {
         private List<INode> nodes = new List<INode>();
         private List<IBar> bars = new List<IBar>();
@@ -38,25 +38,54 @@ namespace WireFrame
         public event UnityAction<IFulcrum> onFulcrumHover;
         public event UnityAction<IFulcrum> onFulcrumClicked;
 
+        private int totalNodes;
+        private int totalBars;
+        private int totalFulcrums;
+        private const int group = 30;
+
+        public bool compleInit { get { return totalNodes == nodes.Count && totalBars == bars.Count && totalFulcrums == fulcrums.Count; } }
+        public float progress { get { return (nodes.Count + bars.Count + fulcrums.Count) / (float)(totalNodes + totalBars + totalFulcrums); } }
+
         private void Awake()
         {
             _gameObject = gameObject;
         }
-        public void SwitchToModel(ModelRule rule)
+
+        public IEnumerator SwitchToModel(ModelRule rule)
         {
-            foreach (var item in nodes)
+            yield return null;
+
+            for (int i = 0; i < nodes.Count; i += group)
             {
-                item.ShowModel(rule.node);
+                for (int j = 0; j < group && j + i < nodes.Count; j++)
+                {
+                    var item = nodes[i + j];
+                    item.ShowModel(rule.node);
+                }
+                yield return null;
             }
-            foreach (var item in bars)
+
+            for (int i = 0; i < bars.Count; i += group)
             {
-                item.ShowModel(rule.bar);
+                for (int j = 0; j < group && j + i < bars.Count; j++)
+                {
+                    var item = bars[j + i];
+                    item.ShowModel(rule.bar);
+                }
+                yield return null;
             }
-            foreach (var item in fulcrums)
+
+            for (int i = 0; i < fulcrums.Count; i += group)
             {
-                item.ShowModel(rule.fulcrum);
+                for (int j = 0; j < group && j + i < fulcrums.Count; j++)
+                {
+                    var item = fulcrums[j + i];
+                    item.ShowModel(rule.fulcrum);
+                }
+                yield return null;
             }
         }
+
         public void SwitchToLine(LineRule rule)
         {
             foreach (var item in nodes)
@@ -117,40 +146,37 @@ namespace WireFrame
             }
         }
 
-        internal void RegistNodeBehaivers(List<NodeBehaiver> nodes)
+        public void StartInit(int totalNodes,  int totalBars,int totalFulcrums)
         {
-            foreach (var node in nodes)
-            {
-                if (!this.nodes.Contains(node))
-                {
-                    node.onHover = OnNodeHover;
-                    node.onClicked = OnNodeClicked;
-                    this.nodes.Add(node);
-                }
+            this.totalNodes = totalNodes;
+            this.totalBars = totalBars;
+            this.totalFulcrums = totalFulcrums;
+        }
+
+        internal void RegistNode(NodeBehaiver node)
+        {
+            if (!this.nodes.Contains(node)){
+                node.onHover = OnNodeHover;
+                node.onClicked = OnNodeClicked;
+                this.nodes.Add(node);
             }
         }
-        internal void RegistBarBehaivers(List<BarBehaiver> bars)
+        internal void RegistBar(BarBehaiver bar)
         {
-            foreach (var bar in bars)
+            if (!this.bars.Contains(bar))
             {
-                if (!this.bars.Contains(bar))
-                {
-                    bar.onHover = OnBarHover;
-                    bar.onClicked = OnBarClicked;
-                    this.bars.Add(bar);
-                }
+                bar.onHover = OnBarHover;
+                bar.onClicked = OnBarClicked;
+                this.bars.Add(bar);
             }
         }
-        internal void RegistFulcrumBehaivers(List<FulcrumBehaiver> fuls)
+        internal void RegistFulcrum(FulcrumBehaiver fulcrum)
         {
-            foreach (var fulcrum in fuls)
+            if (!this.fulcrums.Contains(fulcrum))
             {
-                if (!this.fulcrums.Contains(fulcrum))
-                {
-                    fulcrum.onHover = OnFulcrumHover;
-                    fulcrum.onClicked = OnFulcrumClicked;
-                    this.fulcrums.Add(fulcrum);
-                }
+                fulcrum.onHover = OnFulcrumHover;
+                fulcrum.onClicked = OnFulcrumClicked;
+                this.fulcrums.Add(fulcrum);
             }
         }
         private void OnBarHover(BarBehaiver bar)
