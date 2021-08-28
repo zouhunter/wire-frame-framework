@@ -26,7 +26,7 @@ namespace WireFrame
         public UnityAction<BarBehaiver> onClicked { get; set; }
         public GameObject Body { get { return gameObject; } }
         public WFBar Info { get; private set; }
-        private VRLineRenderer lineRender;
+        private LineRenderer lineRender;
         private float normalWidth;
         private const float normalDistence = 10;
         private float currentWidth;
@@ -44,9 +44,9 @@ namespace WireFrame
             if (lineRender != null && Camera.main && lineRender.positionCount > 0)
             {
                 currentWidth = normalWidth * Vector3.Distance(transform.position, Camera.main.transform.position) / normalDistence;
-                if (Mathf.Abs(currentWidth - lineRender.widthStart) > 0.01f)
+                if (Mathf.Abs(currentWidth - lineRender.startWidth) > 0.01f)
                 {
-                    lineRender.SetWidth(currentWidth, currentWidth);
+                    lineRender.startWidth = lineRender.endWidth = currentWidth;
                 }
             }
 
@@ -56,8 +56,8 @@ namespace WireFrame
             var holder = new GameObject("lineRenderer");
             holder.AddComponent<MeshFilter>();
             holder.AddComponent<MeshRenderer>();
-            lineRender = holder.AddComponent<VRLineRenderer>();
-            lineRender.SetVertexCount(0);
+            lineRender = holder.AddComponent<LineRenderer>();
+            lineRender.positionCount = 0;
             lineRender.useWorldSpace = true;
             lineRender.transform.SetParent(transform.parent);
         }
@@ -71,15 +71,14 @@ namespace WireFrame
         public void ShowLine(Material mat, float width)
         {
             normalWidth = width;
-            lineRender.GetComponent<Renderer>().material = mat;
+            lineRender.material = mat;
 
             var poss = new Vector3[2];
             poss[0] = transform.forward * longness * 0.5f + transform.position;
             poss[1] = -transform.forward * longness * 0.5f + transform.position;
 
-            lineRender.SetVertexCount(2);
+            lineRender.positionCount = 2;
             lineRender.SetPositions(poss);
-            lineRender.EditorCheckForUpdate();
 
             if (instenceObj != null)
             {
@@ -87,11 +86,11 @@ namespace WireFrame
             }
         }
 
-        public override void ShowModel(GameObject pfb)
+        public override void ShowModel(GameObject pfb,Stack<GameObject> pool)
         {
-            base.ShowModel(pfb);
+            base.ShowModel(pfb, pool);
             OnModelUpdated();
-            if(lineRender) lineRender.SetVertexCount(0);
+            if (lineRender) lineRender.positionCount = 0;
         }
 
         internal void ReSetLength(float longness)
@@ -112,12 +111,12 @@ namespace WireFrame
         public void SetSize(float r_Bar)
         {
             this.diameter = r_Bar * 2;
-            transform.localScale = new Vector3(diameter, diameter, longness);
             OnModelUpdated();
         }
 
         private void OnModelUpdated()
         {
+            transform.localScale = new Vector3(diameter, diameter, longness);
             ResetMaterialTile(new Vector2(1, longness / diameter));
         }
     }

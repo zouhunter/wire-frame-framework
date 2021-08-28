@@ -18,7 +18,7 @@ namespace WireFrame
     {
         WFNode Info { get; }
         GameObject Body { get; }
-        void ShowModel(GameObject node);
+        void ShowModel(GameObject node,Stack<GameObject> pool);
         void Hide();
         void SetSize(float r_node);
     }

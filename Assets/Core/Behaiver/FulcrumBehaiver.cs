@@ -26,7 +26,7 @@ namespace WireFrame
         public GameObject Body { get { return gameObject; } }
         private void Awake()
         {
-            gameObject.layer = LayerMask.NameToLayer( LayerSetting.fulcrum);
+            gameObject.layer = LayerMask.NameToLayer(LayerSetting.fulcrum);
         }
         public void Hide()
         {

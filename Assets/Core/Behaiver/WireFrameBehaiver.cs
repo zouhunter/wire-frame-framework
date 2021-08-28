@@ -17,7 +17,7 @@ namespace WireFrame
     /// <summary>
     /// 网架系统
     /// </summary>
-    public class WireFrameBehaiver : MonoBehaviour
+    public class WireFrameBehaiver : MonoBehaviour, IWire
     {
         private List<INode> nodes = new List<INode>();
         private List<IBar> bars = new List<IBar>();
@@ -31,10 +31,11 @@ namespace WireFrame
             }
         }
         private GameObject _gameObject;
-        public event UnityAction<IBar>     onBarHover;
-        public event UnityAction<IBar>     onBarClicked;
-        public event UnityAction<INode>    onNodeHover;
-        public event UnityAction<INode>    onNodeClicked;
+
+        public event UnityAction<IBar> onBarHover;
+        public event UnityAction<IBar> onBarClicked;
+        public event UnityAction<INode> onNodeHover;
+        public event UnityAction<INode> onNodeClicked;
         public event UnityAction<IFulcrum> onFulcrumHover;
         public event UnityAction<IFulcrum> onFulcrumClicked;
 
@@ -42,6 +43,12 @@ namespace WireFrame
         private int totalBars;
         private int totalFulcrums;
         private const int group = 30;
+        protected SizeRule m_sizeRule;
+        protected LineRule m_lineRule;
+        protected ModelRule m_modelRule;
+        protected int m_showState = 0;
+        protected bool m_showing = false;
+        protected Dictionary<int, Stack<GameObject>> m_poolMap = new Dictionary<int, Stack<GameObject>>();
 
         public bool compleInit { get { return totalNodes == nodes.Count && totalBars == bars.Count && totalFulcrums == fulcrums.Count; } }
         public float progress { get { return (nodes.Count + bars.Count + fulcrums.Count) / (float)(totalNodes + totalBars + totalFulcrums); } }
@@ -53,6 +60,15 @@ namespace WireFrame
 
         public IEnumerator SwitchToModel(ModelRule rule)
         {
+            if (m_showing)
+                yield break;
+
+            if (m_showState == 1)
+                yield break;
+            m_showState = 1;
+
+            m_modelRule = rule;
+            m_showing = true;
             yield return null;
 
             for (int i = 0; i < nodes.Count; i += group)
@@ -60,7 +76,8 @@ namespace WireFrame
                 for (int j = 0; j < group && j + i < nodes.Count; j++)
                 {
                     var item = nodes[i + j];
-                    item.ShowModel(rule.node);
+                 
+                    item.ShowModel(rule.node, GetModelPool(rule.node));
                 }
                 yield return null;
             }
@@ -70,7 +87,7 @@ namespace WireFrame
                 for (int j = 0; j < group && j + i < bars.Count; j++)
                 {
                     var item = bars[j + i];
-                    item.ShowModel(rule.bar);
+                    item.ShowModel(rule.bar, GetModelPool(rule.node));
                 }
                 yield return null;
             }
@@ -80,108 +97,174 @@ namespace WireFrame
                 for (int j = 0; j < group && j + i < fulcrums.Count; j++)
                 {
                     var item = fulcrums[j + i];
-                    item.ShowModel(rule.fulcrum);
+                    item.ShowModel(rule.fulcrum, GetModelPool(rule.node));
                 }
                 yield return null;
             }
+            m_showing = false;
         }
 
-        public void SwitchToLine(LineRule rule)
+        protected Stack<GameObject> GetModelPool(GameObject pfb)
         {
+            var hash = pfb.GetInstanceID();
+            if (!m_poolMap.TryGetValue(hash, out var pool))
+                pool = m_poolMap[hash] = new Stack<GameObject>();
+            return pool;
+        }
+
+        public IEnumerator SwitchToLine(LineRule rule)
+        {
+            if (m_showing)
+                yield break;
+
+            if (m_showState == 2)
+                yield break;
+            m_showState = 2;
+
+            m_showing = true;
+            m_lineRule = rule;
+            yield return null;
             foreach (var item in nodes)
             {
                 item.Hide();
             }
-            foreach (var item in bars)
+            for (int i = 0; i < bars.Count; i += group)
             {
-                item.ShowLine(rule.lineMat, rule.lineWidth);
+                for (int j = 0; j < group && j + i < bars.Count; j++)
+                {
+                    var item = bars[j + i];
+                    item.ShowLine(m_lineRule.lineMat, m_lineRule.lineWidth);
+                }
+                yield return null;
             }
             foreach (var item in fulcrums)
             {
                 item.Hide();
             }
+            m_showing = false;
         }
-        public void ReSetSize(SizeRule sizeRule)
+
+        protected void RefreshNode(INode node)
         {
-            foreach (var item in nodes)
+            if (m_sizeRule != null)
+                node.SetSize(m_sizeRule.r_node);
+
+            if(m_modelRule != null && m_showState == 1)
+                node.ShowModel(m_modelRule.node,GetModelPool(m_modelRule.node));
+        }
+
+        protected void RefreshBar(IBar bar)
+        {
+            if (m_sizeRule != null)
             {
-                item.SetSize(sizeRule.r_node);
-            }
-            foreach (var item in bars)
-            {
-                switch (item.Info.type)
+                switch (bar.Info.type)
                 {
                     case BarPosType.upBar:
-                        item.SetSize(sizeRule.r_upBar);
+                        bar.SetSize(m_sizeRule.r_upBar);
                         break;
                     case BarPosType.downBar:
-                        item.SetSize(sizeRule.r_upBar);
+                        bar.SetSize(m_sizeRule.r_upBar);
                         break;
                     case BarPosType.centerBar:
-                        item.SetSize(sizeRule.r_centerBar);
+                        bar.SetSize(m_sizeRule.r_centerBar);
                         break;
                     default:
                         break;
                 }
+            }
+            if (m_showState == 2 && m_lineRule != null)
+                bar.ShowLine(m_lineRule.lineMat, m_lineRule.lineWidth);
+
+            if (m_modelRule != null && m_showState == 1)
+                bar.ShowModel(m_modelRule.bar, GetModelPool(m_modelRule.bar));
+        }
+
+        protected void RefreshFulcrums(IFulcrum fulcrum)
+        {
+            if (m_sizeRule == null)
+                return;
+
+            switch (fulcrum.Info.type)
+            {
+                case FulcrumType.upPoint:
+                    fulcrum.SetSize(m_sizeRule.r_upPoint, m_sizeRule.l_upPoint);
+                    break;
+                case FulcrumType.upBound:
+                    fulcrum.SetSize(m_sizeRule.r_downPoint, m_sizeRule.l_downPoint);
+                    break;
+                case FulcrumType.downPoint:
+                    fulcrum.SetSize(m_sizeRule.r_upBound, m_sizeRule.l_upBound);
+                    break;
+                case FulcrumType.downBound:
+                    fulcrum.SetSize(m_sizeRule.r_downBound, m_sizeRule.l_downBound);
+                    break;
+                default:
+                    break;
+            }
+
+            if (m_modelRule != null && m_showState == 1)
+                fulcrum.ShowModel(m_modelRule.fulcrum, GetModelPool(m_modelRule.fulcrum));
+        }
+
+        public void ReSetSize(SizeRule sizeRule)
+        {
+            this.m_sizeRule = sizeRule;
+            foreach (var item in nodes)
+            {
+                RefreshNode(item);
+            }
+            foreach (var item in bars)
+            {
+                RefreshBar(item);
             }
             foreach (var item in fulcrums)
             {
-                switch (item.Info.type)
-                {
-                    case FulcrumType.upPoint:
-                        item.SetSize(sizeRule.r_upPoint,sizeRule.l_upPoint);
-                        break;
-                    case FulcrumType.upBound:
-                        item.SetSize(sizeRule.r_downPoint, sizeRule.l_downPoint);
-                        break;
-                    case FulcrumType.downPoint:
-                        item.SetSize(sizeRule.r_upBound, sizeRule.l_upBound);
-                        break;
-                    case FulcrumType.downBound:
-                        item.SetSize(sizeRule.r_downBound, sizeRule.l_downBound);
-                        break;
-                    default:
-                        break;
-                }
+                RefreshFulcrums(item);
             }
         }
 
-        public void StartInit(int totalNodes,  int totalBars,int totalFulcrums)
+        public void StartInit(int totalNodes, int totalBars, int totalFulcrums)
         {
             this.totalNodes = totalNodes;
             this.totalBars = totalBars;
             this.totalFulcrums = totalFulcrums;
         }
 
-        internal void RegistNode(NodeBehaiver node)
+        public void RegistNode(NodeBehaiver node)
         {
-            if (!this.nodes.Contains(node)){
+            if (!this.nodes.Contains(node))
+            {
                 node.onHover = OnNodeHover;
                 node.onClicked = OnNodeClicked;
+                RefreshNode(node);
                 this.nodes.Add(node);
             }
         }
-        internal void RegistBar(BarBehaiver bar)
+
+        public void RegistBar(BarBehaiver bar)
         {
             if (!this.bars.Contains(bar))
             {
                 bar.onHover = OnBarHover;
                 bar.onClicked = OnBarClicked;
+                RefreshBar(bar);
                 this.bars.Add(bar);
             }
         }
-        internal void RegistFulcrum(FulcrumBehaiver fulcrum)
+
+        public void RegistFulcrum(FulcrumBehaiver fulcrum)
         {
             if (!this.fulcrums.Contains(fulcrum))
             {
                 fulcrum.onHover = OnFulcrumHover;
                 fulcrum.onClicked = OnFulcrumClicked;
+                RefreshFulcrums(fulcrum);
                 this.fulcrums.Add(fulcrum);
             }
         }
         private void OnBarHover(BarBehaiver bar)
         {
-            if(this.onBarHover != null)
+            if (this.onBarHover != null)
             {
                 onBarHover(bar);
             }
@@ -210,7 +293,7 @@ namespace WireFrame
 
         private void OnFulcrumHover(FulcrumBehaiver fulcrum)
         {
-            if(onFulcrumHover != null)
+            if (onFulcrumHover != null)
             {
                 onFulcrumHover.Invoke(fulcrum);
             }
@@ -222,7 +305,5 @@ namespace WireFrame
                 onFulcrumClicked.Invoke(fulcrum);
             }
         }
-
-       
     }
 }

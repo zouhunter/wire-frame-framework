@@ -4,22 +4,25 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PonitPosType
+namespace WireFrame
 {
-    internal static string[] keys { get; private set; }
-    static PonitPosType()
+    public class PonitPosType
     {
-        var props = typeof(PonitPosType).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.GetProperty);
-        keys = new string[props.Length];
-        for (int i = 0; i < props.Length; i++)
+        internal static string[] keys { get; private set; }
+        static PonitPosType()
         {
-            keys[i] = props[i].GetValue(null, null).ToString();
+            var props = typeof(PonitPosType).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.GetProperty);
+            keys = new string[props.Length];
+            for (int i = 0; i < props.Length; i++)
+            {
+                keys[i] = props[i].GetValue(null, null).ToString();
+            }
         }
-    }
-    public static string upPoint { get { return "上弦节点"; } }
-    public static string downPoint
-    {
-        get
-        { return "下弦节点"; }
+        public static string upPoint { get { return "上弦节点"; } }
+        public static string downPoint
+        {
+            get
+            { return "下弦节点"; }
+        }
     }
 }

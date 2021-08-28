@@ -1,15 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
 using System.Collections.Generic;
+
 namespace WireFrame
 {
     public abstract class RunTimeObjectHolder : MonoBehaviour
@@ -19,37 +11,71 @@ namespace WireFrame
         protected PointerEventData pointData;
         protected List<RaycastResult> rayCasts = new List<RaycastResult>();
         protected float timer;
-        protected ObjectManager objectManager;
+        protected Stack<GameObject> m_pool;
 
-        public virtual void ShowModel(GameObject pfb)
+        public virtual void ShowModel(GameObject pfb, Stack<GameObject> pool)
         {
+            m_pool = pool;
+
             if (instenceObj != null)
             {
-                if (this.pfb == pfb)
+                SaveBackInstance();
+            }
+
+            if (pfb != null && this)
+            {
+                instenceObj = GetInstance(pfb);
+            }
+            
+            if(!instenceObj)
+            {
+                Debug.LogWarning("Failed Create Instence!");
+            }
+        }
+
+        protected GameObject GetInstance(GameObject pfb)
+        {
+            GameObject instance = null;
+            if(m_pool != null && m_pool.Count > 0)
+            {
+                for (int i = 0; i < m_pool.Count; i++)
                 {
-                    instenceObj.SetActive(true);
+                    instance = m_pool.Pop();
+                    if (instance != null)
+                        break;
+                }
+            }
+            if (!instance && pfb)
+            {
+                instance = Instantiate<GameObject>(pfb);
+            }
+
+            if(instance)
+            {
+                instance.transform.SetParent(transform);
+                instance.transform.localRotation = Quaternion.identity;
+                instance.transform.localPosition = Vector3.zero;
+                instance.transform.localScale = Vector3.one;
+                instance.gameObject.SetActive(true);
+            }
+            return instance;
+        }
+
+        protected void SaveBackInstance()
+        {
+            if (instenceObj)
+            {
+                if (m_pool == null)
+                {
+                    GameObject.Destroy(instenceObj);
                 }
                 else
                 {
-                    Destroy(instenceObj);
+                    m_pool.Push(instenceObj);
+                    instenceObj.gameObject.SetActive(false);
                 }
             }
-
-            if (instenceObj == null)
-            {
-                if (objectManager == null) objectManager = ObjectManager.Instance;
-                if(pfb != null && this)
-                {
-                    instenceObj = objectManager.GetPoolObject(pfb, transform, true, true, true, false);
-                    instenceObj.transform.localRotation = Quaternion.identity;
-                    //instenceObj = InstenceUtility.CreateInstence(pfb, transform, Vector3.zero, Quaternion.identity, Vector3.one);
-                    this.pfb = pfb;
-                }
-               else
-                {
-                    Debug.LogWarning("Skipd Create Instence!");
-                }
-            }
+            instenceObj = null;
         }
 
         protected void ResetMaterialTile(Vector2 till)
@@ -123,11 +149,7 @@ namespace WireFrame
 
         protected virtual void OnDestroy()
         {
-            if (objectManager && instenceObj)
-            {
-                objectManager.SavePoolObject(instenceObj);
-            }
-
+            SaveBackInstance();
         }
     }
 }

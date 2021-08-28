@@ -11,5 +11,4 @@ namespace WireFrame
         public const string gridBar = "gridBar";
         public const string fulcrum = "fulcrum";
     }
-
 }

@@ -4,31 +4,34 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 
-public static class PointKeys
+namespace WireFrame
 {
-    internal static string[] keys { get; private set; }
-    static PointKeys()
+    public static class PointKeys
     {
-        var fields = typeof(PointKeys).GetProperties(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.GetProperty|System.Reflection.BindingFlags.Static);
-        keys = new string[fields.Length];
-        for (int i = 0; i < fields.Length; i++)
+        internal static string[] keys { get; private set; }
+        static PointKeys()
         {
-            keys[i] = fields[i].GetValue(null,null).ToString();
+            var fields = typeof(PointKeys).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.GetProperty | System.Reflection.BindingFlags.Static);
+            keys = new string[fields.Length];
+            for (int i = 0; i < fields.Length; i++)
+            {
+                keys[i] = fields[i].GetValue(null, null).ToString();
+            }
         }
-    }
-    public static string ball
-    {
-        get
+        public static string ball
         {
-            return "球节点";
+            get
+            {
+                return "球节点";
+            }
         }
-    }
-    public static string support
-    {
-        get
+        public static string support
         {
-            return "支座节点";
+            get
+            {
+                return "支座节点";
+            }
         }
+        public static string corbel { get { return "支托节点"; } }
     }
-    public static string corbel { get { return "支托节点"; } }
 }

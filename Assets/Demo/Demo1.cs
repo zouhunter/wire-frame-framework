@@ -1,16 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
-using UnityEngine.Events;
-using UnityEngine.Sprites;
-using UnityEngine.Scripting;
-using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Assertions.Comparers;
-using System.Collections;
-using System.Collections.Generic;
-//[ExecuteInEditMode]
 using WireFrame;
 
 public class Demo1 : MonoBehaviour
@@ -35,7 +23,7 @@ public class Demo1 : MonoBehaviour
         抽空四角锥型网架,
         棋盘四角锥网架,
     }
-  
+
     IWireCreater creater;
     IWire wireFrame;
     public FrameRule clamp;
@@ -83,7 +71,7 @@ public class Demo1 : MonoBehaviour
     private void Start()
     {
         wireFrame = creater.Create(clamp);
-        wireFrame.SwitchToModel(modelRule);
+        StartCoroutine(wireFrame.SwitchToModel(modelRule));
         wireFrame.ReSetSize(sizeRule);
     }
 
@@ -91,11 +79,11 @@ public class Demo1 : MonoBehaviour
     {
         if (GUILayout.Button("ShowLine"))
         {
-            wireFrame.SwitchToLine(lineRule);
+            StartCoroutine(wireFrame.SwitchToLine(lineRule));
         }
         if (GUILayout.Button("ShowModel"))
         {
-            wireFrame.SwitchToModel(modelRule);
+            StartCoroutine(wireFrame.SwitchToModel(modelRule));
         }
     }
 }

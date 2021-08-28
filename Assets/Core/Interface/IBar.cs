@@ -19,7 +19,7 @@ namespace WireFrame
         GameObject Body { get; }
 
         void ShowLine(Material mat, float width);
-        void ShowModel(GameObject pfb);
+        void ShowModel(GameObject pfb, Stack<GameObject> pool);
         void SetSize(float r_upBar);
     }
 

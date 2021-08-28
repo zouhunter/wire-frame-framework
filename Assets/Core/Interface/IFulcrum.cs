@@ -18,8 +18,7 @@ namespace WireFrame
     {
         WFFul Info { get; }
         GameObject Body { get;}
-
-        void ShowModel(GameObject fulcrum);
+        void ShowModel(GameObject fulcrum,Stack<GameObject> pool);
         void Hide();
         void SetSize(float round,float length);
     }
